@@ -1,0 +1,111 @@
+# Introduction
+
+The question of optimization is the very general question of deciding when a function $f(x_1, \dots, x_n)$ attains its maximum or minimum value on a domain $D$ in $\mathbb{R}^n$. 
+\begin{align}
+\mbox{optimize: } && f(x_1, \dots, x_n) & \\
+\mbox{subject to: } && (x_1, \dots, x_n) &\in D.
+\end{align}
+These kinds questions show up naturally in every quantitative field.
+To analyze the question meaningfully, one needs to make some assumptions on $f$ and $D$. 
+
+In this course, we'll analyze this question in the special case when the function $f$ is linear and the constraint set $D$ is described using linear inequalities. The study of this problem is called *Linear Programming*. Despite the simplicity of the Linear Programming setup, or perhaps because of it, LP is one of the most commonly used models for optimization problems. We'll see how to solve linear programs using the simplex method and go on to analyze the solution sets using duality theory. 
+
+Linear programs are used for modeling real world problems when prices/costs and constraints are fixed and known beforehand.
+Even when this is not the case, linear programs are often used to approximate and estimate costs/prices before moving on to more sophisticated techniques.
+
+
+::: {.example #bond-portfolio}
+A bond portfolio manager has $100,000 to allocate to two different bonds; one corporate and one government bond. 
+The corporate bond has a yield of 4%, a maturity of 3 years and an A rating from a rating agency that is translated into a numerical rating of 2 for computational purposes. 
+In contrast, the government bond has a yield of 3%, a maturity of 6 years and rating of Aaa with the corresponding numerical rating of 1 (lower numerical ratings correspond to higher quality bonds). The portfolio manager would like to allocate her funds so that the average rating for the portfolio is no worse than Aa (numerical equivalent 1.5) and average maturity of the portfolio is at most 3.6 years. 
+Any amount not invested in the two bonds will be kept in a cash account that is assumed to earn no interest for simplicity and does not contribute to the average rating or maturity computations. 
+How should the manager allocate her funds between these two bonds to achieve her objective of maximizing the annual yield from this investment? [@optimization-methods-in-finance]
+
+```{r, table-bond-portfolio, echo=FALSE, comment=NA}
+
+df <- data.frame(
+  Corporate = c("4%", 3, "A = 2", "??"),
+  Government = c("3%", 6, "Aaa = 1", "??"),
+  Bounds = c(" ", 3.6, 1.5, "100,000")
+)
+rownames(df) <- c("Yield", "Maturity", "Rating", "Fund Allocations")
+df
+```
+:::
+
+
+<details open=TRUE>
+<summary>Solution</summary>
+
+We can model the above problem as follows:
+
+\begin{equation}
+  \begin{array}{rrrrrr}
+  \mbox{maximize:} & 4x & + & 3y \\
+  \mbox{subject to:}
+    & 3x & + & 6y & \le & 3.6 \\
+    & 2x & + & y & \le & 1.5 
+    % & x & + & y & \le & 1 \\
+    % & x & , & y & \ge & 0,
+  \end{array}
+  (\#eq:bond-portfolio-lp-incomplete)
+\end{equation}
+
+where $x$, $y$ are the percentages of corporate and government bonds, respectively, and the objective function when multiplied by $100,000 gives us the net yield. This is an example of a **linear program**.
+
+Note that we cannot subtract inequalities the same way that we can subtract equalities. So to get started, let us assume that both the inequalities are in fact equalities. We can solve the system 
+
+\begin{equation}
+  \begin{array}{rrrrrl}
+    & 3x & + & 6y & = & 3.6 \\
+    & 2x & + & y & = & 1.5
+  \end{array}
+\end{equation}
+
+to obtain $x = 0.6$ and $y = 0.3$. But for this solution $x + y = 0.9$ which is less that 1, meaning that we're not investing all the available funds! Which raises the question: Is it possible to increase the yield further by not satisfying both of the above equalities and investing all the money instead? This question becomes even more apparent once we realize that the linear program \@ref(eq:bond-portfolio-lp-incomplete) is incomplete and the complete linear program that models the problem is as follows:
+
+\begin{equation}
+  \begin{array}{rrrrrl}
+  \mbox{maximize:} & 4x & + & 3y \\
+  \mbox{subject to:}
+    & 3x & + & 6y & \le & 3.6 \\
+    & 2x & + & y & \le & 1.5 \\
+    & x & + & y & \le & 1 \\
+    & x &  &  & \ge & 0 \\
+    &   &  & y & \ge & 0.
+  \end{array}
+  (\#eq:bond-portfolio-lp)
+\end{equation}
+
+The solution $(x, y) = (0.6, 0.3)$ is obtained by changing the first two inequalities to equalities. But this choice is completely arbitrary! We could have switched some other set of inequalities to equalities and obtained a different solution. We'd then need to compare the solutions obtained in each of these cases and find the one that maximizes it. This method becomes unwieldy very fast and we'll need to develop better ways to solve linear programs. 
+</details>
+
+## Software tools
+
+### Graphing calculator
+
+Linear programs in two variables can be visualized using a graphing calculator. The constraints in Example \@ref(exm:bond-portfolio) can be visualized as follows:
+
+
+```{r, fig-bond-portfolio}
+
+source("graphs/bond-portfolio.R", local = knitr::knit_global())
+
+```
+
+The feasible set is the quadrilateral formed by the overlap of all three constraint regions. The level sets of the objective function are straight lines of the form $4x + 3y = c$. We can use a graphical calculator to find the largest value of $c$ for which these level sets intersect the feasible region, which turns out to be $c = 3.3\%$ which gives us a net yield of $3.3\% \times \$100,000 = \$3,300$.
+
+
+```{r, fig-bond-portfolio-solution}
+
+source("graphs/bond-portfolio-solution.R", local = knitr::knit_global())
+
+```
+
+Here is the same picture in Desmos: https://www.desmos.com/calculator/bexwrrcbwx 
+
+As it turns out, there is no efficient way to implement this method purely algebraically, thereby making it unusable in higher dimensions.
+
+### Solver add-in 
+
+[Excel](https://support.microsoft.com/en-us/office/load-the-solver-add-in-in-excel-612926fc-d53b-46b4-872c-e24772f078ca) and [Google sheets](https://workspace.google.com/marketplace/app/solver/539454054595) have free, easy-to-use linear program solvers that can be used to solve linear programs and generate sensitivity analysis. Here is a sample solution of Example \@ref(exm:bond-portfolio) using Solver in Excel: https://1drv.ms/x/s!AnwQOvs0HXuihl3PWf5YQLWsF6qB?e=rddRBy

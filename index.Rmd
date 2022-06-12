@@ -1,0 +1,66 @@
+---
+title: "Introduction to Optimization"
+author: "Apurva Nakade"
+date: "`r Sys.Date()`"
+output: pdf_document
+documentclass: book
+github-repo: apurvanakade/Introduction-to-Optimization
+url: https\://github.com/apurvanakade/Introduction-to-Optimization
+description: Introduction to Optimization.
+site: bookdown::bookdown_site
+bibliography: [references.bib]
+biblio-style: apalike
+link-citations: true
+---
+
+```{r, setup, include=FALSE}
+
+options(tinytex.verbose = TRUE)
+
+knitr::opts_chunk$set(
+  comment = NA, 
+  echo = FALSE, 
+  warning = FALSE, 
+  cache=TRUE
+)
+
+
+library(ggplot2)
+
+str_math <- function(math, inline = FALSE) {
+  if (inline) {
+    paste("$", str(math), "$", sep = "")
+  } else {
+    paste0("\\begin{align} \n", str(math), "\\end{align}\n")
+  }
+}
+
+source("R/linear_program.R", local = knitr::knit_global())
+source("R/linear_program_general.R", local = knitr::knit_global())
+source("R/dictionaries.R", local = knitr::knit_global())
+source("R/dual_linear_program.R", local = knitr::knit_global())
+source("R/tableau.R", local = knitr::knit_global())
+
+```
+
+# Preface {.unnumbered}
+
+These are the class notes for a quarter long course I taught at Northwestern University in Winter and Spring 2022. The topics include:
+
+-  Linear programming
+    -  Simplex method
+    -  Duality theory
+-  Non-linear programming
+    -  KKT conditions
+    -  Interior point methods
+-  Applications
+    -  Network flow
+    -  $L^1$-regression
+
+These notes only cover the theoretical aspect of the course. Students were also assigned weekly worksheets to solve using the SOLVER add-in for Excel. These worksheets were an integral part of the learning experience. Some of these can be found in the Github repository and several more are available in the references.
+
+## Copyright {.unnumbered .unlisted}
+
+These notes are licensed under a [Creative Commons Attribution-ShareAlike 4.0 International License]([http://creativecommons.org/licenses/by-sa/4.0/](http://creativecommons.org/licenses/by-sa/4.0/)).
+
+![](images/cc-by-sa-4.png "Creative Commons License")

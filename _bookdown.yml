@@ -1,0 +1,6 @@
+book_filename: "Introduction to Optimization"
+language:
+  ui:
+    chapter_name: "Chapter "
+delete_merged_file: true
+output_dir: "docs"
