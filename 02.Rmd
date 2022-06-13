@@ -104,7 +104,7 @@ Note that the above theorem claims neither the existence nor the uniqueness of a
 
 ## The Idea
 
-The simplex method is an iterative process for finding the optimal solution of a standard linear program. It starts at some vertex of the feasible region and in each step moves to an adjacent vertex with a higher objective value. The following picture shows one possible run of the simplex method for solving the linear program \@ref(eq:bond-portfolio-lp).
+The simplex method is an iterative process for finding the optimal solution of a standard linear program. It starts at some BFS and in each step moves to an adjacent BFS with a higher objective value. The following picture shows one possible run of the simplex method for solving the linear program \@ref(eq:bond-portfolio-lp).
 
 ```{r, sample-run, fig.cap="A possible run of the simplex algorithm."}
 
@@ -193,10 +193,9 @@ For example, from the final dictionary above, we can immediately see that $x = 0
 
 :::
 
-## Algorithm
+## The Simplex Step
 
-To describe the simplex method, we'll assume for now that all the basic feasible solutions are non-degenerate. 
-At each BFS we will let $\{\bar{w}_1, \dots, \bar{w}_m\}$ denote the set of basic variables, $\{\bar{x}_1, \dots, \bar{x}_n\}$ denote the set of non-basic variables. We'll let $\bar{c}_j$, $\bar{b}_i$, and $\bar{a}_{ij}$ be the constants appearing in the dictionary at the BFS so that at the start of each step the dictionary is as follows:
+Suppose we are at a BFS. Let $\bar{w}_1, \dots, \bar{w}_m$ be the basic variables, $\bar{x}_1, \dots, \bar{x}_n$ be the non-basic variables. Let $\bar{c}_j$, $\bar{b}_i$, and $\bar{a}_{ij}$ be the constants appearing in the dictionary at the BFS so that the dictionary is as follows:
 
 \begin{equation}
   \begin{array}{rrrrrrrrrr}
