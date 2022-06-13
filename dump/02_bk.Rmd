@@ -1,0 +1,22 @@
+
+Recall that a subset of $\mathbb{R}^n$ is called **convex** if, given any two points in the subset, the subset contains the entire line segment that joins them.
+
+::: {.theorem }
+
+The feasible region of a standard linear program is a convex set.
+
+:::
+
+The proof of this theorem is in the following exercises.
+
+::: {.exercise}
+
+Let $P$ and $Q$ be two distinct points in $\mathbb{R}^n$ and let $R$ be a point lying on the line segment strictly between $P$ and $Q$. 
+
+1. Show that $R = tP + (1-t)Q$ for some $t$ in $(0, 1)$.
+2. Show that if that both $P$ and $Q$ satisfy the constraints of the standard linear program \@ref(eq:standard-lp), then so does $R$.
+
+:::
+
+A stronger statement is true about the feasible region of a standard linear program. 
+
