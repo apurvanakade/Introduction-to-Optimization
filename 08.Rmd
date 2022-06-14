@@ -1,0 +1,258 @@
+# Weak and Strong Duality
+
+We'll now prove several theorems relating the optimal objective values of the primal-dual pairs.
+Consider the standard linear program (primal) \@ref(eq:standard-lp) and its dual \@ref(eq:standard-dual-lp).
+We say that a vector $x = \begin{bmatrix} x_1 \\ \vdots \\ x_n \end{bmatrix}$ is **primal feasible** if it is in the feasible region of the primal and a vector $y = \begin{bmatrix} y_1 \\ \vdots \\ y_m \end{bmatrix}$ is **dual feasible** if it is in the feasible region of the dual.
+
+
+## Weak Duality
+
+::: {.theorem name="Weak duality" #weak-duality}
+
+Suppose $x$ is primal feasible and $y$ is dual feasible. Then the primal objective value at $x$ is less than or equal to the dual objective value at $y$.
+:::
+
+::: {.proof}
+
+The proof relies on analyzing the term $y^T A x$ and follows by looking at the following sequence of inequalities:
+
+\begin{align} 
+b^T y 
+  & = y^T b \\
+  & \ge y^T (Ax) && \mbox{ as } Ax \leq b \mbox{ and } y \geq 0 \\
+  & = (y^T A x)^T \\
+  & = x^T A^T y \\ 
+  & \ge x^T c && \mbox{ as } A^Ty \geq c \mbox{ and } x \geq 0 \\
+  & = c^T x.
+\end{align}
+
+:::
+
+We get several immediate corollaries from weak duality.
+
+::: {.corollary}
+
+If the primal is unbounded, then the dual is infeasible.
+
+:::
+
+::: {.corollary}
+
+If the dual is unbounded, then the primal is infeasible.
+
+::: 
+
+::: {.corollary}
+
+If both the primal and dual have optimal solutions, then the optimal value of the primal is less than or equal to the optimal value of the dual.
+
+:::
+
+We cannot say anything about the dual in the case when the primal is infeasible. Similarly, we cannot conclude anything about the existence of an optimal value of the dual in the case when the primal has an optimal solution.
+
+## Strong Duality
+
+The tableau of the primal problem \@ref(eq:standard-lp) is as follows:
+
+\begin{equation} 
+  \begin{array}{ll|r}
+  c^T & 0 & c_0 \\ \hline
+  A & I_m & b 
+  \end{array}
+  (\#eq:tableau-primal)
+\end{equation}
+
+We can standardize the dual problem \@ref(eq:standard-dual-lp) and form its tableau: 
+
+\begin{equation} 
+  \begin{array}{ll|r}
+  -b^T & 0 & -c_0 \\ \hline
+  -A^T & I_n & -c 
+  \end{array}
+  (\#eq:tableau-dual)
+\end{equation}
+
+We will such tableaux **duals** of each other. More generally, we'll say that two tableaux (of appropriate dimensions) are **duals** of each other if after rearranging the pivot columns, if necessary, they're of the above forms.
+
+One can show the following theorem by explicit computation:
+
+::: {.lemma #pivot}
+
+Consider the two dual tableaux \@ref(eq:tableau-primal) and \@ref(eq:tableau-dual) . 
+If we pivot the first tableau about the $i^{th}$ row and $j^{th}$ column of $A$ and the second tableau about the $i^{th}$ column and $j^{th}$ row of $-A^T$, then the resulting tableaux remain duals of each other.
+
+:::
+
+::: {.lemma #optimality}
+
+If the tableau \@ref(eq:tableau-primal) corresponds to an optimal solution of the primal then the tableau \@ref(eq:tableau-dual) corresponds to an optimal solution of the dual.
+:::
+
+::: {.proof}
+
+The tableau \@ref(eq:tableau-primal) corresponds to an optimal solution of the primal precisely when 
+
+1. (primal optimality) $c^T \le 0$ as in this case no entering variable can be found for the primal, and
+2. (primal feasibility) $b \ge 0$.
+
+These conditions translate to 
+
+1. (dual optimality) $-b^T \le 0$ as in this case no entering variable can be found for the dual, and
+2. (dual feasibility) $-c \ge 0$.
+
+:::
+
+Using the above two lemmas, and by explicitly running the simplex method we get the following result:
+
+::: {.theorem name="Strong duality" #strong-duality}
+
+If the primal has an optimal solution then so does the dual. Moreover, they have the same optimal values.
+
+:::
+
+::: {.proof}
+
+At the optimal solution for the primal, we have a set of basic and non-basic variables. We can perform a sequence of pivot operations to get this tableau from the initial tableau. We then perform the corresponding pivots on the dual tableau. By Lemma \@ref(lem:pivot) the resulting tableau will be dual to the primal tableau at the optimal solution. By Lemma \@ref(lem:optimality) the dual is also optimal and has the same objective value.
+:::
+
+We can use the two duality theorems to come up with a fast way to verify optimality. 
+
+::: {.theorem name="Certificate of optimality" #certificate-of-optimality}
+
+$x$ is an optimal solution for the primal and $y$ is an optimal solution for the dual if and only if 
+
+1. $x$ is primal-feasible, 
+2. $y$ is dual-feasible,
+3. $c^T x = b^T y$ i.e. the primal objective value at $x$ is equal to the dual objective value at $y$.
+
+:::
+
+::: {.proof}
+
+**( $\Rightarrow$ )** 
+
+If $x$ and $y$ are optimal solutions, then they are feasible by definition. By strong duality (Theorem \@ref(thm:strong-duality)) they must the same objective value. 
+
+**( $\Leftarrow$ )**
+
+If $x$ and $y$ are feasible solutions then by weak duality (Theorem \@ref(thm:weak-duality)) the dual objective values provide an upper bound on the primal objective value. Because this upper bound is attained at $x$, $x$ must be an optimal solution of the primal. Similarly, for $y$.
+
+:::
+
+
+## Complimentary slackness 
+
+There is another closely related method for verifying the correctness of solution using primal and dual slack variables. 
+
+Denote by $w = \begin{bmatrix} w_1 \\ \vdots \\ w_m \end{bmatrix}$ the primal slack variables and by $z = \begin{bmatrix} v_1 \\ \vdots \\ v_n \end{bmatrix}$ the dual slack variables. More explicitly, 
+
+\begin{align}
+  w &= b - A x \\ 
+  z &= -c + A^T y.  
+\end{align}
+
+We use this convention for $z$ as then at a dual feasible solution $z \ge 0$.
+
+::: {.theorem name="Complementary slackness" #complementary-slackness}
+
+Suppose $x$ is primal feasible and $y$ is dual feasible. Then $x$ and $y$ are optimal if and only if 
+
+1. for all $1 \le j \le n$, $x_j z_j = 0$, and 
+2. for all $1 \le i \le m$, $y_i w_i = 0$.
+
+:::
+
+::: {.proof}
+
+The proof is in two steps. We first show a weaker statement about the vanishing of two scalars and then show that the vanishing of these scalars implies complementary slackness.
+
+**Claim:** $x$ and $y$ are optimal solutions if and only if $x^T z = 0$ and $y^T w = 0$.
+
+We start by rewriting the slack variable: 
+
+\begin{align}
+    && x^T z = 0 && \mbox{ and } && y^T w = 0 \\ 
+  \Leftrightarrow 
+  && x^T (-c + A^T y) = 0 && \mbox{ and } && y^T (b - A x) = 0 \\ 
+  \Leftrightarrow 
+  && x^T c = x^T A^T y && \mbox{ and } && y^T b = y^T A x \\ 
+  \Leftrightarrow 
+  && c^T x = y^T A x && \mbox{ and } && b^T y = y^T A x \\ 
+\end{align}
+
+Thus we are reduced to showing that $x$ and $y$ are optimal solutions if and only if $c^T x = y^T A x$ and $b^T y = y^T A x$.
+
+**( $\Leftarrow$ )** 
+As $c^T x = y^T A x = b^T y$, and $x$ and $y$ are given to be feasible, $x$ and $y$ are optimal by Theorem \@ref(thm:certificate-of-optimality). 
+
+**( $\Rightarrow$ )** 
+By the proof of weak duality \@ref(thm:weak-duality), we know that as $x$ and $y$ are feasible, 
+$$c^T x \le y^T A x \le b^T y.$$ 
+By strong duality, as $x$ and $y$ are optimal 
+$$c^T x = b^T y.$$
+The only way the two can be simultaneously true is if $c^T x = y^T A x$ and $b^T y = y^T A x$.
+
+**Claim:**  $x^T z = 0$ and $y^T w = 0$ if and only if 
+
+1. for all $1 \le j \le n$, $x_j z_j = 0$, and 
+2. for all $1 \le i \le m$, $y_i w_i = 0$.
+
+This follows from the fact that at a feasible solution $x, y, w, z \ge 0$.
+:::
+
+::: {.remark}
+Complementary slackness even holds for dual of general linear programs if we define slack variables as
+\begin{align}
+  w &= b - A x \\ 
+  z &= -c + A^T y.
+\end{align}
+This choice of slack variables ensures that we will have $x_j w_j \ge 0$ for all $1 \le j \le n$ and $y_i z_i \ge 0$ for all $1 \le i \le m$ and hence the above proof will go through.
+
+:::
+
+
+If the optimal solution of the primal is at a non-degenerate BFS, then complementary slackness can be used to find the optimal solution to the dual without having to run the simplex method on it.
+At a non-degenerate BFS, the basic variables are non-zero. 
+By complementary slackness, the corresponding dual variables must be 0.
+This gives us a system of $m$ variables in $m$ equations which can be solved to find the dual optimal solution.
+
+::: {.example}
+Consider the linear program \@ref(eq:bond-portfolio-lp) whose dual is \@ref(eq:bond-portfolio-dual). At the optimal solution $x_1 = 0.6$, $x_2 = 0.3$, $w_1 = 0$, $w_2 = 0$, and $w_3 = 0.1$.
+By complementary slackness, we must have $z_1 = 0$, $z_2 = 0$, and $y_3 = 0$ at the dual optimal solution.
+Plugging these in \@ref(eq:bond-portfolio-lp), we get a system of equations 
+
+\begin{align*}
+  3y_1 + 2y_2 &= 4 \\
+  6y_1 + y_2 &= 3 
+\end{align*}
+
+whose solutions are $y_1 = 2/9$ and $y_2 = 5/3$. 
+One can check that this is indeed dual optimal by comparing the dual objective at this point to the primal objective:
+
+\begin{align*}
+  3.6 (2/9) + 1.5 (5/3) + 0 (1) = 3.3 = 4 (0.6) + 3 (0.3).
+\end{align*}
+
+:::
+
+
+::: {.exercise}
+We can use complementary slackness and certificate of optimality to show that the optimal solution of a standard linear program can never be attained in the interior of the feasible region. 
+
+
+Consider the standard linear program \@ref(eq:standard-lp) and assume that $b \ge 0$ and $c \neq \vec{0}$. 
+Let $x^*$ be a point in the \textit{interior of the feasible region}. 
+Suppose $x^*$ is an optimal solution to the primal. By strong duality, we know that a dual-optimal solution $y^*$ exists. We'll show that this leads to a contradiction.
+
+1. What can you say about the values of the decision and slack variables at $x^*$?
+2. What can you say about the values of the dual decision variables at $y^*$ using complementary slackness? 
+
+We now consider two cases, depending on the sign of $c$, and in each case show that $y^*$ cannot be optimal. 
+
+1. Suppose that $c_j > 0$ for some $0 \le j \le n$. Explain why $y^*$ cannot be dual-feasible (and hence optimal).
+2. Suppose $c \le 0$. 
+    1. What can you say about the objective values at $x^*$ and $y^*$?
+    2. Explain why $y^*$ cannot be dual-optimal.
+
+:::
+

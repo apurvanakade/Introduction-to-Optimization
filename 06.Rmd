@@ -1,0 +1,108 @@
+# Standardization
+
+We have an algorithm for solving a standard linear program. 
+We'll not extend it to more general linear programs, which is simply an optimization problem where the objective function is a linear program and the constraints are linear equalities or inequalities.
+
+::: {.definition}
+
+A **general linear program** is an optimization problem of the following form:
+
+\begin{equation}
+  \begin{array}{llllllll}
+    \mbox{optimize: } 
+      & c_1 x_1 & + & \dots & + & c_n x_n & \\
+    \mbox{subject to: } 
+      & a_{11} x_1 & + & \dots & + & a_{1n} x_n & \lesseqqgtr & b_1 \\
+      & a_{21} x_1 & + & \dots & + & a_{2n} x_n & \lesseqqgtr & b_2 \\
+      & & & \vdots &  \\
+      & a_{m1} x_1 & + & \dots & + & a_{mn} x_n & \lesseqqgtr b_m,
+  \end{array}
+  (\#eq:intro-lp)
+\end{equation}
+where the symbol $\lesseqqgtr$ stands for $\leq$ or $=$ or $\geq$, $a_{ij}, b_i, c_j$ are real numbers, and $x_j$ are variables.
+
+:::
+
+We do not allow strict inequalities $<$ or $>$ in a linear program as linear functions do not always achieve maxima/minima on open sets even when the sets are bounded. Consider the following simple example.
+
+\begin{align*}
+  \mbox{maximize:} && x \\
+  \mbox{subject to:} 
+  && x &< 1 \\
+  && x &\ge 0
+\end{align*}
+
+On the feasible set $[0, 1)$, the function $x$ never attains absolute maxima.
+Changing the inequality $<$ to $\leq$ gives us an optimal feasible solution $x = 1$. 
+
+## Equivalence of Linear Programs
+
+Any linear program can be changed to a *maximization problem* as minimizing a function is the same as maximizing its negation. From now on, we'll assume that the goal of our linear programs is to _maximize_ the objective function.
+
+::: {.definition}
+
+Two (maximizing) linear programs LP and LP' are said to be **equivalent** if for any feasible solution $(x_1, \dots, x_n)$ to LP, there exists a feasible solution $(x'_1, \dots, x'_{n'})$ to LP' with the same objective value and for any feasible solution $(y'_1, \dots, y'_n)$ to LP', there exists a feasible solution $(y_1, \dots, y_{n})$ to LP with the same objective value . Thus solving LP is equivalent to LP'.
+
+:::
+
+:::{.remark #lp-equiv-definition}
+
+&nbsp;
+
+1. LP and LP' can have a different number of decision variables i.e. we do not require $n = n'.$
+2. There need not be a one-to-one correspondence between the feasible sets of LP and LP' i.e. for a feasible solution to LP there could be multiple feasible solutions with the same objective value. Similarly, in the other direction.
+
+:::
+
+:::{.remark}
+
+Even though equivalence of linear programs only requires the existence of an abstract correspondence between the feasible sets of LP and LP', in practice, one constructs linear transformations $T: \mathbb{R}^n \to \mathbb{R}^{n'}$ and $S: \mathbb{R}^{n'} \to \mathbb{R}^{n}$ which map the feasible set of LP to LP' and the feasible set of LP' to LP, respectively. These linear transformations need not be inverses of each other, or even isomorphisms. They only need to preserve the objective values.
+
+:::
+
+::: {.example}
+The following two linear programs are equivalent to each other
+\begin{align*}
+\begin{aligned}
+\mbox{maximize: } && x + y & \\
+\mbox{subject to: } && 0 \le x &\le 1 \\
+ && 0 \le y &\le 1 
+\end{aligned}
+&&
+\begin{aligned}
+\mbox{maximize: } && z & \\
+\mbox{subject to: } && 0 \le z &\le 1
+\end{aligned}
+\end{align*}
+via the transformations $T(x, y) = x + y$ and $S(z) = (z/2, z/2)$.
+
+:::
+
+
+::: {.theorem #lp-to-standard-form}
+Every linear program is equivalent to a linear program in the standard form.
+:::
+
+::: {.proof}
+The proof is by providing an explicit *standardization* algorithm. Consider the linear program in \@ref(eq:intro-lp), where we're assuming that the goal is to maximize the objective function. If it is in the standard form, then we're done. If not, then there must be a finite number of *errors* of the following types:
+
+1. A linear constraint is a lower bound and has the form $$a_{i1} x_1 + \dots + a_{in} x_n \geq b_i.$$
+2. A linear constraint is an equality and has the form $$a_{i1} x_1 + \dots + a_{in} x_n = b_i.$$
+3. A variable $x_j$ has a *negativity constraint* $x_j \leq 0$.
+4. A variable $x_j$ is **free** i.e. it is missing a *sign constraint*.
+
+We fix these errors one at a time, while making sure that no new errors are introduced, thereby guaranteeing termination of the algorithm.
+
+1. We replace the constraint with \[ -a_{i1} x_1 + \dots + -a_{in} x_n \leq -b_i. \]
+2. We replace the constraint with two constraints
+  \begin{align*}
+  a_{i1} x_1 + \dots + a_{in} x_n &\leq b_i \\
+  -a_{i1} x_1 - \dots - a_{in} x_n &\leq -b_i,
+  \end{align*}
+3. We let $y_j = -x_j$ and create a new linear program using the variables $x_1$, $\dots$, $x_{j-1}$, $y_j$, $x_{j+1}$, $\dots$, $x_n$ by replacing $x_j$ with $-y_j$ everywhere.
+4. We let $x_j = y_j - z_j$ for two new decision variables $y_j$ and $z_j$ with $y_j, z_j \geq 0$ and create a new linear program using the variables $x_1$, $\dots$, $x_{j-1}$, $y_j$, $z_j$, $x_{j+1}$, $\dots$, $x_n$ by replacing $x_j$ with $y_j - z_j$ everywhere. We can do this because any real number can written as a difference of two positive real numbers.
+:::
+
+:::{.exercise #lp-to-standard-form}
+Prove that the algorithm in the proof of Theorem \@ref(thm:lp-to-standard-form) produces a linear program that is equivalent to the original linear program.
+:::

@@ -49,12 +49,12 @@ where $x$, $y$ are the percentages of corporate and government bonds, respective
 
 We cannot subtract inequalities the same way that we subtract equations. So to get started, let us assume that both the inequalities are in fact equalities. We can solve the system 
 
-\begin{equation}
+\begin{equation*}
   \begin{array}{rrrrrl}
     & 3x & + & 6y & = & 3.6 \\
     & 2x & + & y & = & 1.5
   \end{array}
-\end{equation}
+\end{equation*}
 
 to obtain $x = 0.6$ and $y = 0.3$. But for this solution $x + y = 0.9$ which is less that 1, meaning that we're not investing all the available funds! Which raises the question: Is it possible to increase the yield further by not satisfying both of the above equalities and investing all the money instead? This question becomes even more apparent once we realize that the linear program \@ref(eq:bond-portfolio-lp-incomplete) is incomplete and the complete linear program that models the problem is as follows:
 

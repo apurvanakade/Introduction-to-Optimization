@@ -1,0 +1,116 @@
+# (PART) Duality Theory {-}
+
+# Dual Linear Program
+
+So far we've constructed a method for solving linear programs.
+Our next goal is to understand the dependence of the solution on the various constants in the program. 
+We will do this using duality theory.
+
+
+We start by introducing the matrix notation. We'll let $x$ denote the vector of decision variables, $b$ the vector of upper bounds, $c$ the vector of objective coefficients, and $A$ the matrix of constraints in the standard linear program \@ref(eq:standard-lp).
+
+\begin{align}
+  x = \begin{bmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{bmatrix}, \quad
+  b = \begin{bmatrix} b_1 \\ b_2 \\ \vdots \\ b_m \end{bmatrix}, \quad
+  c = \begin{bmatrix} c_1 \\ c_2 \\ \vdots \\ c_n \end{bmatrix}, \quad
+  A = \begin{bmatrix} a_{11} & a_{12} & \dots & a_{1n} \\
+            a_{21} & a_{22} & \dots & a_{2n} \\
+            \vdots & \vdots & \ddots & \vdots \\
+            a_{m1} & a_{m2} & \dots & a_{mn} \end{bmatrix}.
+\end{align}
+
+The standard linear program \@ref(eq:standard-lp) can be written as follows:
+
+\begin{equation}
+\begin{array}{lrll}
+  \mbox{maximize: } & c_0 + c^T x \\
+  \mbox{subject to: } 
+    & A x & \leq & b \\
+    & x & \geq & 0.
+\end{array}
+\end{equation}
+
+
+::: {.definition}
+
+The **dual** of this linear program is defined as the following linear program:
+
+\begin{equation}
+  \begin{array}{lrll}
+    \mbox{minimize: } & c_0 + b^T y \\
+    \mbox{subject to: } 
+      & A^T y & \geq & c \\
+      & y & \geq & 0,
+  \end{array}
+  (\#eq:standard-dual-lp)
+\end{equation}
+
+where $y = \begin{bmatrix} y_1 \\ y_2 \\ \vdots \\ y_m \end{bmatrix}$ is the vector of **dual decision variables**. 
+
+:::
+
+The original linear program is called the **primal**. The dual decision variables correspond to the constraints of the original linear program. By explicitly computation, we can easily prove that the following theorem.
+
+::: {.theorem}
+
+The the dual of the (standardized) dual is equivalent to the primal.
+
+:::
+
+Hence, we think of linear programs as occurring in **primal-dual pairs**. 
+Every linear program has a dual and it is itself the dual of the dual. 
+The dual decision variables correspond to the constraints of the original linear program and the primal decision variables correspond to the constraints of the dual.
+The meaning of the dual decision variables will become clear when we study shadow prices.
+
+::: {.example}
+
+The dual of \@ref(eq:bond-portfolio-lp) is:
+
+\begin{equation}
+\begin{array}{lrrrrrrrrrr}
+  \mbox{minimize: } 
+    & 3.6 y_1 & + & 1.5 y_2 & + & y_3 \\
+  \mbox{subject to: }
+    & 3y_1 & + & 2 y_2 & + & y_3 & \geq & 4 \\
+    & 6y_1 & + & y_2 & + & y_3 & \geq & 3 \\
+    & y_1 & , & y_2 & , & y_3 & \geq & 0.
+\end{array}
+(\#eq:bond-portfolio-dual)
+\end{equation}
+
+The variable $y_1$ corresponds to "maturity", the variable $y_2$ corresponds to "risk", and the variable $y_3$ corresponds to "percentage". 
+:::
+
+
+## General Linear Program
+
+We saw how to standardized general linear programs in Chapter \@ref(standardization). We need to "fix" the objective function, constraints, and signs of decision variables. To find the dual of a general linear program, we can first standardize it and then form the dual. However, doing so changes the constants. It is possible to "revert the standardization" in the resulting dual to get the same constants as the primal.
+
+Suppose one of the linear constraint is a lower bound and has the form $$a_{i1} x_1 + \dots + a_{in} x_n \geq b_i.$$
+To *fix* this, we multiply the constraint by $-1$ to get $$-a_{i1} x_1 + \dots + - a_{in} x_n \leq -b_i.$$
+If we then form the dual, the coefficients of the dual variable $y_i$ will be $-a_{ij}$ instead of $a_{ij}$. 
+We can replace $y_i$ with a variable $y_i' = -y_i$ and then the resulting linear program will have the same constants as the primal but now we have $y_i' \le 0$.
+Notice that this is the third type of error in a general linear program.
+
+Suppose one of the linear constraint is a lower bound and has the form $$a_{i1} x_1 + \dots + a_{in} x_n = b_i.$$
+To *fix* this, we replace the constraint with the two constraints
+  \begin{align*}
+  a_{i1} x_1 + \dots + a_{in} x_n &\leq b_i, \\
+  -a_{i1} x_1 - \dots - a_{in} x_n &\leq -b_i.
+  \end{align*}
+If we then form the dual, we will have two dual variables $y_i'$ and $y_i''$ with coefficients $a_{ij}$ and $-a_{ij}$ respectively. 
+We can introduce a new variable, $y_i = y_i' - y_i''$ and then the resulting linear program will have the same constants as the primal but now we have $y_i$ is free.
+Notice that this is the fourth type of error in a general linear program.
+
+Because the dual of the dual is the primal, we do not need to analyze the third and fourth type of error separately.
+The follow table describes the modifications needed for forming the dual of a general linear program.
+
+| Primal | Dual | 
+| :----: | :--: |
+| $a_{i1} x_1 + \dots + a_{in} x_n \le b_i$ | $y_i \ge 0$ |
+| $a_{i1} x_1 + \dots + a_{in} x_n \ge b_i$ | $y_i \le 0$ |
+| $a_{i1} x_1 + \dots + a_{in} x_n = b_i$ | $y_i$ is free |
+| $x_j \ge 0$ | $a_{1j}y_1 + \dots + a_{mj} y_m \ge c_j$ |
+| $x_j \le 0$ | $a_{1j}y_1 + \dots + a_{mj} y_m \le c_j$ |
+| $x_j$ is free | $a_{1j}y_1 + \dots + a_{mj} y_m = c_j$ |
+
