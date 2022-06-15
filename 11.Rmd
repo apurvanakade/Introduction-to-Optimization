@@ -1,0 +1,217 @@
+# Separation Theorems
+
+We'll next prove a couple of *geometric* results that are equivalent to strong duality theorem (Theorem \@ref(thm:strong-duality)).
+
+## Farkas' Lemma
+
+::: {.theorem #farkas-lemma name="Farkas' lemma"}
+Let $A$ be an $m \times n$ matrix and $b$ be a vector in $\mathbb{R}^m$.
+Exactly one of the following systems has a solution: 
+\begin{align}
+  A x & = b \\ 
+  x & \ge 0.
+(\#eq:farkas-eq1)
+\end{align}
+\begin{align}
+  y^T A & \ge 0 \\ 
+  y^T b & < 0.
+(\#eq:farkas-eq2)
+\end{align}
+<!-- 
+1. $A x = b$, $x \ge 0.$
+2. $y^T A \ge 0$, $y^T b < 0.$ -->
+:::
+
+::: {.proof}
+We'll prove Farkas' lemma using strong duality. Consider the following linear program: 
+\begin{equation}
+  \begin{array}{llll}
+    \mbox{maximize: } & 0 \\
+    \mbox{subject to: } 
+      & A x & = & b \\ 
+      & x & \ge & 0.
+  \end{array}
+(\#eq:farkas-primal)
+\end{equation}
+The optimal solution to the linear program \@ref(eq:farkas-primal) is a feasible solution to \@ref(eq:farkas-eq1). The dual to this linear program is 
+\begin{equation}
+  \begin{array}{llll}
+    \mbox{minimize: } & y^T b \\
+    \mbox{subject to: } 
+      & y^T A & \ge & 0.
+  \end{array}
+(\#eq:farkas-dual)
+\end{equation}
+
+**Case 1:** Suppose \@ref(eq:farkas-eq1) has a solution.
+
+In this case, \@ref(eq:farkas-primal) has an optimal solution. By strong duality, \@ref(eq:farkas-dual) also has an optimal solution with optimal objective $0$. So, the minimum value of $y^T b$ is $0$ and hence the system \@ref(eq:farkas-eq2) does not have a solution.
+
+**Case 2:** Suppose \@ref(eq:farkas-eq1) does not have a solution.
+
+In this case, \@ref(eq:farkas-primal) has no optimal solution. By strong duality, neither does \@ref(eq:farkas-dual). So, \@ref(eq:farkas-dual) is either infeasible or unbounded. As $y = 0$ is a feasible solution to \@ref(eq:farkas-dual) it cannot be infeasible, and hence it must be unbounded. But this means that the value of $y^T b$ can be made arbitrarily small, and in particular, can be made negative. Hence, the system \@ref(eq:farkas-eq2) has a solution.
+
+:::
+
+We can interpret Farkas' lemma geometrically using convex cones and separating hyperplanes.
+
+## Separating Hyperplane Theorem
+
+<!-- Let $\{v_1, \dots, v_n\}$ be a set of vectors in $\mathbb{R}^m$.  -->
+::: {.definition}
+The **convex cone** of a finite set of vectors in $\mathbb{R}^m$ is the set of positive linear combinations of vectors in the set.^[One can also define convex cones for infinite sets of vectors. In this case, we need to take the closure of the set of positive linear combinations.] 
+\begin{align*}
+  C_+(v_1, \dots, v_n) & := \{c_1 v_1 + \dots + c_n v_n \mid c_i \ge 0 \}.
+\end{align*}
+:::
+
+::: {.definition}
+A **hyperplane** in $\mathbb{R}^m$ is the set of solutions to a single linear equation. 
+The complement of a hyperplane in $\mathbb{R}^n$ consists of two connected components. 
+The closures of these components are called **half-spaces**.
+:::
+
+If the equation of the hyperplane is given by $b^T y = b_0$, where $b$ is a vector in $\mathbb{R}^m$ and $b_0 \in \mathbb{R}$, then the corresponding two half-spaces are described by $b^T y \le b_0$ and $b^T y \ge b_0$. 
+
+::: {.definition}
+We say that a hyperplane $H$ **separates** two subsets $S_1$ and $S_2$ of $\mathbb{R}^m$ if $S_1$ and $S_2$ do not intersect $H$ and belong to the two different half-spaces of $H$.
+:::
+
+Using convex cones and separating hyperplanes, we can reinterpret \@ref(thm:farkas-lemma) as follows.
+
+::: {.theorem #farkas-geometry name="Geometric version of Farkas' lemma"}
+Let $v_1, \dots, v_n, b$ be vectors in $\mathbb{R}^m$. Exactly one of the following statements is true:
+
+1. Either $b$ lies inside $C_+(v_1, \dots, v_n)$, or 
+2. There is a hyperplane $H$ that separates $b$ from $C_+(v_1, \dots, v_n)$.
+:::
+
+A point $b$ and a convex cone $C_+(v_1, \dots, v_n)$ are convex subsets of $\mathbb{R}^m$. 
+The statement of Farkas' lemma \@ref(thm:farkas-geometry) can be generalized to arbitrary convex sets using metric topology. 
+For now, we'll generalize it to convex polyhedra.
+
+::: {.definition}
+Intersection of finitely many half-spaces is called a **convex polyhedron**. 
+:::
+
+So, a convex polyhedron is the set of solutions to a system of linear inequalities $A x \le b$. 
+But this set is precisely the feasible region of a linear program! 
+The class of convex polyhedra is very large and all geometric "linear" convex objects, like points, lines, planes, half-spaces, hyperplanes, convex cones, etc. can be realized as convex polyhedra. 
+
+The following is an extension of Farkas' lemma to convex polyhedra (proof in the exercises below).
+
+::: {.theorem #separating-hyperplane name="Separating Hyperplane Theorem"}
+Any two non-empty, disjoint, convex polyhedra in $\mathbb{R}^m$ can be separated by a hyperplane.
+:::
+
+::: {.exercise #farkas-variant}
+Prove the following variant of Farkas' lemma: Let $A$ be an $m \times n$ matrix and let $b$ be a vector in $\mathbb{R}^m$. 
+Exactly one of the following systems has a solution:
+
+1. $Ax \le b$,
+2. $y^T b < 0$, $y^T A = 0$, and $y \ge 0$.
+:::
+
+::: {.exercise}
+Let $P_1$ be the convex polyhedron defined by $A_1 x \le b_1$ and let $P_2$ be the convex polyhedron defined by $A_2 x \le b_2$ where $A_1$, $A_2$, $b_1$, and $b_2$ have sizes $m_1 \times n$, $m_2 \times n$, $m_1$, and $m_2$, respectively. Suppose the system 
+\begin{equation}
+  \begin{bmatrix} A_1 \\ A_2 \end{bmatrix}
+  x 
+  \le
+  \begin{bmatrix} b_1 \\ b_2 \end{bmatrix}
+  (\#eq:eq1)
+\end{equation}
+does not have a solution. 
+
+1. Apply the above variant of Farkas' lemma to \@ref(eq:eq1) to obtain vectors $y_1$, $y_2$ of size $m_1$ and $m_2$, respectively. Define $c^T := y_1^T A_1$, $d_1 := y_1^T b_1$, and $d_2 := -y_2^T b_2$.
+2. Show that $d_1 < d_2$.
+3. Show that $A_1 x \le b_1$ implies $c^T x \le d_1$. 
+4. Show that $A_2 x \le b_2$ implies $c^T x \ge d_2$. 
+5. Conclude that there exists a hyperplane separating $P_1$ and $P_2$.
+:::
+
+## Equivalence with Strong Duality
+
+It is possible to prove Strong Duality using Farkas' lemma, which itself can be proven using metric topology. So, Strong Duality, Farkas' lemma, and Separating Hyperplane Theorem should all be thought of as equivalent to each other. We provide below a proof of Strong Duality (Theorem \@ref(thm:strong-duality)) using Farkas' lemma.
+
+::: {.proof}
+Consider the system of equations 
+
+\begin{equation}
+\begin{split}
+Ax & \le b \\
+-A^T y & \le -c \\ 
+x, y & \ge 0 \\
+-c^T x + b^T y & \le 0.
+\end{split}
+(\#eq:strong-using-farkas)
+\end{equation}
+
+Suppose this system has a feasible solution. The first three equations are equivalent to saying that $x$ is primal-feasible and $y$ is dual-feasible. If such a solution exists, by Weak Duality (Theorem \@ref(thm:weak-duality)) we know that $c^T x \le b^T y$. So, the only way the fourth inequality is satisfied is if $c^T x = b^T y$ i.e. the primal-objective value at $x$ equals the dual-objective value at $y$. But by Weak Duality, these must then be the optimal solutions thereby proving Strong Duality. So, it suffices to show that \@ref(eq:strong-using-farkas) has a feasible solution if the primal has an optimal solution.
+
+We prove this by contradiction. Suppose the primal has an optimal solution but \@ref(eq:strong-using-farkas) does not have a feasible solution. We rewrite the system as 
+\begin{align*}
+    \begin{bmatrix} A & 0 \\ 0 & -A^T \\ -c^T & b^T \end{bmatrix}
+    \begin{bmatrix} x \\ y  \end{bmatrix}
+      & \le 
+    \begin{bmatrix} b \\ -c \\ 0 \end{bmatrix} \\
+    x, y & \ge 0.
+\end{align*}
+By (a variant of) Farkas' lemma, the following dual system must have a solution.
+\begin{align*}
+  \begin{bmatrix} z^T & w^T & t \end{bmatrix}
+  \begin{bmatrix} b \\ -c \\ 0 \end{bmatrix} & < 0 \\
+  \begin{bmatrix} z^T & w^T & t \end{bmatrix}
+    \begin{bmatrix} A & 0 \\ 0 & -A^T \\ -c^T & b^T \end{bmatrix}
+    & \ge 0\\
+  z, w, t & \ge 0.
+\end{align*}
+which can be rewritten as 
+\begin{align*}
+    z^T b & < w^T c \\
+    z^T A & \ge t c^T \\
+    t b^T & \ge w^T A^T \\
+    z, w, t & \ge 0.
+\end{align*}
+By combining the second and third equations, we get 
+\begin{align*}
+    t z^T b \ge z^T A w \ge t c^T w.
+\end{align*}
+If $t > 0$, this contradicts the first equation and we're done. So suppose $t = 0$. Plugging in $t = 0$, we get 
+\begin{align*}
+    z^T b & < w^T c \\
+    z^T A & \ge 0 \\
+    0 & \ge w^T A^T \\
+    z, w & \ge 0.
+\end{align*}
+which can be rewritten as the matrix equation 
+\begin{align*}
+  \begin{bmatrix} z^T & w^T \end{bmatrix}
+  \begin{bmatrix} b \\ -c \end{bmatrix} & < 0 \\
+  \begin{bmatrix} z^T & w^T \end{bmatrix}
+    \begin{bmatrix} A & 0 \\ 0 & -A^T \end{bmatrix}
+    & \ge 0\\
+  z, w & \ge 0.
+\end{align*}
+Because this system has a solution, by applying (variant of) Farkas' lemma again, the following system cannot have a solution.
+\begin{align*}
+    \begin{bmatrix} A & 0 \\ 0 & -A^T \end{bmatrix}
+    \begin{bmatrix} x \\ y  \end{bmatrix}
+      & \le 
+    \begin{bmatrix} b \\ -c \end{bmatrix} \\
+    x, y & \ge 0.
+\end{align*}
+We had assumed that the primal is feasible. The only way the above system is infeasible is if there is no solution no the system
+\begin{align*}
+  A^T y &\ge c \\
+  y &\ge 0.
+\end{align*}
+Applying (variant of) Farkas' lemma yet again we see that the dual system 
+\begin{align*}
+  z^T c & < 0\\
+  z^T A^T &\ge 0 \\ 
+  z &\le 0
+\end{align*}
+must have a solution.
+But now, if $x$ is any primal-feasible solution then so is $x - \alpha z$ for any positive constant $\alpha$ and the objective value of the primal at $x - \alpha z$ can be made arbitrarily large by increasing $\alpha$ thereby contradicting the fact that primal has an optimal solution (and hence is bounded).
+:::

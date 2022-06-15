@@ -1,0 +1,99 @@
+# Integer Programming
+
+An **integer program** is a linear program in which some or all of the variables are required to be integers. The most common constraint is usually that some variable is required to be either 0 or 1.
+Even though integer programs are slight generalizations of linear programs, they are much harder to solve. 
+It can be shown that solving a general integer program is an NP-hard problem i.e. we do not expect to there be any efficient algorithm to solve them.
+The best we can hope for is to analyze some special kinds of integer programs or to find approximation algorithm for the general case.
+
+One naive approach to solve an integer program is to simply forget the integrality condition and solve the underlying linear program. 
+This technique is called **LP-relaxation**. 
+For nice integer programs, we can expect this method to provide a good approximate solution. However, this method can also provide really incorrect answers.
+Consider the following integer program
+\begin{equation*}
+\begin{array}{lllll}
+  \mbox{maximize:} & x \\ 
+  \mbox{subject to:} & y & \le & \dfrac{x}{n-0.5} \\
+  & x, y & \ge & 0 \\ 
+  & x, y & & \mbox{ are integers,}
+\end{array}
+\end{equation*}
+where $n$ is a fixed integer. 
+One can check that the feasible region for the LP-relaxation is a triangle with vertices $(0,0)$, $(1,0)$ and $(n - 0.5, 1)$ and the only integer points in this triangle are $(0,0)$ and $(1,0)$. 
+So, the optimal solution to the LP-relaxation is $(n - 0.5, 1)$ but the optimal solution to the original integer program is $(1,0)$. 
+Hence, as $n$ increases the LP solution diverges away from the IP solution.
+
+## Branch and Bound 
+One technique for fixing the issues with LP-relaxation is called brand-and-bound. 
+In branch-and-bound we solve the LP-relaxation if we end with a non-integer solution, say with $x = k$ then we make two cases $x \le \lfloor k \rfloor$ and $x \ge \lceil k \rceil$. The goal is to shrink the feasible region so that all the vertices have integer coordinates. 
+We repeat the process for each case, essentially performing a DFS until we find integer solutions.
+This is best demonstrated with an example.
+
+Consider the integer program:
+\begin{equation}
+\begin{array}{llllll}
+  \mbox{maximize:} & 4x & + & 5y \\ 
+  \mbox{subject to:} 
+  & x & + & y & \le & 10 \\
+  & 3x & - & 4y & \le & 6 \\
+  & x &, & y & \ge & 0 \\ 
+  & x, y & & & & \mbox{ are integers.}
+\end{array}
+\end{equation}
+Solving the LP-relaxation gives us the solution $(x,y) = (4, 1.5)$.
+As the $y$-coordinates is not an integer, we make two cases $y \le 1$ and $y \ge 2$ and analyze each separately by adding it as an extra constraint.
+\begin{equation*}
+\begin{array}{llllll}
+  \mbox{maximize:} & 4x & + & 5y \\ 
+  \mbox{subject to:} 
+  & x & + & y & \le & 10 \\
+  & 3x & - & 4y & \le & 6 \\
+  & x &, & y & \ge & 0 \\ 
+  & x, y & & & & \mbox{ are integers.} \\
+  & & & y & \le & 1 
+\end{array}
+\end{equation*}
+In this case, the optimal solution to the LP-relaxation is $(x,y) = (3.342, 1)$. 
+This time $x$ is not an integer, so we make further two cases $x \le 3$ and $x \ge 4$.
+In the first case, we get 
+\begin{equation*}
+\begin{array}{llllll}
+  \mbox{maximize:} & 4x & + & 5y \\ 
+  \mbox{subject to:} 
+  & x & + & y & \le & 10 \\
+  & 3x & - & 4y & \le & 6 \\
+  & x &, & y & \ge & 0 \\ 
+  & x, y & & & & \mbox{ are integers.} \\
+  & & & y & \le & 1 \\
+  &x & & & \le & 3,
+\end{array}
+\end{equation*}
+which has the optimal solution $(x,y) = (3, 1)$.
+In the second case, we get 
+\begin{equation*}
+\begin{array}{llllll}
+  \mbox{maximize:} & 4x & + & 5y \\ 
+  \mbox{subject to:} 
+  & x & + & y & \le & 10 \\
+  & 3x & - & 4y & \le & 6 \\
+  & x &, & y & \ge & 0 \\ 
+  & x, y & & & & \mbox{ are integers.} \\
+  & & & y & \le & 1 \\
+  &x & & & \ge & 4,
+\end{array}
+\end{equation*}
+the LP-relaxation and hence the integer program is infeasible. 
+Going back we are left to analyze the case $y \ge 2$.
+\begin{equation*}
+\begin{array}{llllll}
+  \mbox{maximize:} & 4x & + & 5y \\ 
+  \mbox{subject to:} 
+  & x & + & y & \le & 10 \\
+  & 3x & - & 4y & \le & 6 \\
+  & x &, & y & \ge & 0 \\ 
+  & x, y & & & & \mbox{ are integers.} \\
+  & & & y & \ge & 2.
+\end{array}
+\end{equation*}
+This has an optimal solution $(x, y) = (2, 2)$.
+
+Thus we have two possible candidates for optimal solutions to the integer program: $(3, 1)$ and $(2, 2)$. We check the objective value $4x + 3y$ at each of these to conclude that $(2, 2)$ is indeed the optimal solution with objective value 18.

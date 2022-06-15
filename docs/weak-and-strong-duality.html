@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 8 Weak and Strong Duality | Introduction to Optimization</title>
+  <meta name="description" content="Chapter 8 Weak and Strong Duality | Introduction to Optimization." />
+  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 8 Weak and Strong Duality | Introduction to Optimization" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Chapter 8 Weak and Strong Duality | Introduction to Optimization." />
+  <meta name="github-repo" content="apurvanakade/Introduction-to-Optimization" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 8 Weak and Strong Duality | Introduction to Optimization" />
+  
+  <meta name="twitter:description" content="Chapter 8 Weak and Strong Duality | Introduction to Optimization." />
+  
+
+<meta name="author" content="Apurva Nakade" />
+
+
+<meta name="date" content="2022-06-15" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="dual-linear-program.html"/>
+<link rel="next" href="sensitivity-analysis.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="part"><span><b>I Simplex Method</b></span></li>
+<li class="chapter" data-level="2" data-path="standard-linear-program.html"><a href="standard-linear-program.html"><i class="fa fa-check"></i><b>2</b> Standard Linear Program</a></li>
+<li class="chapter" data-level="3" data-path="the-simplex-method.html"><a href="the-simplex-method.html"><i class="fa fa-check"></i><b>3</b> The Simplex Method</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="the-simplex-method.html"><a href="the-simplex-method.html#the-simplex-step"><i class="fa fa-check"></i><b>3.1</b> The Simplex Step</a></li>
+<li class="chapter" data-level="3.2" data-path="the-simplex-method.html"><a href="the-simplex-method.html#tableau-notation"><i class="fa fa-check"></i><b>3.2</b> Tableau Notation</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="initialization.html"><a href="initialization.html"><i class="fa fa-check"></i><b>4</b> Initialization</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="initialization.html"><a href="initialization.html#auxiliary-linear-program"><i class="fa fa-check"></i><b>4.1</b> Auxiliary Linear Program</a></li>
+<li class="chapter" data-level="4.2" data-path="initialization.html"><a href="initialization.html#combined-tableau"><i class="fa fa-check"></i><b>4.2</b> Combined tableau</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="cycling.html"><a href="cycling.html"><i class="fa fa-check"></i><b>5</b> Cycling</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="cycling.html"><a href="cycling.html#degeneracy"><i class="fa fa-check"></i><b>5.1</b> Degeneracy</a></li>
+<li class="chapter" data-level="5.2" data-path="cycling.html"><a href="cycling.html#blands-rule"><i class="fa fa-check"></i><b>5.2</b> Bland’s Rule</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="standardization.html"><a href="standardization.html"><i class="fa fa-check"></i><b>6</b> Standardization</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="standardization.html"><a href="standardization.html#equivalence-of-linear-programs"><i class="fa fa-check"></i><b>6.1</b> Equivalence of Linear Programs</a></li>
+</ul></li>
+<li class="part"><span><b>II Duality Theory</b></span></li>
+<li class="chapter" data-level="7" data-path="dual-linear-program.html"><a href="dual-linear-program.html"><i class="fa fa-check"></i><b>7</b> Dual Linear Program</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="dual-linear-program.html"><a href="dual-linear-program.html#general-linear-program"><i class="fa fa-check"></i><b>7.1</b> General Linear Program</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="weak-and-strong-duality.html"><a href="weak-and-strong-duality.html"><i class="fa fa-check"></i><b>8</b> Weak and Strong Duality</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="weak-and-strong-duality.html"><a href="weak-and-strong-duality.html#weak-duality"><i class="fa fa-check"></i><b>8.1</b> Weak Duality</a></li>
+<li class="chapter" data-level="8.2" data-path="weak-and-strong-duality.html"><a href="weak-and-strong-duality.html#strong-duality"><i class="fa fa-check"></i><b>8.2</b> Strong Duality</a></li>
+<li class="chapter" data-level="8.3" data-path="weak-and-strong-duality.html"><a href="weak-and-strong-duality.html#complimentary-slackness"><i class="fa fa-check"></i><b>8.3</b> Complimentary slackness</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="sensitivity-analysis.html"><a href="sensitivity-analysis.html"><i class="fa fa-check"></i><b>9</b> Sensitivity Analysis</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="sensitivity-analysis.html"><a href="sensitivity-analysis.html#dictionaries-revisited"><i class="fa fa-check"></i><b>9.1</b> Dictionaries Revisited</a></li>
+<li class="chapter" data-level="9.2" data-path="sensitivity-analysis.html"><a href="sensitivity-analysis.html#range-of-optimality---constraints"><i class="fa fa-check"></i><b>9.2</b> Range of Optimality - Constraints</a></li>
+<li class="chapter" data-level="9.3" data-path="sensitivity-analysis.html"><a href="sensitivity-analysis.html#shadow-prices"><i class="fa fa-check"></i><b>9.3</b> Shadow Prices</a></li>
+<li class="chapter" data-level="9.4" data-path="sensitivity-analysis.html"><a href="sensitivity-analysis.html#sensitivity-analysis---objective"><i class="fa fa-check"></i><b>9.4</b> Sensitivity analysis - Objective</a></li>
+</ul></li>
+<li class="part"><span><b>III Non-Linear Programming</b></span></li>
+<li class="chapter" data-level="10" data-path="convex-programming.html"><a href="convex-programming.html"><i class="fa fa-check"></i><b>10</b> Convex Programming</a></li>
+<li class="chapter" data-level="11" data-path="separation-theorems.html"><a href="separation-theorems.html"><i class="fa fa-check"></i><b>11</b> Separation Theorems</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="separation-theorems.html"><a href="separation-theorems.html#farkas-lemma"><i class="fa fa-check"></i><b>11.1</b> Farkas’ Lemma</a></li>
+<li class="chapter" data-level="11.2" data-path="separation-theorems.html"><a href="separation-theorems.html#separating-hyperplane-theorem"><i class="fa fa-check"></i><b>11.2</b> Separating Hyperplane Theorem</a></li>
+<li class="chapter" data-level="11.3" data-path="separation-theorems.html"><a href="separation-theorems.html#equivalence-with-strong-duality"><i class="fa fa-check"></i><b>11.3</b> Equivalence with Strong Duality</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="interior-point-method.html"><a href="interior-point-method.html"><i class="fa fa-check"></i><b>12</b> Interior Point Method</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="interior-point-method.html"><a href="interior-point-method.html#gradient-descent"><i class="fa fa-check"></i><b>12.1</b> Gradient Descent</a></li>
+<li class="chapter" data-level="12.2" data-path="interior-point-method.html"><a href="interior-point-method.html#interior-point-method-1"><i class="fa fa-check"></i><b>12.2</b> Interior Point Method</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="kkt-conditions.html"><a href="kkt-conditions.html"><i class="fa fa-check"></i><b>13</b> KKT conditions</a></li>
+<li class="part"><span><b>IV Applications</b></span></li>
+<li class="chapter" data-level="14" data-path="l1-regression.html"><a href="l1-regression.html"><i class="fa fa-check"></i><b>14</b> L1-Regression</a></li>
+<li class="chapter" data-level="15" data-path="network-flow.html"><a href="network-flow.html"><i class="fa fa-check"></i><b>15</b> Network Flow</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="network-flow.html"><a href="network-flow.html#min-cut"><i class="fa fa-check"></i><b>15.1</b> Min-cut</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="integer-programming.html"><a href="integer-programming.html"><i class="fa fa-check"></i><b>16</b> Integer Programming</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="integer-programming.html"><a href="integer-programming.html#branch-and-bound"><i class="fa fa-check"></i><b>16.1</b> Branch and Bound</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Introduction to Optimization</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="weak-and-strong-duality" class="section level1 hasAnchor" number="8">
+<h1><span class="header-section-number">Chapter 8</span> Weak and Strong Duality<a href="weak-and-strong-duality.html#weak-and-strong-duality" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>We’ll now prove several theorems relating the optimal objective values of the primal-dual pairs.
+Consider the standard linear program (primal) <a href="standard-linear-program.html#eq:standard-lp">(2.1)</a> and its dual <a href="dual-linear-program.html#eq:standard-dual-lp">(7.1)</a>.
+We say that a vector <span class="math inline">\(x = \begin{bmatrix} x_1 \\ \vdots \\ x_n \end{bmatrix}\)</span> is <strong>primal feasible</strong> if it is in the feasible region of the primal and a vector <span class="math inline">\(y = \begin{bmatrix} y_1 \\ \vdots \\ y_m \end{bmatrix}\)</span> is <strong>dual feasible</strong> if it is in the feasible region of the dual.</p>
+<div id="weak-duality" class="section level2 hasAnchor" number="8.1">
+<h2><span class="header-section-number">8.1</span> Weak Duality<a href="weak-and-strong-duality.html#weak-duality" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="theorem">
+<p><span id="thm:weak-duality" class="theorem"><strong>Theorem 8.1  (Weak duality) </strong></span>Suppose <span class="math inline">\(x\)</span> is primal feasible and <span class="math inline">\(y\)</span> is dual feasible. Then the primal objective value at <span class="math inline">\(x\)</span> is less than or equal to the dual objective value at <span class="math inline">\(y\)</span>.</p>
+</div>
+<div class="proof">
+<p><span id="unlabeled-div-39" class="proof"><em>Proof</em>. </span>The proof relies on analyzing the term <span class="math inline">\(y^T A x\)</span> and follows by looking at the following sequence of inequalities:
+<span class="math display">\[\begin{align*} 
+b^T y 
+  &amp; = y^T b \\
+  &amp; \ge y^T (Ax) &amp;&amp; \mbox{ as } Ax \leq b \mbox{ and } y \geq 0 \\
+  &amp; = (y^T A x)^T \\
+  &amp; = x^T A^T y \\ 
+  &amp; \ge x^T c &amp;&amp; \mbox{ as } A^Ty \geq c \mbox{ and } x \geq 0 \\
+  &amp; = c^T x.
+\end{align*}\]</span></p>
+</div>
+<p>We get several immediate corollaries from weak duality.</p>
+<div class="corollary">
+<p><span id="cor:unlabeled-div-40" class="corollary"><strong>Corollary 8.1  </strong></span>If the primal is unbounded, then the dual is infeasible.</p>
+</div>
+<div class="corollary">
+<p><span id="cor:unlabeled-div-41" class="corollary"><strong>Corollary 8.2  </strong></span>If the dual is unbounded, then the primal is infeasible.</p>
+</div>
+<div class="corollary">
+<p><span id="cor:unlabeled-div-42" class="corollary"><strong>Corollary 8.3  </strong></span>If both the primal and dual have optimal solutions, then the optimal value of the primal is less than or equal to the optimal value of the dual.</p>
+</div>
+<p>We cannot say anything about the dual in the case when the primal is infeasible. Similarly, we cannot conclude anything about the existence of an optimal value of the dual in the case when the primal has an optimal solution.</p>
+</div>
+<div id="strong-duality" class="section level2 hasAnchor" number="8.2">
+<h2><span class="header-section-number">8.2</span> Strong Duality<a href="weak-and-strong-duality.html#strong-duality" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The tableau of the primal problem <a href="standard-linear-program.html#eq:standard-lp">(2.1)</a> is as follows:
+<span class="math display" id="eq:tableau-primal">\[\begin{equation} 
+  \begin{array}{ll|r}
+  c^T &amp; 0 &amp; c_0 \\ \hline
+  A &amp; I_m &amp; b 
+  \end{array}
+  \tag{8.1}
+\end{equation}\]</span>
+We can standardize the dual problem <a href="dual-linear-program.html#eq:standard-dual-lp">(7.1)</a> and form its tableau:
+<span class="math display" id="eq:tableau-dual">\[\begin{equation} 
+  \begin{array}{ll|r}
+  -b^T &amp; 0 &amp; -c_0 \\ \hline
+  -A^T &amp; I_n &amp; -c 
+  \end{array}
+  \tag{8.2}
+\end{equation}\]</span></p>
+<p>We will call such tableaux <strong>duals</strong> of each other. More generally, we’ll say that two tableaux (of appropriate dimensions) are <strong>duals</strong> of each other if after rearranging the pivot columns, if necessary, they’re of the above forms.</p>
+<p>One can show the following theorem by explicit computation:</p>
+<div class="lemma">
+<p><span id="lem:pivot" class="lemma"><strong>Lemma 8.1  </strong></span>Consider the two dual tableaux <a href="weak-and-strong-duality.html#eq:tableau-primal">(8.1)</a> and <a href="weak-and-strong-duality.html#eq:tableau-dual">(8.2)</a> .
+If we pivot the first tableau about the <span class="math inline">\(i^{th}\)</span> row and <span class="math inline">\(j^{th}\)</span> column of <span class="math inline">\(A\)</span> and the second tableau about the <span class="math inline">\(i^{th}\)</span> column and <span class="math inline">\(j^{th}\)</span> row of <span class="math inline">\(-A^T\)</span>, then the resulting tableaux remain duals of each other.</p>
+</div>
+<div class="lemma">
+<p><span id="lem:optimality" class="lemma"><strong>Lemma 8.2  </strong></span>If the tableau <a href="weak-and-strong-duality.html#eq:tableau-primal">(8.1)</a> corresponds to an optimal solution of the primal then the tableau <a href="weak-and-strong-duality.html#eq:tableau-dual">(8.2)</a> corresponds to an optimal solution of the dual.</p>
+</div>
+<div class="proof">
+<p><span id="unlabeled-div-43" class="proof"><em>Proof</em>. </span>The tableau <a href="weak-and-strong-duality.html#eq:tableau-primal">(8.1)</a> corresponds to an optimal solution of the primal precisely when</p>
+<ol style="list-style-type: decimal">
+<li>(primal optimality) <span class="math inline">\(c^T \le 0\)</span> as in this case no entering variable can be found for the primal, and</li>
+<li>(primal feasibility) <span class="math inline">\(b \ge 0\)</span>.</li>
+</ol>
+<p>These conditions translate to</p>
+<ol style="list-style-type: decimal">
+<li>(dual optimality) <span class="math inline">\(-b^T \le 0\)</span> as in this case no entering variable can be found for the dual, and</li>
+<li>(dual feasibility) <span class="math inline">\(-c \ge 0\)</span>.</li>
+</ol>
+</div>
+<p>Using the above two lemmas, and by explicitly running the simplex method we get the following result:</p>
+<div class="theorem">
+<p><span id="thm:strong-duality" class="theorem"><strong>Theorem 8.2  (Strong duality) </strong></span>If the primal has an optimal solution then so does the dual. Moreover, they have the same optimal values.</p>
+</div>
+<div class="proof">
+<p><span id="unlabeled-div-44" class="proof"><em>Proof</em>. </span>At the optimal solution for the primal, we have a set of basic and non-basic variables. We can perform a sequence of pivot operations to get this tableau from the initial tableau. We then perform the corresponding pivots on the dual tableau. By Lemma <a href="weak-and-strong-duality.html#lem:pivot">8.1</a> the resulting tableau will be dual to the primal tableau at the optimal solution. By Lemma <a href="weak-and-strong-duality.html#lem:optimality">8.2</a> the dual is also optimal and has the same objective value.</p>
+</div>
+<p>We can use the two duality theorems to come up with a fast way to verify optimality.</p>
+<div class="theorem">
+<p><span id="thm:certificate-of-optimality" class="theorem"><strong>Theorem 8.3  (Certificate of optimality) </strong></span><span class="math inline">\(x\)</span> is an optimal solution for the primal and <span class="math inline">\(y\)</span> is an optimal solution for the dual if and only if
+1. <span class="math inline">\(x\)</span> is primal-feasible,
+2. <span class="math inline">\(y\)</span> is dual-feasible,
+3. <span class="math inline">\(c^T x = b^T y\)</span> i.e. the primal objective value at <span class="math inline">\(x\)</span> is equal to the dual objective value at <span class="math inline">\(y\)</span>.</p>
+</div>
+<div class="proof">
+<p><span id="unlabeled-div-45" class="proof"><em>Proof</em>. </span><strong>( <span class="math inline">\(\Rightarrow\)</span> )</strong></p>
+<p>If <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are optimal solutions, then they are feasible by definition. By strong duality (Theorem <a href="weak-and-strong-duality.html#thm:strong-duality">8.2</a>) they must the same objective value.</p>
+<p><strong>( <span class="math inline">\(\Leftarrow\)</span> )</strong></p>
+<p>If <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are feasible solutions then by weak duality (Theorem <a href="weak-and-strong-duality.html#thm:weak-duality">8.1</a>) the dual objective values provide an upper bound on the primal objective value. Because this upper bound is attained at <span class="math inline">\(x\)</span>, <span class="math inline">\(x\)</span> must be an optimal solution of the primal. Similarly, for <span class="math inline">\(y\)</span>.</p>
+</div>
+</div>
+<div id="complimentary-slackness" class="section level2 hasAnchor" number="8.3">
+<h2><span class="header-section-number">8.3</span> Complimentary slackness<a href="weak-and-strong-duality.html#complimentary-slackness" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>There is another closely related method for verifying the correctness of solution using primal and dual slack variables.</p>
+<p>Denote by <span class="math inline">\(w = \begin{bmatrix} w_1 \\ \vdots \\ w_m \end{bmatrix}\)</span> the primal slack variables and by <span class="math inline">\(z = \begin{bmatrix} v_1 \\ \vdots \\ v_n \end{bmatrix}\)</span> the dual slack variables.
+More explicitly,
+<span class="math display">\[\begin{align*}
+  w &amp;= b - A x \\ 
+  z &amp;= -c + A^T y.  
+\end{align*}\]</span>
+We use this convention for <span class="math inline">\(z\)</span> as then at a dual feasible solution <span class="math inline">\(z \ge 0\)</span>.</p>
+<div class="theorem">
+<p><span id="thm:complementary-slackness" class="theorem"><strong>Theorem 8.4  (Complementary slackness) </strong></span>Suppose <span class="math inline">\(x\)</span> is primal feasible and <span class="math inline">\(y\)</span> is dual feasible. Then <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are optimal if and only if</p>
+<ol style="list-style-type: decimal">
+<li>for all <span class="math inline">\(1 \le j \le n\)</span>, <span class="math inline">\(x_j z_j = 0\)</span>, and</li>
+<li>for all <span class="math inline">\(1 \le i \le m\)</span>, <span class="math inline">\(y_i w_i = 0\)</span>.</li>
+</ol>
+</div>
+<div class="proof">
+<p><span id="unlabeled-div-46" class="proof"><em>Proof</em>. </span>The proof is in two steps. We first show a weaker statement about the vanishing of two scalars and then show that the vanishing of these scalars implies complementary slackness.</p>
+<p><strong>Claim:</strong> <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are optimal solutions if and only if <span class="math inline">\(x^T z = 0\)</span> and <span class="math inline">\(y^T w = 0\)</span>.</p>
+<p>We start by rewriting the slack variable:
+<span class="math display">\[\begin{align*}
+    &amp;&amp; x^T z = 0 &amp;&amp; \mbox{ and } &amp;&amp; y^T w = 0 \\ 
+  \Leftrightarrow 
+  &amp;&amp; x^T (-c + A^T y) = 0 &amp;&amp; \mbox{ and } &amp;&amp; y^T (b - A x) = 0 \\ 
+  \Leftrightarrow 
+  &amp;&amp; x^T c = x^T A^T y &amp;&amp; \mbox{ and } &amp;&amp; y^T b = y^T A x \\ 
+  \Leftrightarrow 
+  &amp;&amp; c^T x = y^T A x &amp;&amp; \mbox{ and } &amp;&amp; b^T y = y^T A x
+\end{align*}\]</span>
+Thus we are reduced to showing that <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are optimal solutions if and only if <span class="math inline">\(c^T x = y^T A x\)</span> and <span class="math inline">\(b^T y = y^T A x\)</span>.</p>
+<p><strong>( <span class="math inline">\(\Leftarrow\)</span> )</strong>
+As <span class="math inline">\(c^T x = y^T A x = b^T y\)</span>, and <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are given to be feasible, <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are optimal by Theorem <a href="weak-and-strong-duality.html#thm:certificate-of-optimality">8.3</a>.</p>
+<p><strong>( <span class="math inline">\(\Rightarrow\)</span> )</strong>
+By the proof of weak duality <a href="weak-and-strong-duality.html#thm:weak-duality">8.1</a>, we know that as <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are feasible,
+<span class="math display">\[c^T x \le y^T A x \le b^T y.\]</span>
+By strong duality, as <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are optimal
+<span class="math display">\[c^T x = b^T y.\]</span>
+The only way the two can be simultaneously true is if <span class="math inline">\(c^T x = y^T A x\)</span> and <span class="math inline">\(b^T y = y^T A x\)</span>.</p>
+<p><strong>Claim:</strong> <span class="math inline">\(x^T z = 0\)</span> and <span class="math inline">\(y^T w = 0\)</span> if and only if</p>
+<ol style="list-style-type: decimal">
+<li>for all <span class="math inline">\(1 \le j \le n\)</span>, <span class="math inline">\(x_j z_j = 0\)</span>, and</li>
+<li>for all <span class="math inline">\(1 \le i \le m\)</span>, <span class="math inline">\(y_i w_i = 0\)</span>.</li>
+</ol>
+<p>This follows from the fact that at a feasible solution <span class="math inline">\(x, y, w, z \ge 0\)</span>.</p>
+</div>
+<div class="remark">
+<p><span id="unlabeled-div-47" class="remark"><em>Remark</em>. </span>Complementary slackness even holds for dual of general linear programs. The definition of slack variables as above
+<span class="math display">\[\begin{align*}
+  w &amp;= b - A x \\ 
+  z &amp;= -c + A^T y.
+\end{align*}\]</span>
+still ensures that we will have <span class="math inline">\(x_j w_j \ge 0\)</span> for all <span class="math inline">\(1 \le j \le n\)</span> and <span class="math inline">\(y_i z_i \ge 0\)</span> for all <span class="math inline">\(1 \le i \le m\)</span> and hence the above proof will go through.</p>
+</div>
+<p>If the optimal solution of the primal is at a non-degenerate BFS, then complementary slackness can be used to find the optimal solution to the dual without having to run the simplex method on it.
+At a non-degenerate BFS, the basic variables are non-zero.
+By complementary slackness, the corresponding dual variables must be 0.
+This gives us a system of <span class="math inline">\(m\)</span> variables in <span class="math inline">\(m\)</span> equations which can be solved to find the dual optimal solution.</p>
+<div class="example">
+<p><span id="exm:unlabeled-div-48" class="example"><strong>Example 8.1  </strong></span>Consider the linear program <a href="introduction.html#eq:bond-portfolio-lp">(1.2)</a> whose dual is <a href="dual-linear-program.html#eq:bond-portfolio-dual">(7.2)</a>. At the optimal solution <span class="math inline">\(x_1 = 0.6\)</span>, <span class="math inline">\(x_2 = 0.3\)</span>, <span class="math inline">\(w_1 = 0\)</span>, <span class="math inline">\(w_2 = 0\)</span>, and <span class="math inline">\(w_3 = 0.1\)</span>.
+By complementary slackness, we must have <span class="math inline">\(z_1 = 0\)</span>, <span class="math inline">\(z_2 = 0\)</span>, and <span class="math inline">\(y_3 = 0\)</span> at the dual optimal solution.
+Plugging these in <a href="introduction.html#eq:bond-portfolio-lp">(1.2)</a>, we get a system of equations
+<span class="math display">\[\begin{align*}
+  3y_1 + 2y_2 &amp;= 4 \\
+  6y_1 + y_2 &amp;= 3 
+\end{align*}\]</span>
+whose solutions are <span class="math inline">\(y_1 = 2/9\)</span> and <span class="math inline">\(y_2 = 5/3\)</span>.
+One can check that this is indeed dual optimal by comparing the dual objective at this point to the primal objective:
+<span class="math display">\[\begin{align*}
+  3.6 (2/9) + 1.5 (5/3) + 0 (1) = 3.3 = 4 (0.6) + 3 (0.3).
+\end{align*}\]</span></p>
+</div>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-49" class="exercise"><strong>Exercise 8.1  </strong></span>We can use complementary slackness and certificate of optimality to show that the optimal solution of a standard linear program can never be attained in the interior of the feasible region.</p>
+<p>Consider the standard linear program <a href="standard-linear-program.html#eq:standard-lp">(2.1)</a> and assume that <span class="math inline">\(b \ge 0\)</span> and <span class="math inline">\(c \neq \vec{0}\)</span>.
+Let <span class="math inline">\(x^*\)</span> be a point in the .
+Suppose <span class="math inline">\(x^*\)</span> is an optimal solution to the primal. By strong duality, we know that a dual-optimal solution <span class="math inline">\(y^*\)</span> exists. We’ll show that this leads to a contradiction.</p>
+<ol style="list-style-type: decimal">
+<li>What can you say about the values of the decision and slack variables at <span class="math inline">\(x^*\)</span>?</li>
+<li>What can you say about the values of the dual decision variables at <span class="math inline">\(y^*\)</span> using complementary slackness?</li>
+</ol>
+<p>We now consider two cases, depending on the sign of <span class="math inline">\(c\)</span>, and in each case show that <span class="math inline">\(y^*\)</span> cannot be optimal.</p>
+<ol style="list-style-type: decimal">
+<li>Suppose that <span class="math inline">\(c_j &gt; 0\)</span> for some <span class="math inline">\(0 \le j \le n\)</span>. Explain why <span class="math inline">\(y^*\)</span> cannot be dual-feasible (and hence optimal).</li>
+<li>Suppose <span class="math inline">\(c \le 0\)</span>.
+<ol style="list-style-type: decimal">
+<li>What can you say about the objective values at <span class="math inline">\(x^*\)</span> and <span class="math inline">\(y^*\)</span>?</li>
+<li>Explain why <span class="math inline">\(y^*\)</span> cannot be dual-optimal.</li>
+</ol></li>
+</ol>
+</div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="dual-linear-program.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="sensitivity-analysis.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": "github"
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["Introduction to Optimization.pdf"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section",
+"scroll_highlight": true
+},
+"toolbar": {
+"position": "fixed"
+},
+"info": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

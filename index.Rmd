@@ -9,8 +9,8 @@ url: https\://github.com/apurvanakade/Introduction-to-Optimization
 description: Introduction to Optimization.
 site: bookdown::bookdown_site
 bibliography: [references.bib]
-biblio-style: apalike
 link-citations: true
+nocite: '@*' 
 ---
 
 ```{r, setup, include=FALSE}
@@ -31,22 +31,13 @@ library(ggplot2)
 
 # Preface {.unnumbered}
 
-These are the class notes for a quarter long course I taught at Northwestern University in Winter and Spring 2022. The topics include:
-
--  Linear programming
-    -  Simplex method
-    -  Duality theory
--  Non-linear programming
-    -  KKT conditions
-    -  Interior point methods
--  Applications
-    -  Network flow
-    -  $L^1$-regression
-
-These notes only cover the theoretical aspect of the course. Students were also assigned weekly worksheets to solve using the SOLVER add-in for Excel. These worksheets were an integral part of the learning experience. Some of these can be found in the Github repository and several more are available in the references.
-
-## Copyright {.unnumbered .unlisted}
+These are the class notes for a quarter long course I taught at Northwestern University in Winter and Spring 2022. 
+The notes only cover the theoretical aspect of the course. Students were also assigned weekly worksheets to solve using the SOLVER add-in for Excel. 
 
 These notes are licensed under a [Creative Commons Attribution-ShareAlike 4.0 International License]([http://creativecommons.org/licenses/by-sa/4.0/](http://creativecommons.org/licenses/by-sa/4.0/)).
+Please feel free to fork and modify the Github repo or use these notes as-is.
+Any suggestions and improvements to the notes are welcome and greatly appreciated. 
+You can [send me an email](mailto:apurva.nakade@northwestern.edu) or [open an issue](https://github.com/apurvanakade/Introduction-to-Optimization/issues) on Github. 
+
 
 ![](images/cc-by-sa-4.png "Creative Commons License")

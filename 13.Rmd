@@ -1,0 +1,94 @@
+# KKT conditions
+
+We can use the central path to derive some conditions for optimality. 
+Consider the optimization problem \@ref(eq:constrained-optimization-problem) again. 
+As before, we'll assume that *there is a central path $x_\mu^*$ converging to an optimal solution $x^*$.*
+Because $x_\mu^*$ is a critical point of $f_\mu(x)$, we get 
+\begin{align*}
+  \nabla_x f_\mu(x_\mu^*) &= 0 \\
+  \implies \nabla f(x_\mu^*) - \sum \limits_{i = 1}^m \dfrac{\mu}{g_i(x_\mu^*)} \nabla g_i (x_\mu^*)&= 0 
+\end{align*}
+Applying $\lim \limits_{\mu \to 0^+}$ to both sides, we get 
+\begin{align*}
+   \lim \limits_{\mu \to 0^+} \nabla f(x_\mu^*) - \sum \limits_{i = 1}^m \lim \limits_{\mu \to 0^+}\dfrac{\mu}{g_i(x_\mu^*)} \nabla g_i (x_\mu^*)&= 0 
+\end{align*}
+which simplifies to 
+\begin{align*}
+  \nabla f(x^*) = \sum \limits_{i = 1}^m \lambda_i \nabla g_i (x^*) 
+\end{align*}
+where $\lambda_i = \lim \limits_{\mu \to 0^+}\frac{\mu}{g_i(x_\mu^*)}$ for $1 \le i \le m$. (There are several assumptions here about the existence and convergence of limits that we're brushing under the rug.) 
+We can further analyze the constants $\lambda_i$. 
+\begin{align*}
+  && \dfrac{\mu}{g_i(x_\mu^*)} \cdot g_i(x_\mu^*) &= \mu \\ 
+  \implies && \lim \limits_{\mu \to 0^+}\dfrac{\mu}{g_i(x_\mu^*)} \cdot \lim \limits_{\mu \to 0^+}g_i(x_\mu^*) &= \lim \limits_{\mu \to 0^+}\mu \\ 
+  \implies &&\lambda_i g_i(x^*) &= 0.
+\end{align*}
+Finally, because $g_i(x_\mu^*) \ge 0$ and $\mu > 0$, we must have 
+\begin{align*}
+  \lambda_i \ge 0.
+\end{align*}
+To summarize, if $x^*$ is an optimal solution to \@ref(eq:constrained-optimization-problem) and there exists a central path $x_\mu^*$ converging to $x^*$, then the following conditions are satisfied:
+\begin{align*}
+  \nabla f(x^*) &= \sum \limits_{i = 1}^m \lambda_i \nabla g_i (x^*) \\
+  \lambda_i g_i(x^*) &= 0 \\
+  \lambda_i &\ge 0.
+\end{align*}
+These are called the KKT conditions. 
+We can combine the above derivation with Lagrange multipliers to get the following generalization: 
+
+::: {.theorem #kkt-conditions name="KKT conditions"}
+Consider the optimization problem: 
+\begin{equation*}
+  \begin{array}{llr}
+    \mbox{minimize: } & f(x) \\
+    \mbox{subject to: } 
+      & g_i(x) \ge 0, & \mbox{ for } 1 \le i \le m \\
+      & h_i(x) = 0, & \mbox{ for } 1 \le i \le k.
+  \end{array}
+\end{equation*}
+Assume that this problem has an optimal solution $x^*$ and there is a central path $x_\mu^*$ converging to $x^*$. 
+Then under certain regularity conditions, the following conditions are satisfied:
+\begin{align*}
+  \nabla f(x^*) &= \sum \limits_{i = 1}^m \lambda_i \nabla g_i (x^*) 
+  + \sum \limits_{i = 1}^k \lambda'_i \nabla h_i (x^*) \\
+  \lambda_i g_i(x^*) &= 0, \mbox{ for } 1 \le i \le m \\
+  \lambda_i &\ge 0, \mbox{ for } 1 \le i \le m.
+\end{align*}
+:::
+The conditions for necessity, sufficiency and the regularity conditions are quite non-trivial and are beyond the scope of this course. 
+
+::: {.example}
+Consider Example \@ref(exm:ip-kkt) again. The KKT conditions for this example are 
+\begin{align*}
+  2(x + 1) &= \lambda \\
+  \lambda x &= 0 \\
+  \lambda &\ge 0.
+\end{align*}
+These need to be satisfied in addition to the original constraint $x \ge 0$. The only solution to this system is $x = 0$, which is indeed the optimal solution. 
+:::
+
+::: {.example}
+Consider the linear program 
+\begin{align*}
+  \mbox{minimize: } & c^T x \\
+  \mbox{subject to: } & Ax \ge b 
+\end{align*}
+The KKT conditions for this problem are
+\begin{align*}
+  c &= A^T \lambda \\
+  x_i \lambda _i &= 0, \mbox{ for } 1 \le i \le n,\\
+  \lambda &\ge 0.
+\end{align*}
+This is precisely the dual of the linear programming problem and *complementary slackness* conditions. 
+Thus the KKT conditions recover duality in the linear programming sense.
+:::
+
+::: {.exercise}
+Find the KKT conditions for the standard linear program 
+\begin{align*}
+  \mbox{maximize: } & c^T x \\
+  \mbox{subject to: } & Ax \le b \\ 
+  & x \ge 0.
+\end{align*}
+Explain how these conditions recover the dual constraints and complementary slackness.
+:::

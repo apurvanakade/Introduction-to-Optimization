@@ -7,18 +7,15 @@ Linear programs are used to model real world problems. Such models are at best a
 ## Dictionaries Revisited
 
 We will start by finding a succinct way to describe the dictionary at the optimal solution. Recall that the decision and slack variables are related to each other by the Equation \@ref(eq:standard-tableau) which can be written as:
-
 \begin{equation}
   \begin{bmatrix} A & I_m \end{bmatrix}
     \begin{bmatrix} x \\ w \end{bmatrix}
       = b.
   (\#eq:dictionary-matrix)
 \end{equation}
-
 Let $\widehat{A} := \begin{bmatrix} A & I_m \end{bmatrix}$. We'll decompose $\widehat{A}$ using the basic and non-basic variables. Then let $\mathcal{B}$ be the matrix formed by combining the columns of $\widehat{A}$ corresponding to the basic variables at the optimal BFS and let $\mathcal{N}$ be the matrix formed by combining the columns of $\widehat{A}$ corresponding to the non-basic variables at the optimal BFS. Let $x_{\mathcal{B}}$ be the vector of basic variables and $x_{\mathcal{N}}$ be the vector of non-basic variables. 
 
 By rearranging the columns of $\widehat{A}$ if necessary, we can rewrite \@ref(eq:dictionary-matrix) as 
-
 \begin{align*}
   && 
     \begin{bmatrix} \mathcal{B} & \mathcal{N} \end{bmatrix}
@@ -31,19 +28,16 @@ By rearranging the columns of $\widehat{A}$ if necessary, we can rewrite \@ref(e
   &&
     \mathcal{B} x_{\mathcal{B}} &= b -  \mathcal{N} x_{\mathcal{N}}.
 \end{align*}
-
 When we execute the simplex method, the matrix $\mathcal{B}$ gets reduced to an $n \times n$ matrix with $n$ pivots. Hence, it is invertible.
 \begin{equation}
   \implies x_{\mathcal{B}} = \mathcal{B}^{-1} b - \mathcal{B}^{-1} \mathcal{N} x_{\mathcal{N}}.
   (\#eq:basic-non-basic-matrix)
 \end{equation}
-
 This is nothing but the dictionary at the optimal BFS.
 
 ::: {.example #basic-non-basic-matrix} 
 
 Consider Example \@ref(eq:bond-portfolio-lp) again. At the optimal solution $w_1$ and $w_2$ are non-basic and have the value 0, and $x$, $y$, and $w_3$ are basic with values $0.3$, $0.6$, and $0.9$, respectively. Using the above notation, we have 
-
 \begin{align*}
   \mathcal{B} = 
     \begin{bmatrix}
@@ -112,20 +106,14 @@ Using Equation \@ref(eq:basic-non-basic-matrix) the dictionary at the optimal so
   \end{bmatrix}
   \begin{bmatrix} w_1 \\ w_2 \end{bmatrix}.
 \end{align*}
-
 This is precisely the dictionary \@ref(eq:example-dictionary-3) at the optimal solution.
 :::
 
 Because we set the non-basic variables $x_{\mathcal{N}}$ to 0 at any vertex, and in particular, at the the optimal solution, using the Equation \@ref(eq:basic-non-basic-matrix) we get the following useful result:
 
 ::: {.lemma #basic-values}
-
 Using the above notation, $\mathcal{B}^{-1}b$ is the value of the basic variables $x^*_{\mathcal{B}}$ at the optimal solution.
-
 :::
-
-
-
 
 
 ## Range of Optimality - Constraints
@@ -137,13 +125,10 @@ This can be achieved by requiring the set of basic and non-basic variables to re
 In this case, the equation \@ref(eq:basic-non-basic-matrix) will still be the equation describing the dictionary at the optimal solution and the change in $b_i$ will result in a differentiable (in fact, linear) change in $x_{\mathcal{B}}$.
 
 ::: {.example}
-
 Suppose we vary $b_3 = 1$ in Example \@ref(eq:bond-portfolio-lp). One can check that at the optimal solution $w_1$ and $w_2$ are non-basic as long as $b_3 > 0.9$. Thus we can say that out model is a good model as long as the error in $b_3$ is less than $0.1$.
-
 :::
 
 Suppose we change $b_i$ to $b_i + \delta$, where $\delta$ is a real number, and leave all the other constants unchanged. This is equivalent to changing $b$ to $b + \delta e_i$ where $e_i$ is the $i^{th}$ standard basis vector of $\mathbb{R}^m$. This changes equation \@ref(eq:basic-non-basic-matrix) to 
-
 \begin{align*}
   x_{\mathcal{B}} 
     &= \mathcal{B}^{-1} b + \delta \mathcal{B}^{-1} e_i - \mathcal{B}^{-1} \mathcal{N} x_{\mathcal{N}} \\
@@ -152,22 +137,18 @@ Suppose we change $b_i$ to $b_i + \delta$, where $\delta$ is a real number, and 
 where $(\mathcal{B}^{-1})_{\_i}$ denotes the $i^{th}$ column of $\mathcal{B}^{-1}$.
 
 Note that the coefficients of $x_{\mathcal{N}}$ remain unchanged. So, for this dictionary to stay optimal we only need the constants to remain non-negative i.e.
-
 \begin{equation}
   \mathcal{B}^{-1} b + \delta (\mathcal{B}^{-1})_{\_i} \ge 0.
   (\#eq:range-of-optimality)
 \end{equation}
 
 ::: {.proposition}
-
 The **range of optimality** for $b_i$ is the interval $[b_i + \delta_-, b_i + \delta_+]$ such that $\mathcal{B}^{-1} b + \delta (\mathcal{B}^{-1})_{\_i} \ge 0$ for all $\delta \in [\delta_-, \delta_+]$.
-
 :::
 
 In practice, Equation \@ref(eq:range-of-optimality) gives us $m$ inequalities which need to be simultaneously satisfied. These give us candidate values for $\delta$ some of which are positive and some of which are negative. We then choose $\delta_+$ to be the smallest positive value and $\delta_-$ to be the largest negative value. If $\delta_+$ does not exist the upper bound is $\infty$ and if $\delta_-$ does not exist the lower bound is $-\infty$. If either $\delta_+$ or $\delta_-$ is 0 then the linear program is degenerate. In this case, our program is very sensitive to perturbations in $b_i$.
 
 ::: {.example}
-
 Let us find the range of optimality for $b_1 = 3.6$, $b_2=1.5$, and $b_3 = 1$ in \@ref(eq:bond-portfolio-lp) using our calculations in Example \@ref(exm:basic-non-basic-matrix).
 
 We know that 
@@ -180,9 +161,7 @@ We know that
     \end{bmatrix}.
 \end{align*}
 
-
 Using $i = 1$ and Lemma \@ref(lem:basic-values) in Equation \@ref(eq:range-of-optimality) we get
-
 \begin{align*}
   \begin{bmatrix} 0.6 \\ 0.3 \\ 0.1 \end{bmatrix} 
   + \delta
@@ -192,9 +171,7 @@ Using $i = 1$ and Lemma \@ref(lem:basic-values) in Equation \@ref(eq:range-of-op
     -1/9
   \end{bmatrix} > 0
 \end{align*}
-
 which gives us the inequalities 
-
 \begin{align*}
   \begin{array}{lrlrrll}
     0.6 + \delta (-1/9) &\ge & 0 & \implies & \delta &\le & 0.6 (9) = 5.4 \\
@@ -202,11 +179,9 @@ which gives us the inequalities
     0.1 + \delta (-1/9) &\ge & 0 & \implies & \delta & \le & 0.1 (9) = 0.9.  
   \end{array}
 \end{align*}
-
 So, $\delta_- = -1.35$ and $\delta_+ = \min(5.4, 0.9) = 0.9$ and the range of optimality for $b_1$ is $[3.6 - 1.35, 3.6 + 0.9] = [2.25, 4.5]$.
 
 Using $i = 2$ and Lemma \@ref(lem:basic-values) in Equation \@ref(eq:range-of-optimality) we get
-
 \begin{align*}
   \begin{bmatrix} 0.6 \\ 0.3 \\ 0.1 \end{bmatrix} 
   + \delta
@@ -216,9 +191,7 @@ Using $i = 2$ and Lemma \@ref(lem:basic-values) in Equation \@ref(eq:range-of-op
     -1/3
   \end{bmatrix} > 0
 \end{align*}
-
 which gives us the inequalities 
-
 \begin{align*}
   \begin{array}{lrlrrll}
     0.6 + \delta (2/3) &\ge& 0 & \implies & \delta &\ge& - 0.6 (3/2) = -0.9 \\
@@ -226,11 +199,9 @@ which gives us the inequalities
     0.1 + \delta (-1/3) &\ge &0 & \implies & \delta & \le& 0.3 (1) = 0.3.  
   \end{array}
 \end{align*}
-
 So, $\delta_- = -0.9$ and $\delta_+ = \min(0.3, 0.9) = 0.3$ and the range of optimality for $b_2$ is $[1.5 - 0.9, 1.5 + 0.3] = [0.6, 1.8]$.
 
 Using $i = 3$ and Lemma \@ref(lem:basic-values) in Equation \@ref(eq:range-of-optimality) we get
-
 \begin{align*}
   \begin{bmatrix} 0.6 \\ 0.3 \\ 0.1 \end{bmatrix} 
   + \delta
@@ -240,7 +211,6 @@ Using $i = 3$ and Lemma \@ref(lem:basic-values) in Equation \@ref(eq:range-of-op
     1
   \end{bmatrix} > 0
 \end{align*}
-
 which gives us $\delta \ge -0.1$ and so the range of optimality for $b_3$ is $[1 - 0.1, \infty) = [0.9, \infty)$.
 
 The following figures show the optimal solutions at the extreme ends of the range of optimality of $b_1$.
@@ -251,7 +221,6 @@ source("graphs/lower-bound-b1.R", local = knitr::knit_global())
 source("graphs/upper-bound-b1.R", local = knitr::knit_global())
 
 ```
-
 :::
 
 
@@ -260,7 +229,6 @@ source("graphs/upper-bound-b1.R", local = knitr::knit_global())
 ## Shadow Prices
 
 Assume now that neither of $\delta_+$ or $\delta_-$ is zero. We can use Lemma \@ref(lem:basic-values) to find the rate of change of the optimal solution with respect to $b_i$. Call the objective function $\mathbb{O} = c^{T} x$. We think of $\mathbb{O}$ as being a function of $b_i$, $c_j$, and $a_{ij}.$ Using Lemma \@ref(lem:basic-values) we get
-
 \begin{align*}
   \dfrac{\partial x_{\mathcal{B}_j}}{\partial b_i} 
     &= j^{th} \mbox{ row of } \dfrac{\partial \mathcal{B}^{-1}b}{\partial b_i} \\
@@ -273,7 +241,6 @@ where $x_{\mathcal{B}_j}$ denotes the $j^{th}$ basic variable at the optimal sol
 \end{align*}
 as the non-basic variables remain 0 when we perturb $b_i$ within the range of optimality.
 Using these we can find the rate of change of the optimal solution $\mathbb{O}$ with respect to $b_i$. We first start by re-indexing the variables and objective coefficients using the basic and non-basic variables. 
-
 \begin{align*}
   \mathbb{O} 
     &= c^T x \\
@@ -283,32 +250,24 @@ Using these we can find the rate of change of the optimal solution $\mathbb{O}$ 
     &= c^T_{\mathcal{B}} \dfrac{\partial x_{\mathcal{B}}}{\partial b_i} + c^T_{\mathcal{N}} \dfrac{\partial x_{\mathcal{N}}}{\partial b_i} \\
     &= c^T_{\mathcal{B}} (\mathcal{B}^{-1})_{\_i}
 \end{align*}
-
 By strong duality, we know that the primal objective value equals the dual objective value i.e. 
-
 \begin{align*}
  \mathbb{O} &= b_1 y_1 + \cdots + b_m y_m 
 \end{align*}
-
 So, $\partial \mathbb{O}/\partial b_i = y_i$. Because of this result, $y_i$ is also called the **shadow price** or the **marginal cost** of the $i^{th}$ constraint.
-Using the rate of change calculation above, we get 
-\begin{align*}
+Using the rate of change calculation above, we get \begin{align*}
   y_i = c^T_{\mathcal{B}} (\mathcal{B}^{-1})_{\_i}.
 \end{align*}
-
 We can combine all the above coordinates into a single vector to get the following result.
 
 ::: {.theorem #dual-solution}
-
 For a non-degenerate linear program, the dual optimal solution is given by $(\mathcal{B}^{-1})^Tc_{\mathcal{B}}$.
-
 :::
 
 This theorem provides yet another method of finding the dual optimal solution without having to solve the dual linear program. 
 
 ::: {.example #dual-solution} 
 For the linear program \@ref(eq:bond-portfolio-lp), the objective function is 
-
 \begin{align*}
   \mathbb{O} & = 4 x + 3y \\
   & = 4x + 3y + 0 w_3 + 0 w_1 + 0 w_2 
@@ -316,7 +275,6 @@ For the linear program \@ref(eq:bond-portfolio-lp), the objective function is
 
 So, $c_{\mathcal{B}} = \begin{bmatrix}4 \\ 3 \\ 0 \end{bmatrix}$ and $c_{\mathcal{N}} = \begin{bmatrix}0 \\ 0 \end{bmatrix}$. 
 Using the value of $\mathcal{B}^{-1}$ calculated above, we get 
-
 \begin{align*}
   y & = (\mathcal{B}^{-1})^Tc_{\mathcal{B}} \\
   & = 
@@ -333,16 +291,12 @@ Using the value of $\mathcal{B}^{-1}$ calculated above, we get
     2/9 \\ 5/3 \\ 0
   \end{bmatrix}.
 \end{align*}
-
 To check that this is indeed dual-optimal, we calculate the dual-objective value at this solution
-
 \begin{align*}
   b^T y & = 3.6 (2/9) + 1.5 (5/3) + 0 (1) \\
   &= 3.3
 \end{align*}
-
 which equals the optimal objective value of the primal. One can check that this solution is also dual-feasible and hence is the dual-optimal solution by Certificate of Optimality (Theorem \@ref(thm:certificate-of-optimality)).
-
 :::
 
 
@@ -351,7 +305,6 @@ which equals the optimal objective value of the primal. One can check that this 
 We can ask the same questions about the change in the objective coefficients - how far can we change the objective coefficient $c_j$ without changing the set of basic and non-basic variables at the optimal solution. Note that in this case we are not changing the constraints and therefore the feasible region. So, this is the same as asking - how far can we change the objective coefficient $c_j$ without changing the optimal solution.
 
 We can redo the entire analysis for the objective coefficients from scratch. However, we can also notice that performing sensitivity analysis on the objective coefficients of the primal is the same as performing sensitivity analysis on the constraints of the dual.
-
 Consider the standardized dual 
 \begin{equation*}
   \begin{array}{lrll}
@@ -361,7 +314,6 @@ Consider the standardized dual
       & y & \geq & 0,
   \end{array}
 \end{equation*}
-
 Using Equation \@ref(eq:range-of-optimality) for this dictionary we get the range of optimality for $-c_j$ to be
 \begin{equation}
   (-\mathcal{B}_d)^{-1} (-c) + \delta (-\mathcal{B}_d^{-1})_{\_j} \ge 0.
@@ -378,9 +330,7 @@ Note that this is the range of optimality for $-c_j$. To get the range of optima
 Finally, by Lemma \@ref(lem:basic-values), $\mathcal{B}_d^{-1} c$ is the vector of values of the dual basic variables. Hence we get, 
 
 ::: {.proposition}
-
 The **range of optimality** for $c_j$ is the interval $[c_j + \delta_-, c_j + \delta_+]$ such that $y_{\mathcal{B}}^* + \delta (\mathcal{B}_d^{-1})_{\_j} \ge 0$ for all $\delta \in [\delta_-, \delta_+]$. 
-
 :::
 
 By a happy accident all the negative signs have cancelled out and the equation for finding the range of optimality for the objective coefficients is exactly the same as the one for finding the range of optimality for the constraints.
@@ -390,19 +340,15 @@ By a happy accident all the negative signs have cancelled out and the equation f
 The range of optimality for the constraints and the objective functions can be computed using the following formulae:
 
 **Range of optimality for $b_i$:**
-
 \begin{equation}
   x_{\mathcal{B}}^* + \delta (\mathcal{B}^{-1})_{\_i} \ge 0.
 \end{equation}
-
 where $\mathcal{B}$ is formed by combining the primal-basic columns of $\begin{bmatrix} A & I_m \end{bmatrix}$, and 
 
 **Range of optimality for $c_j$:**
-
 \begin{equation}
   y_{\mathcal{B}}^* + \delta (\mathcal{B}_d^{-1})_{\_j} \ge 0.
 \end{equation}
-
 where $\mathcal{B}_d$ is formed by combining the dual-basic columns of $\begin{bmatrix} A^T & -I_n \end{bmatrix}$. 
 :::
 
@@ -410,9 +356,7 @@ Finally, to find $\mathcal{B}_d$ we note that by Complementary Slackness (Theore
 
 
 ::: {.example}
-
 Consider the linear program \@ref(eq:bond-portfolio-lp) again. At the optimal solution, as $w_1$ and $w_2$ are non-basic, the corresponding dual variables ($y_1$ and $y_2$) will be basic for the dual linear program \@ref(eq:bond-portfolio-dual). This gives us 
-
 \begin{align*}
   \mathcal{B}_d &= \begin{bmatrix} 3 & 2 \\ 6 & 1 \end{bmatrix} \\
   \implies 
@@ -459,6 +403,4 @@ source("graphs/lower-bound-c1.R", local = knitr::knit_global())
 source("graphs/upper-bound-c1.R", local = knitr::knit_global())
 
 ```
-
-
 :::

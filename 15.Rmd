@@ -1,0 +1,46 @@
+# Network Flow
+
+One very important application of linear programming is to finding max-flows in graphs.
+The setup is as follows:
+we have a simple directed graph $G = (V, E)$ where $V$ is the set of vertices and $E \subseteq V \times V$ is the set of directed edges. Each edge has a non-negative **capacity** given by a function $c: E \to \mathbb{R}_{\ge 0}$. 
+For simplicity, we can assume that capacity is a function $c : V \times V \to \mathbb{R}_{\ge 0}$ such that $c(v, v') = 0$ if there is no edge going from $v$ to $v'$.
+There are two special vertices called **source** and **sink** denotes $s$ and $t$, respectively. 
+The source $s$ has the property that every edge connected to the source points away from it i.e. there no incoming edges and the sink $t$ has the property that every edge connected to the sink points toward it i.e. there no outgoing edges.
+Such a graph is called a **network**.
+
+A **flow** is a function $f : E \to \mathbb{R}$ with the property that $f \le c$. As before, we can assume that $f$ is a function $V \times V \to \mathbb{R}$. A flow is said to be balanced if at each vertex the incoming flow equals the outgoing flow. The **max-flow** question is to find a balanced flow that maximizes the net outflow from the source. More precisely, 
+
+\begin{equation*}
+\begin{array}{lrllllllllll}
+  \mbox{maximize:} & \sum \limits_{v \in V} f(s, v) \\
+  \mbox{subject to:} 
+  & f(v, w) & \le & c(v, w) & \mbox{ for all } v, w \in V \\
+  & \sum \limits_{w \in V} f(v, w) & = & \sum \limits_{w \in V} f(w, v) & \mbox{ for all } v \in V.
+\end{array}
+\end{equation*}
+This is very clearly a linear program that can be solved using the simplex method. 
+Note however, that several faster algorithms exist for solving this problem.
+
+## Min-cut 
+The dual of the max-flow problem has an interesting interpretation. 
+Suppose $y(v, w)$ are the dual decision variables corresponding to the first kind of constraints and $z(v)$ are the dual decision variables corresponding to the second kind of constraints.
+\begin{equation*}
+\begin{array}{lrllllllllll}
+  \mbox{minimize:} & \sum \limits_{(v, w) \in V \times W} c(v, w) y(v, w) \\
+  \mbox{subject to:} 
+  & y(v, w) & \ge & z(v) - z(w) & \mbox{ for all } v, w \in V \\
+  & z(s) &= &1 \\
+  &z(t) &= &0 \\
+  & y(v,w) & \ge & 0 &  \mbox{ for all } v, w \in V. 
+\end{array}
+\end{equation*}
+
+Consider the graph $G$ again.
+A **directed path** from the source $s$ to a sink $t$ is a sequence of edges of the form $(s, v_1)$, $(v_1, v_2)$, $\dots$, $(v_{k-1}, v_k)$, $(v_k, t)$ in $E$.
+A subset of edges $S \subseteq E$ is called an **s-t cut** if after deleting the edges in $S$ there is no directed path from $s$ to $t$.
+Every s-t cut provides a feasible solution to the dual problem as follows: We set $y(v, w) = 1$ if $(v, w)$ is in the cut, 0 otherwise. We set $z(v)$ equal 1 if there is a path from $s$ to $v$ after making the cut $S$, 0 otherwise. One can check that the constraints of the dual linear program are indeed satisfied by such a solution.
+
+In fact, a much stronger statement is true. The optimal solution to the dual problem is of this form i.e. it comes from an s-t cut. 
+The proof of this statement is beyond the scope of this class.
+The **size** of an s-t cut is the sum of capacities of the edges in the cut.
+And thus the dual problem is equivalent to finding a **min-cut** in the graph $G$.

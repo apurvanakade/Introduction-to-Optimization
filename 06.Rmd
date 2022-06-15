@@ -4,9 +4,7 @@ We have an algorithm for solving a standard linear program.
 We'll not extend it to more general linear programs, which is simply an optimization problem where the objective function is a linear program and the constraints are linear equalities or inequalities.
 
 ::: {.definition}
-
 A **general linear program** is an optimization problem of the following form:
-
 \begin{equation}
   \begin{array}{llllllll}
     \mbox{optimize: } 
@@ -20,18 +18,15 @@ A **general linear program** is an optimization problem of the following form:
   (\#eq:intro-lp)
 \end{equation}
 where the symbol $\lesseqqgtr$ stands for $\leq$ or $=$ or $\geq$, $a_{ij}, b_i, c_j$ are real numbers, and $x_j$ are variables.
-
 :::
 
 We do not allow strict inequalities $<$ or $>$ in a linear program as linear functions do not always achieve maxima/minima on open sets even when the sets are bounded. Consider the following simple example.
-
 \begin{align*}
   \mbox{maximize:} && x \\
   \mbox{subject to:} 
   && x &< 1 \\
   && x &\ge 0
 \end{align*}
-
 On the feasible set $[0, 1)$, the function $x$ never attains absolute maxima.
 Changing the inequality $<$ to $\leq$ gives us an optimal feasible solution $x = 1$. 
 
@@ -40,42 +35,34 @@ Changing the inequality $<$ to $\leq$ gives us an optimal feasible solution $x =
 Any linear program can be changed to a *maximization problem* as minimizing a function is the same as maximizing its negation. From now on, we'll assume that the goal of our linear programs is to _maximize_ the objective function.
 
 ::: {.definition}
-
 Two (maximizing) linear programs LP and LP' are said to be **equivalent** if for any feasible solution $(x_1, \dots, x_n)$ to LP, there exists a feasible solution $(x'_1, \dots, x'_{n'})$ to LP' with the same objective value and for any feasible solution $(y'_1, \dots, y'_n)$ to LP', there exists a feasible solution $(y_1, \dots, y_{n})$ to LP with the same objective value . Thus solving LP is equivalent to LP'.
-
 :::
 
 :::{.remark #lp-equiv-definition}
-
 &nbsp;
-
 1. LP and LP' can have a different number of decision variables i.e. we do not require $n = n'.$
 2. There need not be a one-to-one correspondence between the feasible sets of LP and LP' i.e. for a feasible solution to LP there could be multiple feasible solutions with the same objective value. Similarly, in the other direction.
-
 :::
 
 :::{.remark}
-
 Even though equivalence of linear programs only requires the existence of an abstract correspondence between the feasible sets of LP and LP', in practice, one constructs linear transformations $T: \mathbb{R}^n \to \mathbb{R}^{n'}$ and $S: \mathbb{R}^{n'} \to \mathbb{R}^{n}$ which map the feasible set of LP to LP' and the feasible set of LP' to LP, respectively. These linear transformations need not be inverses of each other, or even isomorphisms. They only need to preserve the objective values.
-
 :::
 
 ::: {.example}
 The following two linear programs are equivalent to each other
 \begin{align*}
 \begin{aligned}
-\mbox{maximize: } && x + y & \\
-\mbox{subject to: } && 0 \le x &\le 1 \\
- && 0 \le y &\le 1 
+  \mbox{maximize: } && x + y & \\
+  \mbox{subject to: } && 0 \le x &\le 1 \\
+     && 0 \le y &\le 1 
 \end{aligned}
 &&
 \begin{aligned}
-\mbox{maximize: } && z & \\
-\mbox{subject to: } && 0 \le z &\le 1
+  \mbox{maximize: } && z & \\
+  \mbox{subject to: } && 0 \le z &\le 1
 \end{aligned}
 \end{align*}
 via the transformations $T(x, y) = x + y$ and $S(z) = (z/2, z/2)$.
-
 :::
 
 

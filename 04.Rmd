@@ -4,9 +4,7 @@ We now know how to move from a BFS to an adjacent one with a higher objective va
 We can start the simplex method at the origin if the origin is a BFS. However, this is not always the case.
 
 ::: {.proposition}
-
 The origin is a basic feasible solution of the standard linear program \@ref(eq:standard-lp) if and only if $b_i \ge 0$ for all $1 \le i \le m.$ 
-
 :::
 
 When the origin is not a BFS, we need a process to find some vertex of the feasible region. 
@@ -22,7 +20,6 @@ We say that a linear program is **feasible** if its feasible region is non-empty
 The initialization phase determines if a standard linear program is feasible and if it is then it finds a BFS by solving the following auxiliary linear program.
 
 ::: {.definition}
-
 The **auxiliary linear program** of the standard linear program \@ref(eq:standard-lp) is defined as follows:
 \begin{equation}
   \begin{array}{lrrrrrrrrrrr}
@@ -36,7 +33,6 @@ The **auxiliary linear program** of the standard linear program \@ref(eq:standar
   \end{array} 
   (\#eq:auxiliary-lp)
 \end{equation}
-
 :::
 
 To understand the auxiliary linear program, it is better to write it in the following non-standard form:
@@ -51,28 +47,20 @@ To understand the auxiliary linear program, it is better to write it in the foll
       & & & x_1, & x_2, & \dots &, & x_n & , & x_0 & \geq & 0
   \end{array} 
 \end{equation*}
-
 We can interpret $x_0$ as a relaxation of the constraints. The auxiliary linear program is then asking - *what is the smallest constraint relaxation necessary to make our linear program feasible?*. The primary linear program should feasible if and only if no relaxation is necessary. This is indeed the case.
 
-
 ::: {.exercise}
-
 Show that the auxiliary linear program \@ref(eq:auxiliary-lp) is always feasible by explicitly constructing a feasible solution.
-
 ::: 
 
 ::: {.exercise}
-
 Show that the objective values of the auxiliary linear program \@ref(eq:auxiliary-lp) are bounded from above by 0. Using the [extreme value theorem](https://en.wikipedia.org/wiki/Extreme_value_theorem), conclude that \@ref(eq:auxiliary-lp) always has an optimal solution.
-
 ::: 
 
 Finally, we get the following theorem (proof left as an exercise) which provides an explicit connection between the optimal solution of the auxiliary linear program and the feasible region of the standard linear program
 
 ::: {.theorem #auxiliary-lp}
-
 Suppose $(k_1, k_2, \dots, k_n, k_0)$ is an optimal solution of the auxiliary linear program \@ref(eq:auxiliary-lp). Then, the standard linear program \@ref(eq:standard-lp) is feasible if and only if $k_0 = 0$. In this case, $(k_1, k_2, \dots, k_n)$ is a basic feasible solution of \@ref(eq:standard-lp).
-
 :::
 
 So, our problem is not reduced to determining the optimal solution of the auxiliary linear program. 
@@ -80,11 +68,9 @@ Note that the origin is not in the feasible region, so we cannot start applying 
 The following exercise provides us a way to find a BFS of the auxiliary linear program.
 
 ::: {.exercise}
-
 Suppose some $b_i$ is negative. 
 Without any loss of generality, assume that $b_1$ is the smallest among all the $b_i$ (i.e. the most negative). 
 Show that after the pivot step in tableau about the column corresponding to $x_0$ and the row corresponding to $w_1$, all the $b_i$'s become positive.
-
 :::
 
 To summarize, if the origin is not a vertex of the feasible region, then the method of solving the standard linear program \@ref(eq:standard-lp), starting with **Phase I**, is as follows:
@@ -97,15 +83,12 @@ To summarize, if the origin is not a vertex of the feasible region, then the met
     2. If $k_0 = 0$, then we proceed to **Phase II**. We start solving the original linear program starting at the BFS $(k_1, \dots, k_n)$ by repeatedly performing pivot steps.
 
 
-
 ## Combined tableau 
 
 In the above algorithm, at the end of Phase I, we need to calculate the dictionary at the $BFS $(k_1, \dots, k_n)$ when starting Phase II. We can avoid this recalculation by instead manipulating a *combined tableau* which contains information about both the auxiliary linear program and the primary linear program.
 
 ::: {.definition}
-
 The combined tableau is defined as follows:
-
 \begin{equation*}
   \begin{array}{rrrrrrrrrrrr|l}
       a_{11}  & & \dots & & a_{1n}  & 1 & & & & & & -1 &b_1\\
@@ -116,14 +99,11 @@ The combined tableau is defined as follows:
       0  & & \dots & & 0  & 0 & & 0 & \dots & & 0 & -1 & 0
   \end{array} 
 \end{equation*}
-
 :::
 
 The second last row of the tableau corresponds to the objective function of the primary linear program and the last row of the tableau corresponds to the objective of the auxiliary linear program. We use the combined tableau to first perform Phase I and then neglect the auxiliary objective and the variable $x_0$ and proceed on to Phase II using the same tableau.
 
-
 ::: {.example}
-
 Consider the following linear program:
 \begin{equation*}
   \begin{array}{rrrrrl}
@@ -135,9 +115,7 @@ Consider the following linear program:
     & x & , & y & \ge & 0.
   \end{array}
 \end{equation*}
-
 Because $(0,0)$ is not feasible, we need to start with the initialization phase. We form the combined tableau: 
-
 \begin{equation*}
   \begin{array}{rrrrrr|r}
     1 & 2 & 1 & 0 & 0 & -1 & 6 \\
@@ -147,10 +125,7 @@ Because $(0,0)$ is not feasible, we need to start with the initialization phase.
     0 & 0 & 0 & 0 & 0 & -1 & 0 
   \end{array}
 \end{equation*}
-
 The first pivot is in the column corresponding to the variable $x_0$ and the row corresponding to the *most negative $b_i$* (which is $b_3 = -2$). This results in the following combined tableau:
-
-
 \begin{equation*}
   \begin{array}{rrrrrr|r}
     1 & 3 & 1 & 0 & -1 & 0 & 8 \\
@@ -160,9 +135,7 @@ The first pivot is in the column corresponding to the variable $x_0$ and the row
     0 & 1 & 0 & 0 & -1 & 0 & 2 
   \end{array}
 \end{equation*}
-
 We then continue performing pivot steps to find the solution:
-
 \begin{equation*}
   \begin{array}{rrrrrr|r}
     0 & 0 & 1 & 1 & 2 & -4 & 1 \\
@@ -172,9 +145,7 @@ We then continue performing pivot steps to find the solution:
     0 & 0 & 0 & 0 & 0 & -1 & \mathbf{0} 
   \end{array}
 \end{equation*}
-
 We see that the optimal value is 0 and hence the primary linear program is feasible. We then remove the auxiliary objective and coefficient to get the following tableau for the primary linear program:
-
 \begin{equation*}
   \begin{array}{rrrrr|r}
     0 & 0 & 1 & \boxed{1} & 2  & 1 \\
@@ -183,9 +154,7 @@ We see that the optimal value is 0 and hence the primary linear program is feasi
     0 & 0 & 0 & 1 & 1  & -3
   \end{array}
 \end{equation*}
-
 Continuing with the simplex method we get the following final tableau
-
 \begin{equation*}
   \begin{array}{rrrrr|r}
     0 & 0 & 1 & 1 & 2 & 1 \\
@@ -194,7 +163,5 @@ Continuing with the simplex method we get the following final tableau
     0 & 0 & -1 & 0 & -1 & -4 
   \end{array}
 \end{equation*}
-
 The final non-basic variables are $w_1$ and $w_3$, the basic variables are $x$, $y$, $w_2$ with values $2$, $2$, $1$, respectively, and the optimal objective value is $4$.
-
 :::

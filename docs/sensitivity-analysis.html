@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 9 Sensitivity Analysis | Introduction to Optimization</title>
+  <meta name="description" content="Chapter 9 Sensitivity Analysis | Introduction to Optimization." />
+  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 9 Sensitivity Analysis | Introduction to Optimization" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Chapter 9 Sensitivity Analysis | Introduction to Optimization." />
+  <meta name="github-repo" content="apurvanakade/Introduction-to-Optimization" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 9 Sensitivity Analysis | Introduction to Optimization" />
+  
+  <meta name="twitter:description" content="Chapter 9 Sensitivity Analysis | Introduction to Optimization." />
+  
+
+<meta name="author" content="Apurva Nakade" />
+
+
+<meta name="date" content="2022-06-15" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="weak-and-strong-duality.html"/>
+<link rel="next" href="convex-programming.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="part"><span><b>I Simplex Method</b></span></li>
+<li class="chapter" data-level="2" data-path="standard-linear-program.html"><a href="standard-linear-program.html"><i class="fa fa-check"></i><b>2</b> Standard Linear Program</a></li>
+<li class="chapter" data-level="3" data-path="the-simplex-method.html"><a href="the-simplex-method.html"><i class="fa fa-check"></i><b>3</b> The Simplex Method</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="the-simplex-method.html"><a href="the-simplex-method.html#the-simplex-step"><i class="fa fa-check"></i><b>3.1</b> The Simplex Step</a></li>
+<li class="chapter" data-level="3.2" data-path="the-simplex-method.html"><a href="the-simplex-method.html#tableau-notation"><i class="fa fa-check"></i><b>3.2</b> Tableau Notation</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="initialization.html"><a href="initialization.html"><i class="fa fa-check"></i><b>4</b> Initialization</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="initialization.html"><a href="initialization.html#auxiliary-linear-program"><i class="fa fa-check"></i><b>4.1</b> Auxiliary Linear Program</a></li>
+<li class="chapter" data-level="4.2" data-path="initialization.html"><a href="initialization.html#combined-tableau"><i class="fa fa-check"></i><b>4.2</b> Combined tableau</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="cycling.html"><a href="cycling.html"><i class="fa fa-check"></i><b>5</b> Cycling</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="cycling.html"><a href="cycling.html#degeneracy"><i class="fa fa-check"></i><b>5.1</b> Degeneracy</a></li>
+<li class="chapter" data-level="5.2" data-path="cycling.html"><a href="cycling.html#blands-rule"><i class="fa fa-check"></i><b>5.2</b> Bland’s Rule</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="standardization.html"><a href="standardization.html"><i class="fa fa-check"></i><b>6</b> Standardization</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="standardization.html"><a href="standardization.html#equivalence-of-linear-programs"><i class="fa fa-check"></i><b>6.1</b> Equivalence of Linear Programs</a></li>
+</ul></li>
+<li class="part"><span><b>II Duality Theory</b></span></li>
+<li class="chapter" data-level="7" data-path="dual-linear-program.html"><a href="dual-linear-program.html"><i class="fa fa-check"></i><b>7</b> Dual Linear Program</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="dual-linear-program.html"><a href="dual-linear-program.html#general-linear-program"><i class="fa fa-check"></i><b>7.1</b> General Linear Program</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="weak-and-strong-duality.html"><a href="weak-and-strong-duality.html"><i class="fa fa-check"></i><b>8</b> Weak and Strong Duality</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="weak-and-strong-duality.html"><a href="weak-and-strong-duality.html#weak-duality"><i class="fa fa-check"></i><b>8.1</b> Weak Duality</a></li>
+<li class="chapter" data-level="8.2" data-path="weak-and-strong-duality.html"><a href="weak-and-strong-duality.html#strong-duality"><i class="fa fa-check"></i><b>8.2</b> Strong Duality</a></li>
+<li class="chapter" data-level="8.3" data-path="weak-and-strong-duality.html"><a href="weak-and-strong-duality.html#complimentary-slackness"><i class="fa fa-check"></i><b>8.3</b> Complimentary slackness</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="sensitivity-analysis.html"><a href="sensitivity-analysis.html"><i class="fa fa-check"></i><b>9</b> Sensitivity Analysis</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="sensitivity-analysis.html"><a href="sensitivity-analysis.html#dictionaries-revisited"><i class="fa fa-check"></i><b>9.1</b> Dictionaries Revisited</a></li>
+<li class="chapter" data-level="9.2" data-path="sensitivity-analysis.html"><a href="sensitivity-analysis.html#range-of-optimality---constraints"><i class="fa fa-check"></i><b>9.2</b> Range of Optimality - Constraints</a></li>
+<li class="chapter" data-level="9.3" data-path="sensitivity-analysis.html"><a href="sensitivity-analysis.html#shadow-prices"><i class="fa fa-check"></i><b>9.3</b> Shadow Prices</a></li>
+<li class="chapter" data-level="9.4" data-path="sensitivity-analysis.html"><a href="sensitivity-analysis.html#sensitivity-analysis---objective"><i class="fa fa-check"></i><b>9.4</b> Sensitivity analysis - Objective</a></li>
+</ul></li>
+<li class="part"><span><b>III Non-Linear Programming</b></span></li>
+<li class="chapter" data-level="10" data-path="convex-programming.html"><a href="convex-programming.html"><i class="fa fa-check"></i><b>10</b> Convex Programming</a></li>
+<li class="chapter" data-level="11" data-path="separation-theorems.html"><a href="separation-theorems.html"><i class="fa fa-check"></i><b>11</b> Separation Theorems</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="separation-theorems.html"><a href="separation-theorems.html#farkas-lemma"><i class="fa fa-check"></i><b>11.1</b> Farkas’ Lemma</a></li>
+<li class="chapter" data-level="11.2" data-path="separation-theorems.html"><a href="separation-theorems.html#separating-hyperplane-theorem"><i class="fa fa-check"></i><b>11.2</b> Separating Hyperplane Theorem</a></li>
+<li class="chapter" data-level="11.3" data-path="separation-theorems.html"><a href="separation-theorems.html#equivalence-with-strong-duality"><i class="fa fa-check"></i><b>11.3</b> Equivalence with Strong Duality</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="interior-point-method.html"><a href="interior-point-method.html"><i class="fa fa-check"></i><b>12</b> Interior Point Method</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="interior-point-method.html"><a href="interior-point-method.html#gradient-descent"><i class="fa fa-check"></i><b>12.1</b> Gradient Descent</a></li>
+<li class="chapter" data-level="12.2" data-path="interior-point-method.html"><a href="interior-point-method.html#interior-point-method-1"><i class="fa fa-check"></i><b>12.2</b> Interior Point Method</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="kkt-conditions.html"><a href="kkt-conditions.html"><i class="fa fa-check"></i><b>13</b> KKT conditions</a></li>
+<li class="part"><span><b>IV Applications</b></span></li>
+<li class="chapter" data-level="14" data-path="l1-regression.html"><a href="l1-regression.html"><i class="fa fa-check"></i><b>14</b> L1-Regression</a></li>
+<li class="chapter" data-level="15" data-path="network-flow.html"><a href="network-flow.html"><i class="fa fa-check"></i><b>15</b> Network Flow</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="network-flow.html"><a href="network-flow.html#min-cut"><i class="fa fa-check"></i><b>15.1</b> Min-cut</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="integer-programming.html"><a href="integer-programming.html"><i class="fa fa-check"></i><b>16</b> Integer Programming</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="integer-programming.html"><a href="integer-programming.html#branch-and-bound"><i class="fa fa-check"></i><b>16.1</b> Branch and Bound</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Introduction to Optimization</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="sensitivity-analysis" class="section level1 hasAnchor" number="9">
+<h1><span class="header-section-number">Chapter 9</span> Sensitivity Analysis<a href="sensitivity-analysis.html#sensitivity-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Linear programs are used to model real world problems. Such models are at best approximate and at worst inaccurate. As such, it is important to understand the <em>sensitivity</em> of our solution to changes in the model. This is broadly called <em>sensitivity analysis</em>. We will focus on understanding the dependence of the optimal objective value of the standard linear program <a href="standard-linear-program.html#eq:standard-lp">(2.1)</a> on the constants <span class="math inline">\(b_i\)</span> and <span class="math inline">\(c_j\)</span>.</p>
+<p><em>Throughout this chapter, we’ll assume that our linear programs have an optimal solution.</em></p>
+<div id="dictionaries-revisited" class="section level2 hasAnchor" number="9.1">
+<h2><span class="header-section-number">9.1</span> Dictionaries Revisited<a href="sensitivity-analysis.html#dictionaries-revisited" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We will start by finding a succinct way to describe the dictionary at the optimal solution. Recall that the decision and slack variables are related to each other by the Equation <a href="the-simplex-method.html#eq:standard-tableau">(3.5)</a> which can be written as:
+<span class="math display" id="eq:dictionary-matrix">\[\begin{equation}
+  \begin{bmatrix} A &amp; I_m \end{bmatrix}
+    \begin{bmatrix} x \\ w \end{bmatrix}
+      = b.
+  \tag{9.1}
+\end{equation}\]</span>
+Let <span class="math inline">\(\widehat{A} := \begin{bmatrix} A &amp; I_m \end{bmatrix}\)</span>. We’ll decompose <span class="math inline">\(\widehat{A}\)</span> using the basic and non-basic variables. Then let <span class="math inline">\(\mathcal{B}\)</span> be the matrix formed by combining the columns of <span class="math inline">\(\widehat{A}\)</span> corresponding to the basic variables at the optimal BFS and let <span class="math inline">\(\mathcal{N}\)</span> be the matrix formed by combining the columns of <span class="math inline">\(\widehat{A}\)</span> corresponding to the non-basic variables at the optimal BFS. Let <span class="math inline">\(x_{\mathcal{B}}\)</span> be the vector of basic variables and <span class="math inline">\(x_{\mathcal{N}}\)</span> be the vector of non-basic variables.</p>
+<p>By rearranging the columns of <span class="math inline">\(\widehat{A}\)</span> if necessary, we can rewrite <a href="sensitivity-analysis.html#eq:dictionary-matrix">(9.1)</a> as
+<span class="math display">\[\begin{align*}
+  &amp;&amp; 
+    \begin{bmatrix} \mathcal{B} &amp; \mathcal{N} \end{bmatrix}
+    \begin{bmatrix} x_{\mathcal{B}} \\ x_{\mathcal{N}} \end{bmatrix}
+      &amp;= b,\\
+  \implies 
+  &amp;&amp;
+    \mathcal{B} x_{\mathcal{B}} + \mathcal{N} x_{\mathcal{N}} &amp;= b, \\
+  \implies
+  &amp;&amp;
+    \mathcal{B} x_{\mathcal{B}} &amp;= b -  \mathcal{N} x_{\mathcal{N}}.
+\end{align*}\]</span>
+When we execute the simplex method, the matrix <span class="math inline">\(\mathcal{B}\)</span> gets reduced to an <span class="math inline">\(n \times n\)</span> matrix with <span class="math inline">\(n\)</span> pivots. Hence, it is invertible.
+<span class="math display" id="eq:basic-non-basic-matrix">\[\begin{equation}
+  \implies x_{\mathcal{B}} = \mathcal{B}^{-1} b - \mathcal{B}^{-1} \mathcal{N} x_{\mathcal{N}}.
+  \tag{9.2}
+\end{equation}\]</span>
+This is nothing but the dictionary at the optimal BFS.</p>
+<div class="example">
+<p><span id="exm:basic-non-basic-matrix" class="example"><strong>Example 9.1  </strong></span>Consider Example <a href="introduction.html#eq:bond-portfolio-lp">(1.2)</a> again. At the optimal solution <span class="math inline">\(w_1\)</span> and <span class="math inline">\(w_2\)</span> are non-basic and have the value 0, and <span class="math inline">\(x\)</span>, <span class="math inline">\(y\)</span>, and <span class="math inline">\(w_3\)</span> are basic with values <span class="math inline">\(0.3\)</span>, <span class="math inline">\(0.6\)</span>, and <span class="math inline">\(0.9\)</span>, respectively. Using the above notation, we have
+<span class="math display">\[\begin{align*}
+  \mathcal{B} = 
+    \begin{bmatrix}
+    3 &amp; 6 &amp; 0 \\
+    2 &amp; 1 &amp; 0 \\
+    1 &amp; 1 &amp; 1
+    \end{bmatrix}, 
+  x_{\mathcal{B}} 
+    = \begin{bmatrix} x \\ y \\ w_3 \end{bmatrix}, \\
+  \mathcal{N} = 
+    \begin{bmatrix}
+    1 &amp; 0 \\
+    0 &amp; 1 \\
+    0 &amp; 0
+    \end{bmatrix}, 
+  x_{\mathcal{N}}
+    = \begin{bmatrix} w_1 \\ w_2 \end{bmatrix}.
+\end{align*}\]</span>
+Using Equation <a href="sensitivity-analysis.html#eq:basic-non-basic-matrix">(9.2)</a> the dictionary at the optimal solution becomes
+<span class="math display">\[\begin{align*}
+  \begin{bmatrix} x \\ y \\ w_3 \end{bmatrix} 
+   &amp;= \begin{bmatrix}
+    3 &amp; 6 &amp; 0 \\
+    2 &amp; 1 &amp; 0 \\
+    1 &amp; 1 &amp; 1
+    \end{bmatrix}^{-1} 
+    \begin{bmatrix}
+    3.6 \\ 1.5 \\ 1 
+    \end{bmatrix} - 
+    \begin{bmatrix}
+    3 &amp; 6 &amp; 0 \\
+    2 &amp; 1 &amp; 0 \\
+    1 &amp; 1 &amp; 1
+    \end{bmatrix}^{-1} \begin{bmatrix}
+    1 &amp; 0 \\
+    0 &amp; 1 \\
+    0 &amp; 0
+    \end{bmatrix}
+  \begin{bmatrix} w_1 \\ w_2 \end{bmatrix} \\
+  &amp; = \begin{bmatrix}
+    -1/9 &amp; 2/3 &amp; 0 \\
+    2/9 &amp; -1/3 &amp; 0 \\
+    -1/9 &amp; -1/3 &amp; 1
+    \end{bmatrix} 
+    \begin{bmatrix}
+    3.6 \\ 1.5 \\ 1 
+    \end{bmatrix} - 
+    \begin{bmatrix}
+    -1/9 &amp; 2/3 &amp; 0 \\
+    2/9 &amp; -1/3 &amp; 0 \\
+    -1/9 &amp; -1/3 &amp; 1
+    \end{bmatrix}  
+    \begin{bmatrix}
+    1 &amp; 0 \\
+    0 &amp; 1 \\
+    0 &amp; 0
+    \end{bmatrix}
+  \begin{bmatrix} w_1 \\ w_2 \end{bmatrix} \\
+  &amp; 
+  = \begin{bmatrix} 0.6 \\ 0.3 \\ 0.1 \end{bmatrix} 
+  -
+  \begin{bmatrix}
+    -1/9 &amp; 2/3 \\ 
+    2/9 &amp; -1/3 \\
+    -1/9 &amp; -1/3
+  \end{bmatrix}
+  \begin{bmatrix} w_1 \\ w_2 \end{bmatrix}.
+\end{align*}\]</span>
+This is precisely the dictionary <a href="the-simplex-method.html#eq:example-dictionary-3">(3.3)</a> at the optimal solution.</p>
+</div>
+<p>Because we set the non-basic variables <span class="math inline">\(x_{\mathcal{N}}\)</span> to 0 at any vertex, and in particular, at the the optimal solution, using the Equation <a href="sensitivity-analysis.html#eq:basic-non-basic-matrix">(9.2)</a> we get the following useful result:</p>
+<div class="lemma">
+<p><span id="lem:basic-values" class="lemma"><strong>Lemma 9.1  </strong></span>Using the above notation, <span class="math inline">\(\mathcal{B}^{-1}b\)</span> is the value of the basic variables <span class="math inline">\(x^*_{\mathcal{B}}\)</span> at the optimal solution.</p>
+</div>
+</div>
+<div id="range-of-optimality---constraints" class="section level2 hasAnchor" number="9.2">
+<h2><span class="header-section-number">9.2</span> Range of Optimality - Constraints<a href="sensitivity-analysis.html#range-of-optimality---constraints" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We want to analyze the change in the optimal solution as we change the constraint upper bounds <span class="math inline">\(b_i\)</span>.
+It is likely that by changing <span class="math inline">\(b_i\)</span> we change the optimal solution.
+However, in a good model, this change should not be abrupt.
+This can be achieved by requiring the set of basic and non-basic variables to remain unchanged.
+In this case, the equation <a href="sensitivity-analysis.html#eq:basic-non-basic-matrix">(9.2)</a> will still be the equation describing the dictionary at the optimal solution and the change in <span class="math inline">\(b_i\)</span> will result in a differentiable (in fact, linear) change in <span class="math inline">\(x_{\mathcal{B}}\)</span>.</p>
+<div class="example">
+<p><span id="exm:unlabeled-div-50" class="example"><strong>Example 9.2  </strong></span>Suppose we vary <span class="math inline">\(b_3 = 1\)</span> in Example <a href="introduction.html#eq:bond-portfolio-lp">(1.2)</a>. One can check that at the optimal solution <span class="math inline">\(w_1\)</span> and <span class="math inline">\(w_2\)</span> are non-basic as long as <span class="math inline">\(b_3 &gt; 0.9\)</span>. Thus we can say that out model is a good model as long as the error in <span class="math inline">\(b_3\)</span> is less than <span class="math inline">\(0.1\)</span>.</p>
+</div>
+<p>Suppose we change <span class="math inline">\(b_i\)</span> to <span class="math inline">\(b_i + \delta\)</span>, where <span class="math inline">\(\delta\)</span> is a real number, and leave all the other constants unchanged. This is equivalent to changing <span class="math inline">\(b\)</span> to <span class="math inline">\(b + \delta e_i\)</span> where <span class="math inline">\(e_i\)</span> is the <span class="math inline">\(i^{th}\)</span> standard basis vector of <span class="math inline">\(\mathbb{R}^m\)</span>. This changes equation <a href="sensitivity-analysis.html#eq:basic-non-basic-matrix">(9.2)</a> to
+<span class="math display">\[\begin{align*}
+  x_{\mathcal{B}} 
+    &amp;= \mathcal{B}^{-1} b + \delta \mathcal{B}^{-1} e_i - \mathcal{B}^{-1} \mathcal{N} x_{\mathcal{N}} \\
+    &amp;= \mathcal{B}^{-1} b + \delta (\mathcal{B}^{-1})_{\_i} - \mathcal{B}^{-1} \mathcal{N} x_{\mathcal{N}}.
+\end{align*}\]</span>
+where <span class="math inline">\((\mathcal{B}^{-1})_{\_i}\)</span> denotes the <span class="math inline">\(i^{th}\)</span> column of <span class="math inline">\(\mathcal{B}^{-1}\)</span>.</p>
+<p>Note that the coefficients of <span class="math inline">\(x_{\mathcal{N}}\)</span> remain unchanged. So, for this dictionary to stay optimal we only need the constants to remain non-negative i.e.
+<span class="math display" id="eq:range-of-optimality">\[\begin{equation}
+  \mathcal{B}^{-1} b + \delta (\mathcal{B}^{-1})_{\_i} \ge 0.
+  \tag{9.3}
+\end{equation}\]</span></p>
+<div class="proposition">
+<p><span id="prp:unlabeled-div-51" class="proposition"><strong>Proposition 9.1  </strong></span>The <strong>range of optimality</strong> for <span class="math inline">\(b_i\)</span> is the interval <span class="math inline">\([b_i + \delta_-, b_i + \delta_+]\)</span> such that <span class="math inline">\(\mathcal{B}^{-1} b + \delta (\mathcal{B}^{-1})_{\_i} \ge 0\)</span> for all <span class="math inline">\(\delta \in [\delta_-, \delta_+]\)</span>.</p>
+</div>
+<p>In practice, Equation <a href="sensitivity-analysis.html#eq:range-of-optimality">(9.3)</a> gives us <span class="math inline">\(m\)</span> inequalities which need to be simultaneously satisfied. These give us candidate values for <span class="math inline">\(\delta\)</span> some of which are positive and some of which are negative. We then choose <span class="math inline">\(\delta_+\)</span> to be the smallest positive value and <span class="math inline">\(\delta_-\)</span> to be the largest negative value. If <span class="math inline">\(\delta_+\)</span> does not exist the upper bound is <span class="math inline">\(\infty\)</span> and if <span class="math inline">\(\delta_-\)</span> does not exist the lower bound is <span class="math inline">\(-\infty\)</span>. If either <span class="math inline">\(\delta_+\)</span> or <span class="math inline">\(\delta_-\)</span> is 0 then the linear program is degenerate. In this case, our program is very sensitive to perturbations in <span class="math inline">\(b_i\)</span>.</p>
+<div class="example">
+<p><span id="exm:unlabeled-div-52" class="example"><strong>Example 9.3  </strong></span>Let us find the range of optimality for <span class="math inline">\(b_1 = 3.6\)</span>, <span class="math inline">\(b_2=1.5\)</span>, and <span class="math inline">\(b_3 = 1\)</span> in <a href="introduction.html#eq:bond-portfolio-lp">(1.2)</a> using our calculations in Example <a href="sensitivity-analysis.html#exm:basic-non-basic-matrix">9.1</a>.</p>
+<p>We know that
+<span class="math display">\[\begin{align*}
+  \mathcal{B}^{-1} = 
+    \begin{bmatrix}
+    -1/9 &amp; 2/3 &amp; 0 \\
+    2/9 &amp; -1/3 &amp; 0 \\
+    -1/9 &amp; -1/3 &amp; 1
+    \end{bmatrix}.
+\end{align*}\]</span></p>
+<p>Using <span class="math inline">\(i = 1\)</span> and Lemma <a href="sensitivity-analysis.html#lem:basic-values">9.1</a> in Equation <a href="sensitivity-analysis.html#eq:range-of-optimality">(9.3)</a> we get
+<span class="math display">\[\begin{align*}
+  \begin{bmatrix} 0.6 \\ 0.3 \\ 0.1 \end{bmatrix} 
+  + \delta
+  \begin{bmatrix}
+    -1/9 \\ 
+    2/9 \\
+    -1/9
+  \end{bmatrix} &gt; 0
+\end{align*}\]</span>
+which gives us the inequalities
+<span class="math display">\[\begin{align*}
+  \begin{array}{lrlrrll}
+    0.6 + \delta (-1/9) &amp;\ge &amp; 0 &amp; \implies &amp; \delta &amp;\le &amp; 0.6 (9) = 5.4 \\
+    0.3 + \delta (2/9) &amp;\ge &amp; 0 &amp; \implies &amp; \delta &amp;\ge &amp; -0.3 (9/2) = -1.35  \\
+    0.1 + \delta (-1/9) &amp;\ge &amp; 0 &amp; \implies &amp; \delta &amp; \le &amp; 0.1 (9) = 0.9.  
+  \end{array}
+\end{align*}\]</span>
+So, <span class="math inline">\(\delta_- = -1.35\)</span> and <span class="math inline">\(\delta_+ = \min(5.4, 0.9) = 0.9\)</span> and the range of optimality for <span class="math inline">\(b_1\)</span> is <span class="math inline">\([3.6 - 1.35, 3.6 + 0.9] = [2.25, 4.5]\)</span>.</p>
+<p>Using <span class="math inline">\(i = 2\)</span> and Lemma <a href="sensitivity-analysis.html#lem:basic-values">9.1</a> in Equation <a href="sensitivity-analysis.html#eq:range-of-optimality">(9.3)</a> we get
+<span class="math display">\[\begin{align*}
+  \begin{bmatrix} 0.6 \\ 0.3 \\ 0.1 \end{bmatrix} 
+  + \delta
+  \begin{bmatrix}
+    2/3 \\ 
+    -1/3 \\
+    -1/3
+  \end{bmatrix} &gt; 0
+\end{align*}\]</span>
+which gives us the inequalities
+<span class="math display">\[\begin{align*}
+  \begin{array}{lrlrrll}
+    0.6 + \delta (2/3) &amp;\ge&amp; 0 &amp; \implies &amp; \delta &amp;\ge&amp; - 0.6 (3/2) = -0.9 \\
+    0.3 + \delta (-1/3) &amp;\ge &amp;0 &amp; \implies &amp; \delta &amp;\le &amp;0.3 (3) = 0.9  \\
+    0.1 + \delta (-1/3) &amp;\ge &amp;0 &amp; \implies &amp; \delta &amp; \le&amp; 0.3 (1) = 0.3.  
+  \end{array}
+\end{align*}\]</span>
+So, <span class="math inline">\(\delta_- = -0.9\)</span> and <span class="math inline">\(\delta_+ = \min(0.3, 0.9) = 0.3\)</span> and the range of optimality for <span class="math inline">\(b_2\)</span> is <span class="math inline">\([1.5 - 0.9, 1.5 + 0.3] = [0.6, 1.8]\)</span>.</p>
+<p>Using <span class="math inline">\(i = 3\)</span> and Lemma <a href="sensitivity-analysis.html#lem:basic-values">9.1</a> in Equation <a href="sensitivity-analysis.html#eq:range-of-optimality">(9.3)</a> we get
+<span class="math display">\[\begin{align*}
+  \begin{bmatrix} 0.6 \\ 0.3 \\ 0.1 \end{bmatrix} 
+  + \delta
+  \begin{bmatrix}
+    0 \\ 
+    0 \\
+    1
+  \end{bmatrix} &gt; 0
+\end{align*}\]</span>
+which gives us <span class="math inline">\(\delta \ge -0.1\)</span> and so the range of optimality for <span class="math inline">\(b_3\)</span> is <span class="math inline">\([1 - 0.1, \infty) = [0.9, \infty)\)</span>.</p>
+<p>The following figures show the optimal solutions at the extreme ends of the range of optimality of <span class="math inline">\(b_1\)</span>.</p>
+<p><img src="Introduction-to-Optimization_files/figure-html/fig-bounds-b1-1.png" width="672" /><img src="Introduction-to-Optimization_files/figure-html/fig-bounds-b1-2.png" width="672" /></p>
+</div>
+</div>
+<div id="shadow-prices" class="section level2 hasAnchor" number="9.3">
+<h2><span class="header-section-number">9.3</span> Shadow Prices<a href="sensitivity-analysis.html#shadow-prices" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Assume now that neither of <span class="math inline">\(\delta_+\)</span> or <span class="math inline">\(\delta_-\)</span> is zero. We can use Lemma <a href="sensitivity-analysis.html#lem:basic-values">9.1</a> to find the rate of change of the optimal solution with respect to <span class="math inline">\(b_i\)</span>. Call the objective function <span class="math inline">\(\mathbb{O} = c^{T} x\)</span>. We think of <span class="math inline">\(\mathbb{O}\)</span> as being a function of <span class="math inline">\(b_i\)</span>, <span class="math inline">\(c_j\)</span>, and <span class="math inline">\(a_{ij}.\)</span> Using Lemma <a href="sensitivity-analysis.html#lem:basic-values">9.1</a> we get
+<span class="math display">\[\begin{align*}
+  \dfrac{\partial x_{\mathcal{B}_j}}{\partial b_i} 
+    &amp;= j^{th} \mbox{ row of } \dfrac{\partial \mathcal{B}^{-1}b}{\partial b_i} \\
+    &amp;= (\mathcal{B}^{-1})_{ji} \\
+\end{align*}\]</span>
+where <span class="math inline">\(x_{\mathcal{B}_j}\)</span> denotes the <span class="math inline">\(j^{th}\)</span> basic variable at the optimal solution. And
+<span class="math display">\[\begin{align*}
+  \dfrac{\partial x_{\mathcal{N}}}{\partial b_i} 
+    &amp;= 0
+\end{align*}\]</span>
+as the non-basic variables remain 0 when we perturb <span class="math inline">\(b_i\)</span> within the range of optimality.
+Using these we can find the rate of change of the optimal solution <span class="math inline">\(\mathbb{O}\)</span> with respect to <span class="math inline">\(b_i\)</span>. We first start by re-indexing the variables and objective coefficients using the basic and non-basic variables.
+<span class="math display">\[\begin{align*}
+  \mathbb{O} 
+    &amp;= c^T x \\
+    &amp;= c^T_{\mathcal{B}} x_{\mathcal{B}} + c^T_{\mathcal{N}} x_{\mathcal{N}} \\
+\implies
+  \dfrac{\partial \mathbb{O}}{\partial b_i} 
+    &amp;= c^T_{\mathcal{B}} \dfrac{\partial x_{\mathcal{B}}}{\partial b_i} + c^T_{\mathcal{N}} \dfrac{\partial x_{\mathcal{N}}}{\partial b_i} \\
+    &amp;= c^T_{\mathcal{B}} (\mathcal{B}^{-1})_{\_i}
+\end{align*}\]</span>
+By strong duality, we know that the primal objective value equals the dual objective value i.e. 
+<span class="math display">\[\begin{align*}
+ \mathbb{O} &amp;= b_1 y_1 + \cdots + b_m y_m 
+\end{align*}\]</span>
+So, <span class="math inline">\(\partial \mathbb{O}/\partial b_i = y_i\)</span>. Because of this result, <span class="math inline">\(y_i\)</span> is also called the <strong>shadow price</strong> or the <strong>marginal cost</strong> of the <span class="math inline">\(i^{th}\)</span> constraint.
+Using the rate of change calculation above, we get <span class="math display">\[\begin{align*}
+  y_i = c^T_{\mathcal{B}} (\mathcal{B}^{-1})_{\_i}.
+\end{align*}\]</span>
+We can combine all the above coordinates into a single vector to get the following result.</p>
+<div class="theorem">
+<p><span id="thm:dual-solution" class="theorem"><strong>Theorem 9.1  </strong></span>For a non-degenerate linear program, the dual optimal solution is given by <span class="math inline">\((\mathcal{B}^{-1})^Tc_{\mathcal{B}}\)</span>.</p>
+</div>
+<p>This theorem provides yet another method of finding the dual optimal solution without having to solve the dual linear program.</p>
+<div class="example">
+<p><span id="exm:dual-solution" class="example"><strong>Example 9.4  </strong></span>For the linear program <a href="introduction.html#eq:bond-portfolio-lp">(1.2)</a>, the objective function is
+<span class="math display">\[\begin{align*}
+  \mathbb{O} &amp; = 4 x + 3y \\
+  &amp; = 4x + 3y + 0 w_3 + 0 w_1 + 0 w_2 
+\end{align*}\]</span></p>
+<p>So, <span class="math inline">\(c_{\mathcal{B}} = \begin{bmatrix}4 \\ 3 \\ 0 \end{bmatrix}\)</span> and <span class="math inline">\(c_{\mathcal{N}} = \begin{bmatrix}0 \\ 0 \end{bmatrix}\)</span>.
+Using the value of <span class="math inline">\(\mathcal{B}^{-1}\)</span> calculated above, we get
+<span class="math display">\[\begin{align*}
+  y &amp; = (\mathcal{B}^{-1})^Tc_{\mathcal{B}} \\
+  &amp; = 
+    \begin{bmatrix}
+    -1/9 &amp; 2/9 &amp; -1/9 \\
+    2/3 &amp; -1/3 &amp; -1/3 \\
+    0 &amp; 0 &amp; 1
+    \end{bmatrix} 
+    \begin{bmatrix}
+      4 \\ 3 \\ 0
+    \end{bmatrix}\\
+  &amp; = 
+  \begin{bmatrix}
+    2/9 \\ 5/3 \\ 0
+  \end{bmatrix}.
+\end{align*}\]</span>
+To check that this is indeed dual-optimal, we calculate the dual-objective value at this solution
+<span class="math display">\[\begin{align*}
+  b^T y &amp; = 3.6 (2/9) + 1.5 (5/3) + 0 (1) \\
+  &amp;= 3.3
+\end{align*}\]</span>
+which equals the optimal objective value of the primal. One can check that this solution is also dual-feasible and hence is the dual-optimal solution by Certificate of Optimality (Theorem <a href="weak-and-strong-duality.html#thm:certificate-of-optimality">8.3</a>).</p>
+</div>
+</div>
+<div id="sensitivity-analysis---objective" class="section level2 hasAnchor" number="9.4">
+<h2><span class="header-section-number">9.4</span> Sensitivity analysis - Objective<a href="sensitivity-analysis.html#sensitivity-analysis---objective" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We can ask the same questions about the change in the objective coefficients - how far can we change the objective coefficient <span class="math inline">\(c_j\)</span> without changing the set of basic and non-basic variables at the optimal solution. Note that in this case we are not changing the constraints and therefore the feasible region. So, this is the same as asking - how far can we change the objective coefficient <span class="math inline">\(c_j\)</span> without changing the optimal solution.</p>
+<p>We can redo the entire analysis for the objective coefficients from scratch. However, we can also notice that performing sensitivity analysis on the objective coefficients of the primal is the same as performing sensitivity analysis on the constraints of the dual.
+Consider the standardized dual
+<span class="math display">\[\begin{equation*}
+  \begin{array}{lrll}
+    \mbox{maximize: } &amp; -c_0 -b^T y \\
+    \mbox{subject to: } 
+      &amp; -A^T y &amp; \leq &amp; -c \\
+      &amp; y &amp; \geq &amp; 0,
+  \end{array}
+\end{equation*}\]</span>
+Using Equation <a href="sensitivity-analysis.html#eq:range-of-optimality">(9.3)</a> for this dictionary we get the range of optimality for <span class="math inline">\(-c_j\)</span> to be
+<span class="math display">\[\begin{equation}
+  (-\mathcal{B}_d)^{-1} (-c) + \delta (-\mathcal{B}_d^{-1})_{\_j} \ge 0.
+\end{equation}\]</span>
+where <span class="math inline">\(-\mathcal{B}_d\)</span> is formed by combining the dual-basic columns of <span class="math inline">\(\begin{bmatrix} -A^T &amp; I_n\end{bmatrix}\)</span> and so <span class="math inline">\(\mathcal{B}_d\)</span> is formed by combining the dual-basic columns of <span class="math inline">\(\begin{bmatrix} A^T &amp; -I_n\end{bmatrix}\)</span>. This simplifies to
+<span class="math display">\[\begin{equation}
+  \mathcal{B}_d^{-1} c - \delta (\mathcal{B}_d^{-1})_{\_j} \ge 0.
+\end{equation}\]</span>
+Note that this is the range of optimality for <span class="math inline">\(-c_j\)</span>. To get the range of optimality for <span class="math inline">\(c_j\)</span> we need to replace <span class="math inline">\(\delta\)</span> by <span class="math inline">\(-\delta\)</span> to get
+<span class="math display">\[\begin{equation}
+  \mathcal{B}_d^{-1} c + \delta (\mathcal{B}_d^{-1})_{\_j} \ge 0.
+\end{equation}\]</span></p>
+<p>Finally, by Lemma <a href="sensitivity-analysis.html#lem:basic-values">9.1</a>, <span class="math inline">\(\mathcal{B}_d^{-1} c\)</span> is the vector of values of the dual basic variables. Hence we get,</p>
+<div class="proposition">
+<p><span id="prp:unlabeled-div-53" class="proposition"><strong>Proposition 9.2  </strong></span>The <strong>range of optimality</strong> for <span class="math inline">\(c_j\)</span> is the interval <span class="math inline">\([c_j + \delta_-, c_j + \delta_+]\)</span> such that <span class="math inline">\(y_{\mathcal{B}}^* + \delta (\mathcal{B}_d^{-1})_{\_j} \ge 0\)</span> for all <span class="math inline">\(\delta \in [\delta_-, \delta_+]\)</span>.</p>
+</div>
+<p>By a happy accident all the negative signs have cancelled out and the equation for finding the range of optimality for the objective coefficients is exactly the same as the one for finding the range of optimality for the constraints.</p>
+<div class="theorem">
+<p><span id="thm:range-of-optimality" class="theorem"><strong>Theorem 9.2  </strong></span>The range of optimality for the constraints and the objective functions can be computed using the following formulae:</p>
+<p><strong>Range of optimality for <span class="math inline">\(b_i\)</span>:</strong>
+<span class="math display">\[\begin{equation}
+  x_{\mathcal{B}}^* + \delta (\mathcal{B}^{-1})_{\_i} \ge 0.
+\end{equation}\]</span>
+where <span class="math inline">\(\mathcal{B}\)</span> is formed by combining the primal-basic columns of <span class="math inline">\(\begin{bmatrix} A &amp; I_m \end{bmatrix}\)</span>, and</p>
+<p><strong>Range of optimality for <span class="math inline">\(c_j\)</span>:</strong>
+<span class="math display">\[\begin{equation}
+  y_{\mathcal{B}}^* + \delta (\mathcal{B}_d^{-1})_{\_j} \ge 0.
+\end{equation}\]</span>
+where <span class="math inline">\(\mathcal{B}_d\)</span> is formed by combining the dual-basic columns of <span class="math inline">\(\begin{bmatrix} A^T &amp; -I_n \end{bmatrix}\)</span>.</p>
+</div>
+<p>Finally, to find <span class="math inline">\(\mathcal{B}_d\)</span> we note that by Complementary Slackness (Theorem <a href="weak-and-strong-duality.html#thm:complementary-slackness">8.4</a>), if the linear program is non-degenerate then the dual basic variables correspond to the primal non-basic variables (as the dual basic variables must be non-zero). This statement is true even for degenerate linear programs but in this case the proof is more subtle and requires the use of Strong duality (Theorem <a href="weak-and-strong-duality.html#thm:strong-duality">8.2</a>).</p>
+<div class="example">
+<p><span id="exm:unlabeled-div-54" class="example"><strong>Example 9.5  </strong></span>Consider the linear program <a href="introduction.html#eq:bond-portfolio-lp">(1.2)</a> again. At the optimal solution, as <span class="math inline">\(w_1\)</span> and <span class="math inline">\(w_2\)</span> are non-basic, the corresponding dual variables (<span class="math inline">\(y_1\)</span> and <span class="math inline">\(y_2\)</span>) will be basic for the dual linear program <a href="dual-linear-program.html#eq:bond-portfolio-dual">(7.2)</a>. This gives us
+<span class="math display">\[\begin{align*}
+  \mathcal{B}_d &amp;= \begin{bmatrix} 3 &amp; 2 \\ 6 &amp; 1 \end{bmatrix} \\
+  \implies 
+  \mathcal{B}_d^{-1} &amp;= \begin{bmatrix} -1/9 &amp; 2/9 \\ 2/3 &amp; -1/3 \end{bmatrix}.
+\end{align*}\]</span></p>
+<p>From Example <a href="sensitivity-analysis.html#exm:dual-solution">9.4</a> we know that <span class="math inline">\(y_1 = 2/9\)</span> and <span class="math inline">\(y_2 = 5/3\)</span> at the dual optimal solution. Using these, we can now find the range of optimality for the objective coefficients.</p>
+<p>To find the range of optimality for <span class="math inline">\(c_1 = 4\)</span> we solve
+<span class="math display">\[\begin{align*}
+  \begin{bmatrix} 2/9 \\ 5/3 \end{bmatrix} 
+  + 
+  \delta \begin{bmatrix} -1/9 \\ 2/3 \end{bmatrix} \ge 0
+\end{align*}\]</span>
+which gives us the inequalities
+<span class="math display">\[\begin{align*}
+  \begin{array}{lrlrrll}
+  2/9 + \delta (-1/9) &amp; \ge &amp; 0 &amp; \implies &amp; \delta &amp; \le &amp; 2 \\
+  5/3 + \delta (2/3) &amp; \ge &amp; 0 &amp; \implies &amp; \delta &amp; \ge &amp; -5/2
+  \end{array}
+\end{align*}\]</span>
+So, <span class="math inline">\(\delta_- = -5/2\)</span> and <span class="math inline">\(\delta_+ = 2\)</span> and the range of optimality for <span class="math inline">\(c_1\)</span> is <span class="math inline">\([4 - 5/2, 4 + 2] = [1.5, 6]\)</span>.</p>
+<p>To find the range of optimality for <span class="math inline">\(c_2 = 3\)</span> we solve
+<span class="math display">\[\begin{align*}
+  \begin{bmatrix} 2/9 \\ 5/3 \end{bmatrix} 
+  + 
+  \delta \begin{bmatrix} 2/9 \\ -1/3 \end{bmatrix} \ge 0
+\end{align*}\]</span>
+which gives us the inequalities
+<span class="math display">\[\begin{align*}
+  \begin{array}{lrlrrll}
+  2/9 + \delta (2/9) &amp; \ge &amp; 0 &amp; \implies &amp; \delta &amp; \ge &amp; -1 \\
+  5/3 + \delta (-1/3) &amp; \ge &amp; 0 &amp; \implies &amp; \delta &amp; \le &amp; 5
+  \end{array}
+\end{align*}\]</span>
+So, <span class="math inline">\(\delta_- = -1\)</span> and <span class="math inline">\(\delta_+ = 5\)</span> and the range of optimality for <span class="math inline">\(c_2\)</span> is <span class="math inline">\([3 - 1, 3 + 5] = [2, 8]\)</span>.</p>
+<p>The following figures show the (infinitely many) optimal solutions at the extreme ends of the range of optimality of <span class="math inline">\(c_1\)</span>.</p>
+<p><img src="Introduction-to-Optimization_files/figure-html/fig-bounds-c1-1.png" width="672" /><img src="Introduction-to-Optimization_files/figure-html/fig-bounds-c1-2.png" width="672" /></p>
+</div>
+
+</div>
+</div>
+
+
+
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="weak-and-strong-duality.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="convex-programming.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": "github"
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["Introduction to Optimization.pdf"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section",
+"scroll_highlight": true
+},
+"toolbar": {
+"position": "fixed"
+},
+"info": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

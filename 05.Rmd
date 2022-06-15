@@ -8,41 +8,30 @@ If no entering variable is found, then the geometry tells us that there is no di
 But because the objective function is a linear function this local maxima is also an absolute maxima and **provides an optimal solution to our linear program**. Algebraically, this happens when none of the $\bar{c}_i$ are positive. 
 
 ::: {.proposition}
-
 If none of the objective coefficients $\bar{c}_i$ are positive in the current dictionary, then the current BFS is optimal.
-
 :::
 
 If no leaving variable is found, then the geometry tells us that we can keep increasing the entering variable indefinitely without leaving the feasible region. Such a linear program is called **unbounded**. 
 An unbounded linear program has no optimal solution as the objective value can be made arbitrary large without leaving the feasible region. Algebraically, this happens when none of the $\bar{a}_{ij}$ are positive.
 
 ::: {.proposition}
-
 Suppose $\bar{x}_j$ is the entering variable. If none of the constants $\bar{a}_{ij}$ are positive in the current dictionary, then the linear program is unbounded.
-
 :::
 
 Another point of failure is in the initialization phase. We've already seen that if the initialization phase fails then there is no feasible solution. We restate the result here for completion.
 
-
 ::: {.proposition}
-
 If some $b_i$ is negative, and the initialization phase fails then the linear program is infeasible.
-
 :::
 
 Unfortunately, the above results are not sufficient to guarantee that the simplex method will always find a solution if one exists. It is possible for the simplex method to get stuck in a loop. This is called **cycling**.
 
 ::: {.exercise}
-
 Give an example showing that the variable that enters in one pivot step can become leave in the next.
-
 :::
 
 ::: {.exercise}
-
 Show that the variable that leaves in one pivot step cannot enter in the next.
-
 :::
 
 ## Degeneracy
@@ -60,15 +49,11 @@ But $\bar{b}_i$ is the value of the basic variable $\bar{w}_i$.
 Having more than $n$ variables vanishing at a BFS is precisely the definition of degeneracy \@ref(def:degeneracy).
 
 ::: {.proposition}
-
 The simplex method can cycle if there some degenerate BFS.
-
 :::
 
 ::: {.example}
-
 The following slight modification of Example \@ref(eq:bond-portfolio-lp) is a degenerate linear program: 
-
 \begin{equation*}
   \begin{array}{rrrrrl}
   \mbox{maximize:} & 4x & + & 3y \\
@@ -80,7 +65,6 @@ The following slight modification of Example \@ref(eq:bond-portfolio-lp) is a de
   \end{array}
 \end{equation*}
 
-
 ```{r, fig-degenerate-lp}
 
 source("graphs/degenerate.R", local = knitr::knit_global())
@@ -91,14 +75,11 @@ At the optimal solution, $(0.5, 0.5)$ all three constraints are met. At this BFS
 \begin{align}
   w_3 &= 0 + 0.33 w_2 + 0.11 w_1.
 \end{align}
-
 :::
 
 
 ::: {.example #cycling}
-
 Consider the following degenerate linear program:
-
 \begin{equation*}
   \begin{array}{rrrrrrrrrl}
   \mbox{maximize:} & x_1 & - & 2x_2 & & & - & 2x_4 \\
@@ -109,7 +90,6 @@ Consider the following degenerate linear program:
     & x_1 & , & x_2 & , & x_3 & , & x_4 & \ge & 0 \\
   \end{array}
 \end{equation*}
-
 The following is a valid sequence of simplex steps: 
 
 1. $x_1$ enters and $w_1$ leaves,
@@ -120,7 +100,6 @@ The following is a valid sequence of simplex steps:
 1. $w_2$ enters and $x_4$ leaves.
 
 At the end of the $6^{th}$ simplex step, we end up looping back to the origin.
-
 :::
 
 ## Bland's Rule
@@ -131,16 +110,12 @@ The simplest such way is called Bland's rule.
 
 
 ::: {.theorem name="Bland's rule"}
-
 The simplex method always terminates provided that both the
 entering and the leaving variable are chosen according to Bland’s rule.
-
 :::
 
 The proof of this theorem is too complicated for this course. With this modification, for both Phase I and Phase II of the simplex method, we now have a complete algorithm for solving linear programs.
 
 ::: {.example}
-
 In Example \@ref(exm:cycling), the *sixth simplex step* violates Bland's rule. Both $x_1$ and $x_4$ can be leaving variables and we choose $x_4$ whereas Bland's rule requires us to choose $x_1$.
-
 :::

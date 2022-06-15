@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 3 The Simplex Method | Introduction to Optimization</title>
+  <meta name="description" content="Chapter 3 The Simplex Method | Introduction to Optimization." />
+  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 3 The Simplex Method | Introduction to Optimization" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Chapter 3 The Simplex Method | Introduction to Optimization." />
+  <meta name="github-repo" content="apurvanakade/Introduction-to-Optimization" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 3 The Simplex Method | Introduction to Optimization" />
+  
+  <meta name="twitter:description" content="Chapter 3 The Simplex Method | Introduction to Optimization." />
+  
+
+<meta name="author" content="Apurva Nakade" />
+
+
+<meta name="date" content="2022-06-15" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="standard-linear-program.html"/>
+<link rel="next" href="initialization.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="part"><span><b>I Simplex Method</b></span></li>
+<li class="chapter" data-level="2" data-path="standard-linear-program.html"><a href="standard-linear-program.html"><i class="fa fa-check"></i><b>2</b> Standard Linear Program</a></li>
+<li class="chapter" data-level="3" data-path="the-simplex-method.html"><a href="the-simplex-method.html"><i class="fa fa-check"></i><b>3</b> The Simplex Method</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="the-simplex-method.html"><a href="the-simplex-method.html#the-simplex-step"><i class="fa fa-check"></i><b>3.1</b> The Simplex Step</a></li>
+<li class="chapter" data-level="3.2" data-path="the-simplex-method.html"><a href="the-simplex-method.html#tableau-notation"><i class="fa fa-check"></i><b>3.2</b> Tableau Notation</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="initialization.html"><a href="initialization.html"><i class="fa fa-check"></i><b>4</b> Initialization</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="initialization.html"><a href="initialization.html#auxiliary-linear-program"><i class="fa fa-check"></i><b>4.1</b> Auxiliary Linear Program</a></li>
+<li class="chapter" data-level="4.2" data-path="initialization.html"><a href="initialization.html#combined-tableau"><i class="fa fa-check"></i><b>4.2</b> Combined tableau</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="cycling.html"><a href="cycling.html"><i class="fa fa-check"></i><b>5</b> Cycling</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="cycling.html"><a href="cycling.html#degeneracy"><i class="fa fa-check"></i><b>5.1</b> Degeneracy</a></li>
+<li class="chapter" data-level="5.2" data-path="cycling.html"><a href="cycling.html#blands-rule"><i class="fa fa-check"></i><b>5.2</b> Bland’s Rule</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="standardization.html"><a href="standardization.html"><i class="fa fa-check"></i><b>6</b> Standardization</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="standardization.html"><a href="standardization.html#equivalence-of-linear-programs"><i class="fa fa-check"></i><b>6.1</b> Equivalence of Linear Programs</a></li>
+</ul></li>
+<li class="part"><span><b>II Duality Theory</b></span></li>
+<li class="chapter" data-level="7" data-path="dual-linear-program.html"><a href="dual-linear-program.html"><i class="fa fa-check"></i><b>7</b> Dual Linear Program</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="dual-linear-program.html"><a href="dual-linear-program.html#general-linear-program"><i class="fa fa-check"></i><b>7.1</b> General Linear Program</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="weak-and-strong-duality.html"><a href="weak-and-strong-duality.html"><i class="fa fa-check"></i><b>8</b> Weak and Strong Duality</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="weak-and-strong-duality.html"><a href="weak-and-strong-duality.html#weak-duality"><i class="fa fa-check"></i><b>8.1</b> Weak Duality</a></li>
+<li class="chapter" data-level="8.2" data-path="weak-and-strong-duality.html"><a href="weak-and-strong-duality.html#strong-duality"><i class="fa fa-check"></i><b>8.2</b> Strong Duality</a></li>
+<li class="chapter" data-level="8.3" data-path="weak-and-strong-duality.html"><a href="weak-and-strong-duality.html#complimentary-slackness"><i class="fa fa-check"></i><b>8.3</b> Complimentary slackness</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="sensitivity-analysis.html"><a href="sensitivity-analysis.html"><i class="fa fa-check"></i><b>9</b> Sensitivity Analysis</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="sensitivity-analysis.html"><a href="sensitivity-analysis.html#dictionaries-revisited"><i class="fa fa-check"></i><b>9.1</b> Dictionaries Revisited</a></li>
+<li class="chapter" data-level="9.2" data-path="sensitivity-analysis.html"><a href="sensitivity-analysis.html#range-of-optimality---constraints"><i class="fa fa-check"></i><b>9.2</b> Range of Optimality - Constraints</a></li>
+<li class="chapter" data-level="9.3" data-path="sensitivity-analysis.html"><a href="sensitivity-analysis.html#shadow-prices"><i class="fa fa-check"></i><b>9.3</b> Shadow Prices</a></li>
+<li class="chapter" data-level="9.4" data-path="sensitivity-analysis.html"><a href="sensitivity-analysis.html#sensitivity-analysis---objective"><i class="fa fa-check"></i><b>9.4</b> Sensitivity analysis - Objective</a></li>
+</ul></li>
+<li class="part"><span><b>III Non-Linear Programming</b></span></li>
+<li class="chapter" data-level="10" data-path="convex-programming.html"><a href="convex-programming.html"><i class="fa fa-check"></i><b>10</b> Convex Programming</a></li>
+<li class="chapter" data-level="11" data-path="separation-theorems.html"><a href="separation-theorems.html"><i class="fa fa-check"></i><b>11</b> Separation Theorems</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="separation-theorems.html"><a href="separation-theorems.html#farkas-lemma"><i class="fa fa-check"></i><b>11.1</b> Farkas’ Lemma</a></li>
+<li class="chapter" data-level="11.2" data-path="separation-theorems.html"><a href="separation-theorems.html#separating-hyperplane-theorem"><i class="fa fa-check"></i><b>11.2</b> Separating Hyperplane Theorem</a></li>
+<li class="chapter" data-level="11.3" data-path="separation-theorems.html"><a href="separation-theorems.html#equivalence-with-strong-duality"><i class="fa fa-check"></i><b>11.3</b> Equivalence with Strong Duality</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="interior-point-method.html"><a href="interior-point-method.html"><i class="fa fa-check"></i><b>12</b> Interior Point Method</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="interior-point-method.html"><a href="interior-point-method.html#gradient-descent"><i class="fa fa-check"></i><b>12.1</b> Gradient Descent</a></li>
+<li class="chapter" data-level="12.2" data-path="interior-point-method.html"><a href="interior-point-method.html#interior-point-method-1"><i class="fa fa-check"></i><b>12.2</b> Interior Point Method</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="kkt-conditions.html"><a href="kkt-conditions.html"><i class="fa fa-check"></i><b>13</b> KKT conditions</a></li>
+<li class="part"><span><b>IV Applications</b></span></li>
+<li class="chapter" data-level="14" data-path="l1-regression.html"><a href="l1-regression.html"><i class="fa fa-check"></i><b>14</b> L1-Regression</a></li>
+<li class="chapter" data-level="15" data-path="network-flow.html"><a href="network-flow.html"><i class="fa fa-check"></i><b>15</b> Network Flow</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="network-flow.html"><a href="network-flow.html#min-cut"><i class="fa fa-check"></i><b>15.1</b> Min-cut</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="integer-programming.html"><a href="integer-programming.html"><i class="fa fa-check"></i><b>16</b> Integer Programming</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="integer-programming.html"><a href="integer-programming.html#branch-and-bound"><i class="fa fa-check"></i><b>16.1</b> Branch and Bound</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Introduction to Optimization</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="the-simplex-method" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">Chapter 3</span> The Simplex Method<a href="the-simplex-method.html#the-simplex-method" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>The simplex method is an iterative process for finding the optimal solution of a standard linear program. It starts at some BFS and in each step moves to an adjacent BFS with a higher objective value. The following picture shows one possible run of the simplex method for solving the linear program <a href="introduction.html#eq:bond-portfolio-lp">(1.2)</a>.</p>
+<div class="figure"><span style="display:block;" id="fig:sample-run"></span>
+<img src="Introduction-to-Optimization_files/figure-html/sample-run-1.png" alt="A possible run of the simplex algorithm." width="672" />
+<p class="caption">
+Figure 3.1: A possible run of the simplex algorithm.
+</p>
+</div>
+<p>In each step, one non-basic variable <strong>enters</strong> the set of basic variables and one basic variable <strong>leaves</strong> the set of basic variables. The table below explains how these sets are getting updated in the sample simplex algorithm run in Figure <a href="the-simplex-method.html#fig:sample-run">3.1</a>.</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>Leaving variable</th>
+<th>Entering variable</th>
+<th>Basic variables</th>
+<th>Non-basic variables</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Start</td>
+<td></td>
+<td></td>
+<td><span class="math inline">\(\{w_1, w_2, w_3\}\)</span></td>
+<td><span class="math inline">\(\{x, y\}\)</span></td>
+</tr>
+<tr class="even">
+<td>Step 1</td>
+<td><span class="math inline">\(w_2\)</span></td>
+<td><span class="math inline">\(x\)</span></td>
+<td><span class="math inline">\(\{w_1, x, w_3\}\)</span></td>
+<td><span class="math inline">\(\{w_2, y\}\)</span></td>
+</tr>
+<tr class="odd">
+<td>Step 2</td>
+<td><span class="math inline">\(w_1\)</span></td>
+<td><span class="math inline">\(y\)</span></td>
+<td><span class="math inline">\(\{y, x, w_3\}\)</span></td>
+<td><span class="math inline">\(\{w_2, w_1\}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><img src="Introduction-to-Optimization_files/figure-html/fig-bond-portfolio-entering-1.png" width="672" /></p>
+<p>Using this terminology, our goal at each step is reduced to finding the entering and leaving variables.
+To do this algebraically, we’ll introduce the notion of dictionaries.</p>
+<div class="definition">
+<p><span id="def:unlabeled-div-9" class="definition"><strong>Definition 3.1  </strong></span>The <strong>dictionary</strong> at a basic feasible solution is a set of equations describing the objective function and the constraints in terms of the non-basic variables.</p>
+</div>
+<div class="example">
+<p><span id="exm:dictionaries" class="example"><strong>Example 3.1  </strong></span>Consider <a href="introduction.html#eq:bond-portfolio-lp">(1.2)</a> again. At the origin, the non-basic variables are <span class="math inline">\(x, y\)</span> and hence the initial dictionary is:
+<span class="math display" id="eq:example-dictionary-1">\[\begin{equation}
+  \begin{array}{rlrrrrr}
+  \mbox{objective} &amp; = &amp; 0 &amp; + &amp; 4x &amp; + &amp; 3y \\
+  w_1 &amp; = &amp; 3.6 &amp; - &amp; 3x &amp; - &amp; 6y \\
+  w_2 &amp; = &amp; 1.5 &amp; - &amp; 2x &amp; - &amp; y \\
+  w_3 &amp; = &amp; 1 &amp; - &amp; x &amp; - &amp; y.
+  \end{array}
+  \tag{3.1}
+\end{equation}\]</span>
+After the first step of the simplex algorithm, the non-basic variables are <span class="math inline">\(w_2, y\)</span>. We can write <span class="math inline">\(x\)</span> in terms of <span class="math inline">\(w_2\)</span> to get
+<span class="math display">\[\begin{equation*}
+  x = 0.75 - 0.5 w_2 - 0.5 y
+\end{equation*}\]</span>
+We can substitute this into the initial dictionary to get the dictionary after the first step:
+<span class="math display" id="eq:example-dictionary-2">\[\begin{equation}
+  \begin{array}{rlrrrrr}
+  \mbox{objective} &amp; = &amp; 3 &amp; + &amp; (-2)w_2 &amp; + &amp; y \\
+  w_1 &amp; = &amp; 1.35 &amp; - &amp; (-1.5) w_2 &amp; - &amp; 4.5y \\
+  x &amp; = &amp; 0.75 &amp; - &amp; 0.5 w_2 &amp; - &amp; 0.5y \\
+  w_3 &amp; = &amp; 0.25 &amp; - &amp; (-0.5) w_2 &amp; - &amp; 0.5y.
+  \end{array}
+  \tag{3.2}
+\end{equation}\]</span>
+Finally, the non-basic variables at the optimal solution are <span class="math inline">\(w_1, w_2\)</span>.
+We can repeat the above process and get the dictionary for the optimal solution:
+<span class="math display" id="eq:example-dictionary-3">\[\begin{equation}
+  \begin{array}{rlrrrrr}
+  \mbox{objective} &amp; = &amp; 3.3 &amp; + &amp; (-5/3)w_2 &amp; + &amp; (-2/9)w_1 \\
+  y &amp; = &amp; 0.3 &amp; - &amp; (-1/3) w_2 &amp; - &amp; 2/9 w_1 \\
+  x &amp; = &amp; 0.6 &amp; - &amp; 2/3 w_2 &amp; - &amp; (-1/9) w_1 \\
+  w_3 &amp; = &amp; 0.1 &amp; - &amp; (-1/3) w_2 &amp; - &amp; (-1/9) w_1.
+  \end{array}
+  \tag{3.3}
+\end{equation}\]</span></p>
+</div>
+<div class="remark">
+<p><span id="unlabeled-div-10" class="remark"><em>Remark</em>. </span>From the dictionary, one can extract the set of basic variables and the set of non-basic variables by looking at the variables appearing on the LHS and RHS, respectively. Furthermore, by setting the non-basic variables to 0, we obtain the very useful fact that</p>
+<ul>
+<li>the values of the basic variables are simply the constants “<span class="math inline">\(b_i\)</span>”, and</li>
+<li>the value of the objective function is the constant “<span class="math inline">\(c_0\)</span>”.</li>
+</ul>
+<p>For example, from the final dictionary above, we can immediately see that <span class="math inline">\(x = 0.6\)</span>, <span class="math inline">\(y = 0.3\)</span>, <span class="math inline">\(w_3 = 0.9\)</span>, and the objective value is <span class="math inline">\(3.3%\)</span> (and <span class="math inline">\(w_1 = 0\)</span> and <span class="math inline">\(w_2 = 0.3\)</span>) at the optimal solution.</p>
+</div>
+<div id="the-simplex-step" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> The Simplex Step<a href="the-simplex-method.html#the-simplex-step" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Suppose we are at a BFS. Let <span class="math inline">\(\bar{w}_1, \dots, \bar{w}_m\)</span> be the basic variables, <span class="math inline">\(\bar{x}_1, \dots, \bar{x}_n\)</span> be the non-basic variables. Let <span class="math inline">\(\bar{c}_j\)</span>, <span class="math inline">\(\bar{b}_i\)</span>, and <span class="math inline">\(\bar{a}_{ij}\)</span> be the constants appearing in the dictionary at the BFS so that the dictionary is as follows:
+<span class="math display" id="eq:standard-dictionary">\[\begin{equation}
+  \begin{array}{rrrrrrrrrr}
+  \mbox{objective} &amp; = &amp; \bar{c}_0 &amp; + &amp; \bar{c}_1\bar{x}_1 &amp; + &amp; \dots &amp; + &amp; \bar{c}_n\bar{x}_n \\
+      \bar{w}_1 &amp; = &amp; \bar{b}_1 &amp; - &amp; \bar{a}_{11} \bar{x}_1 &amp; - &amp; \dots &amp; - &amp; \bar{a}_{1n} \bar{x}_n \\
+      \bar{w}_2 &amp; = &amp; \bar{b}_2 &amp; - &amp; \bar{a}_{21} \bar{x}_1 &amp; - &amp; \dots &amp; - &amp; \bar{a}_{2n} \bar{x}_n \\
+      &amp; &amp; &amp; &amp; &amp; \vdots &amp;  \\
+      \bar{w}_m &amp; = &amp; \bar{b}_m &amp; - &amp; \bar{a}_{m1} \bar{x}_1 &amp; - &amp; \dots &amp; - &amp; \bar{a}_{mn} \bar{x}_n 
+  \end{array} 
+  \tag{3.4}
+\end{equation}\]</span>
+The first step is to choose the <em>direction of the simplex step</em>.
+Algebraically, this is done by choosing the entering variable.
+We want to move to an adjacent BFS with a higher objective value. The current objective function is
+<span class="math display">\[\begin{align*}
+  \bar{c}_0  +  \bar{c}_1\bar{x}_1  +  \dots  +  \bar{c}_n\bar{x}_n.
+\end{align*}\]</span>
+and the current objective value is <span class="math inline">\(\bar{c}_0\)</span> as all the non-basic variables <span class="math inline">\(\bar{x}_j\)</span> are equal 0.
+We can move away from the current BFS by increasing one of the non-basic variables <span class="math inline">\(\bar{x}_j\)</span> from 0 to a positive value. The objective value will increase if <span class="math inline">\(\bar{c}_j &gt; 0\)</span>. This then is the criterion for choosing the entering variable.</p>
+<div class="proposition">
+<p><span id="prp:entering-variable" class="proposition"><strong>Proposition 3.1  (Entering variable) </strong></span>A non-basic variable <span class="math inline">\(\bar{x}_j\)</span> can be entering if <span class="math inline">\(\bar{c}_j &gt; 0\)</span>.</p>
+</div>
+<div class="example">
+<p><span id="exm:unlabeled-div-11" class="example"><strong>Example 3.2  </strong></span>In the dictionary <a href="the-simplex-method.html#eq:example-dictionary-1">(3.1)</a>, the objective function is <span class="math inline">\(4x + 3y\)</span>. Hence, both <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> can be chosen as the entering variables. Geometrically, we can see that there are two different paths going from the origin to the optimal solution. In the dictionary <a href="the-simplex-method.html#eq:example-dictionary-2">(3.2)</a>, the objective function is <span class="math inline">\(3 + (-2)w_2 + y\)</span> and only <span class="math inline">\(y\)</span> can be the entering variable. In dictionary <a href="the-simplex-method.html#eq:example-dictionary-3">(3.3)</a>, the objective function is <span class="math inline">\(3.3 + (-5/3)w_2 + (-2/9)w_1\)</span> and there cannot be any entering variable.</p>
+</div>
+<p>Suppose <span class="math inline">\(\bar{x}_j\)</span> is the chosen entering variable.
+This determines the direction of the simplex step.
+We next need to figure out the amount by which to increase <span class="math inline">\(\bar{x}_j\)</span> without leaving the feasible region.
+The basic variables are related to <span class="math inline">\(\bar{x}_j\)</span> by the following relations
+<span class="math display">\[\begin{align*}
+  \bar{w}_i = \bar{b}_i - \bar{a}_{ij} \bar{x}_j - \sum \limits_{k = 1, k \neq j}^{n}  \bar{a}_{ik} \bar{x}_k.
+\end{align*}\]</span>
+The summation quantity stays at 0.
+As <span class="math inline">\(x_j\)</span> increases <span class="math inline">\(w_i\)</span> will decrease exactly when <span class="math inline">\(a_{ij} &gt; 0\)</span>.
+Because we want all the variables to be non-negative, we must always have <span class="math inline">\(w_i = b_i - a_{ij} x_j \ge 0\)</span>.
+This condition must hold true for all such <span class="math inline">\(w_i\)</span>. Hence, we get the following criterion for choosing the leaving variable.</p>
+<div class="proposition">
+<p><span id="prp:leaving-variable" class="proposition"><strong>Proposition 3.2  (Leaving variable) </strong></span>Suppose <span class="math inline">\(\bar{x}_j\)</span> is the entering variable. A basic variable <span class="math inline">\(\bar{w}_i\)</span> can be chosen to be the leaving variable if
+<span class="math display">\[\begin{align*}
+  i = {\arg \min} _{a_{ij} &gt; 0} \dfrac{b_i}{a_{ij}}.
+\end{align*}\]</span></p>
+</div>
+<p>In this case, after the simplex step <span class="math inline">\(w_i\)</span> decreases to <span class="math inline">\(0\)</span>, <span class="math inline">\(x_j\)</span> increases to <span class="math inline">\(\min_{a_{ij} &gt; 0} {b_i}/{a_{ij}}\)</span>, and the objective value increases by <span class="math inline">\(\bar{c}_j \min_{a_{ij} &gt; 0} {b_i}/{a_{ij}}\)</span>.</p>
+<div class="example">
+<p><span id="exm:unlabeled-div-12" class="example"><strong>Example 3.3  </strong></span>In the dictionary <a href="the-simplex-method.html#eq:example-dictionary-1">(3.1)</a>, if we choose <span class="math inline">\(x\)</span> to be our entering variable then we need to get the following ratios to compare</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center"><span class="math inline">\(i\)</span></th>
+<th align="center"><span class="math inline">\(\bar{a}_{ij}\)</span></th>
+<th align="center"><span class="math inline">\(\bar{b}_i\)</span></th>
+<th align="center"><span class="math inline">\(\bar{b}_i/\bar{a}_{ij}\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">3</td>
+<td align="center">3.6</td>
+<td align="center">1.2</td>
+</tr>
+<tr class="even">
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">1.5</td>
+<td align="center">0.75</td>
+</tr>
+<tr class="odd">
+<td align="center">3</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>We can see that the smallest ratio is obtained for <span class="math inline">\(w_2\)</span>. Hence, it is the only candidate for the leaving variable.</p>
+</div>
+<div id="tableau-notation" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> Tableau Notation<a href="the-simplex-method.html#tableau-notation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>When manipulating linear systems, one can forget the variables and simply perform manipulations on the coefficients using matrices.
+The same is true for linear programs.
+We start by rewriting the constraints in the dictionary with all the variables on the LHS and all the constants on the RHS:
+<span class="math display" id="eq:standard-tableau">\[\begin{equation}
+  \begin{array}{rrrrrrrrrrrrrr}
+      \bar{a}_{11} \bar{x}_1 &amp; + &amp; \dots &amp; + &amp; \bar{a}_{1n} \bar{x}_n &amp; + &amp; \bar{w}_1 &amp; &amp; &amp; &amp; &amp; &amp; = &amp;  \bar{b}_1\\
+      \bar{a}_{21} \bar{x}_1 &amp; + &amp; \dots &amp; + &amp; \bar{a}_{2n} \bar{x}_n &amp; &amp; &amp; + &amp; \bar{w}_2 &amp; &amp; &amp; &amp; = &amp;  \bar{b}_2\\
+      &amp; &amp; &amp; &amp; &amp; \vdots &amp;  \\
+      \bar{a}_{m1} \bar{x}_1 &amp; + &amp; \dots &amp; + &amp; \bar{a}_{mn} \bar{x}_n &amp; &amp; &amp; &amp; &amp; &amp; + &amp; \bar{w}_m &amp; = &amp; \bar{b}_m\\
+  \end{array} 
+  \tag{3.5}
+\end{equation}\]</span>
+This can then be encoded using the following augmented matrix:
+<span class="math display">\[\begin{equation*}
+  \begin{array}{rrrrrrrrrrr|r}
+      \bar{a}_{11}  &amp; &amp; \dots &amp; &amp; \bar{a}_{1n}  &amp; 1 &amp; &amp; &amp; &amp; &amp; &amp;\bar{b}_1\\
+      \bar{a}_{21}  &amp; &amp; \dots &amp; &amp; \bar{a}_{2n}  &amp; &amp; &amp; 1 &amp; &amp; &amp; &amp;\bar{b}_2\\
+      &amp; &amp; &amp; &amp; &amp; \vdots &amp;  \\
+      \bar{a}_{m1}  &amp; &amp; \dots &amp; &amp; \bar{a}_{mn}  &amp; &amp; &amp; &amp; &amp; &amp; 1 &amp;\bar{b}_m\\
+  \end{array}
+\end{equation*}\]</span>
+We add back the objective function, but because of a quirk of algebra we need to add the objective function coefficients as follows.
+<span class="math display">\[\begin{equation*}
+ \begin{array}{rrrrrrrrrrr|r}
+      \bar{a}_{11}  &amp; &amp; \dots &amp; &amp; \bar{a}_{1n}  &amp; 1 &amp; &amp; &amp; &amp; &amp; &amp;\bar{b}_1\\
+      \bar{a}_{21}  &amp; &amp; \dots &amp; &amp; \bar{a}_{2n}  &amp; &amp; &amp; 1 &amp; &amp; &amp; &amp;\bar{b}_2\\
+      &amp; &amp; &amp; &amp; &amp; \vdots &amp;  \\
+      \bar{a}_{m1}  &amp; &amp; \dots &amp; &amp; \bar{a}_{mn}  &amp; &amp; &amp; &amp; &amp; &amp; 1 &amp;\bar{b}_m\\ \hline
+      \bar{c}_1  &amp; &amp; \dots &amp; &amp; \bar{c}_{n}  &amp; 0 &amp; &amp; 0 &amp; \dots &amp; &amp; 0 &amp;-\bar{c}_0
+  \end{array} 
+\end{equation*}\]</span>
+The columns in this augmented matrix correspond to the variables <span class="math inline">\(\bar{x}_j\)</span> and <span class="math inline">\(\bar{w}_i\)</span>. The columns with the <em>pivots</em> correspond to the basic variables.</p>
+<p>If <span class="math inline">\(\bar{x}_j\)</span> is the entering variable and <span class="math inline">\(\bar{w}_i\)</span> is the leaving variable, then we simply perform elementary row operations and turn the entry <span class="math inline">\(\bar{a}_{ij}\)</span> into a pivot for its column. Hence, this step is also called the <strong>pivot step</strong>.</p>
+<div class="example">
+<p><span id="exm:unlabeled-div-13" class="example"><strong>Example 3.4  </strong></span>The tableau corresponding to the dictionary <a href="the-simplex-method.html#eq:example-dictionary-1">(3.1)</a> is as follows:
+<span class="math display">\[\begin{equation*}
+  \begin{array}{lllll|l}
+    3 &amp; 6 &amp; 1 &amp; 0 &amp; 0 &amp; 3.6 \\
+    \boxed{2} &amp; 1 &amp; 0 &amp; 1 &amp; 0 &amp; 1.5 \\
+    1  &amp; 1 &amp; 0 &amp; 0 &amp; 1 &amp; 1 \\ \hline 
+    4 &amp; 3 &amp; 0 &amp; 0 &amp; 0 &amp; 0
+  \end{array}
+\end{equation*}\]</span>
+If we choose <span class="math inline">\(x\)</span> as the entering variable and <span class="math inline">\(w_2\)</span> as the leaving variable then we need to pivot about the entry <span class="math inline">\(a_{21}\)</span> using elementary row operations to get the following tableau:
+<span class="math display">\[\begin{equation*}
+  \begin{array}{lllll|l}
+    0 &amp; 4.5 &amp; 1 &amp; -1.5 &amp; 0 &amp; 1.35 \\
+    \boxed{1} &amp; 0.5 &amp; 0 &amp; 0.5 &amp; 0 &amp; 0.75 \\
+    0  &amp; 0.5 &amp; 0 &amp; -0.5 &amp; 1 &amp; 0.25 \\ \hline
+    0 &amp; 1 &amp; 0 &amp; -2 &amp; 0 &amp; -3
+  \end{array}
+\end{equation*}\]</span>
+which corresponds to the dictionary <a href="the-simplex-method.html#eq:example-dictionary-2">(3.2)</a>.</p>
+</div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="standard-linear-program.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="initialization.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": "github"
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["Introduction to Optimization.pdf"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section",
+"scroll_highlight": true
+},
+"toolbar": {
+"position": "fixed"
+},
+"info": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -15,7 +15,6 @@ Even when this is not the case, linear programs are often used to approximate an
 
 
 ::: {.example #bond-portfolio}
-
 A bond portfolio manager has $100,000 to allocate to two different bonds; one corporate and one government bond. 
 The corporate bond has a yield of 4%, a maturity of 3 years and an A rating from a rating agency that is translated into a numerical rating of 2 for computational purposes. 
 In contrast, the government bond has a yield of 3%, a maturity of 6 years and rating of Aaa with the corresponding numerical rating of 1 (lower numerical ratings correspond to higher quality bonds). The portfolio manager would like to allocate her funds so that the average rating for the portfolio is no worse than Aa (numerical equivalent 1.5) and average maturity of the portfolio is at most 3.6 years. 
@@ -28,11 +27,9 @@ How should the manager allocate her funds between these two bonds to achieve her
 | Maturity | 3 | 6 | 3.6 |
 | Rating | A = 2 | Aaa = 1 | 1.5 |
 | Allocations | ?? | ?? | 100,000 |
-
 :::
 
 We can model the above problem as follows:
-
 \begin{equation}
   \begin{array}{rrrrrr}
   \mbox{maximize:} & 4x & + & 3y \\
@@ -44,20 +41,16 @@ We can model the above problem as follows:
   \end{array}
   (\#eq:bond-portfolio-lp-incomplete)
 \end{equation}
-
 where $x$, $y$ are the percentages of corporate and government bonds, respectively, and the objective function when multiplied by $100,000 gives us the net yield. This is an example of a **linear program**.
 
 We cannot subtract inequalities the same way that we subtract equations. So to get started, let us assume that both the inequalities are in fact equalities. We can solve the system 
-
 \begin{equation*}
   \begin{array}{rrrrrl}
     & 3x & + & 6y & = & 3.6 \\
     & 2x & + & y & = & 1.5
   \end{array}
 \end{equation*}
-
 to obtain $x = 0.6$ and $y = 0.3$. But for this solution $x + y = 0.9$ which is less that 1, meaning that we're not investing all the available funds! Which raises the question: Is it possible to increase the yield further by not satisfying both of the above equalities and investing all the money instead? This question becomes even more apparent once we realize that the linear program \@ref(eq:bond-portfolio-lp-incomplete) is incomplete and the complete linear program that models the problem is as follows:
-
 \begin{equation}
   \begin{array}{rrrrrl}
   \mbox{maximize:} & 4x & + & 3y \\
@@ -70,9 +63,7 @@ to obtain $x = 0.6$ and $y = 0.3$. But for this solution $x + y = 0.9$ which is 
   \end{array}
   (\#eq:bond-portfolio-lp)
 \end{equation}
-
 The solution $(x, y) = (0.6, 0.3)$ is obtained by changing the first two inequalities to equalities. But this choice is completely arbitrary! We could have switched some other set of inequalities to equalities and obtained a different solution. We'd then need to compare the solutions obtained in each of these cases and find the one that maximizes it. This is essentially the *simplex method* which we'll study in more details in the next chapters. For this particular problem, we can use a graphing calculator to solve the problem. 
-
 
 ```{r, fig-bond-portfolio}
 
@@ -83,9 +74,7 @@ source("graphs/bond-portfolio-solution.R", local = knitr::knit_global())
 The feasible set is the quadrilateral formed by the overlap of all three constraint regions. The level sets of the objective function are straight lines of the form $4x + 3y = c$. We can see that the largest value of $c$ for which these level sets intersect the feasible region turns out to be $c = 3.3\%$ for $(x, y) = (0.6, 0.3)$.
 
 ::: {.exercise}
-
 What are some possible ways to relax the constraints in the above problem so that all the money can be invested? What is the improved annual yield?
-
 :::
 
 ::: {.exercise}
@@ -96,5 +85,4 @@ The following exercises review some basic facts about inequalities:
 3. Find constants $a, b, c, d$ such that $a < b$, $c < d$, $a - c > b - d$, and $ac < bd$.
 4. Find constants $a, b, c, d$ such that $a < b$, $c < d$, $a - c > b - d$, and $ac > bd$.
 5. Prove that if $a, b, c, d$ are constants such that  $a < b$ and $c < d$, then $a + c < b + d$. Why does this proof fail when we try to subtract the two inequalities instead of adding them?
-
 :::

@@ -1,0 +1,48 @@
+# (PART) Applications {-}
+
+# L1-Regression
+
+Linear regression is a method for modelling the relationship between outputs and inputs using linear functions.
+Suppose that the data set consists of the points $(x_i, y_i)$ with $i = 1, 2, ..., N$ where each $x_i$ is itself a vector in $\mathbb{R}^m$. 
+We want to find a function $f : \mathbb{R}^m \to \mathbb{R}$ such that $f(x_{i}) \approx y_{i}$.
+In linear regression, we suppose that the function $f$ is of the form $$f(x) = \beta^T x + \beta_0,$$ where $\beta$ is a vector in $\mathbb{R}^m$ and $\beta_0$ is a constant. 
+Our goal is to estimate $\beta$ and $\beta_0$. 
+There is of course, no reason that there is a linear relation between the inputs $x_i$ and the outputs $y_i$. 
+So our is simply to find the *best* estimate.
+We can define the error in estimation to be the vector $\varepsilon$ whose components are 
+\begin{align*}
+  \varepsilon_i = \lvert y_i - f(x_i) \rvert.
+\end{align*}
+We wish to "minimize" the vector in $\varepsilon$. 
+There are multiple measures one can define on the space of these errors and minimizing each provides us a best estimate in the sense of that particular measure.
+
+The most commonly used measure is the Euclidean distance or the $L^2$-norm. We define 
+\begin{align*}
+  \| \varepsilon_i \|_2 = \sum \limits_{i = 1}^N (y_i - f(x_i))^2 .
+\end{align*}
+In $L^2$-regression we try to find the function $f$ that minimizes this quantity. 
+There are several reasons why this measure is most commonly used, one of which being that there is a closed form for the solution using the [normal equation](https://en.wikipedia.org/wiki/Ordinary_least_squares#Matrix/vector_formulation).
+However, the solution obtained from $L^2$-regression is very susceptible to outliers.
+By comparison, the $L^1$-measure, defined below, is more robust to outliers.
+\begin{align*}
+  \| \varepsilon_i \|_1 = \sum \limits_{i = 1}^N \lvert y_i - f(x_i) \rvert.
+\end{align*}
+The biggest downside of $L^1$ is that it does not have a closed form solution.
+However, it is possible to reduce the problem of finding the best $L^1$-estimate to linear programming.
+
+Our goal is to solve the following unconstrained minimization problem 
+\begin{align*}
+  \mbox{minimize:} \sum \limits_{i = 1}^N \lvert y_i - (\beta^T x_i + \beta_0) \rvert,
+\end{align*}
+where our variables are $\beta$ and $\beta_0$.
+As stated, this problem is not a linear program.
+However, it is equivalent to the following linear program:
+\begin{equation*}
+  \begin{array}{lllr}
+    \mbox{minimize:} & \sum \limits_{i = 1}^N \varepsilon_i \\
+    \mbox{subject to:} 
+      & y_i - (\beta^T x_i + \beta_0) & < & \varepsilon_i \\
+      & y_i - (\beta^T x_i + \beta_0) & > & -\varepsilon_i.
+  \end{array}
+\end{equation*}
+Here the decision variables are $\beta$ (which is a vector in $\mathbb{R}^m$), $\beta_0$, and $\varepsilon_i$ for $1 \le i \le N$.

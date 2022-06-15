@@ -1,0 +1,101 @@
+# Interior Point Method
+
+Throughout this chapter we will let $f$ denote a twice differentiable function from $\mathbb{R}^n$ to $\mathbb{R}$. 
+
+## Gradient Descent
+
+We will start by trying to solve the following unconstrained optimization problem:
+\begin{align*}
+  \mbox{minimize: } & f(x)
+\end{align*}
+where $x$ is any vector in $\mathbb{R}^n$. 
+**Gradient descent** is a simple algorithm for solving this problem using basic differential calculus. 
+It relies on the fact that *the negative of the gradient points in the direction in which the function decreases the fastest*. 
+So the general principle is to move in the direction of the negative gradient until the function is no longer decreasing.
+More precisely, we create a sequence of guesses using the following GD recurrence relation:
+$$x_{k+1} = x_k - t_k \nabla f(x_k)$$
+where $t_k$ is the "step size" for the $k^{th}$ iteration and can be chosen to be a small constant or some function of $k$, $x_k$, $f(x_k)$, or $\nabla f(x_k)$.
+
+There are several issues with this technique:
+
+1. If the function has multiple local minima, then the sequence might converge to a non-absolute minima depending on the starting guess and the choice of step sizes.
+2. If the step sizes are chosen to be too large, then the sequence can completely miss the minima and may not converge.
+3. If the step sizes are chosen to be too small, then the sequence may take a long time to converge.
+
+Unfortunately, there is no easy way to resolve these issues. In practice, either we need some additional information about the function and its gradient or we proceed by trial and error to find step sizes that work. Even then there is no guarantee that the algorithm will converge to an absolute minima and not a local minima, if at all. In spite of these issues, because of its simplicity, ease of implementation, and good convergence properties in practice, Gradient Descent is a very popular algorithm for solving unconstrained optimization problems.
+
+
+## Interior Point Method
+
+Gradient descent can be modified to solve constrained optimization problems by introducing barrier functions. 
+Consider the following problem:
+\begin{equation}
+  \begin{array}{llr}
+    \mbox{minimize: } & f(x) \\
+    \mbox{subject to: } & g_i(x) \ge 0, & \mbox{ for } 1 \le i \le m. \\
+  \end{array}
+  (\#eq:constrained-optimization-problem)
+\end{equation}
+We can apply GD to this problem and find a critical point for $f(x)$. However, this might not answer the optimization question for two reasons: 
+
+1. The critical point might not be in the feasible region.
+2. The optimal solution might not be obtained at a critical of $f(x)$ and could lie on the boundary $g(x) = 0$ of the feasible region.
+
+Gradient descent algorithm only *sees* the objective function and does not *know* about the constraints. So, we modify the objective function to include the constraints using barrier functions.
+
+::: {.definition}
+A **barrier function** is a differentiable function $b$ from $(0, \infty)$ to $\mathbb{R}$ that has the property $\lim \limits_{x \to 0^+} f(x) = \infty$. 
+:::
+
+We'll use the barrier function $-\ln x$. Using a small positive parameter $\mu$, we create a new objective function:
+\begin{align*}
+  f_\mu(x) := & f(x) - \mu \sum \limits_{i = 1} ^ m \ln (g_i(x)).
+\end{align*}
+Consider the unconstrained optimization problem 
+\begin{align*}
+  \mbox{minimize: } & f_\mu (x).
+\end{align*}
+Because the domain of $\ln x$ is $(0, \infty)$, any critical point of $f_\mu(x)$ must lie in the feasible region of \@ref(eq:constrained-optimization-problem). 
+Let $x_\mu^*$ be a solution of the above problem. 
+For sufficiently good functions $f$ and $g_i$, *$x_\mu^*$ exists and is continuous in $\mu$ and $\lim \limits_{\mu \to 0^+} x_\mu^* = x^*$ where $x^*$ is an optimal solution to \@ref(eq:constrained-optimization-problem).* This assumption is valid, for example, for linear programs. With this assumption, we now have a method for solving \@ref(eq:constrained-optimization-problem):
+
+- Start with a small $\mu_0 > 0$ and optimize $f_{\mu_0}(x)$ using GD. Call the solution $x_{\mu_0}^*$.
+- Repeat the following until the sequence $x_{\mu_k}^*$ stabilizes sufficiently:
+    1. Set $\mu_{k+1} = \mu_k - \delta_k$ for some small $\delta_k$.
+    2. Using $x^*_{\mu_k}$ as a starting point for GD, optimize $f_{\mu_{k+1}}(x)$. Call the solution $x_{\mu_{k+1}}^*$.
+    3. Increase $k$ to $k + 1$.
+
+This method is a very simplified **interior point method**. The sequence of points $x_{\mu}$ is called the **central path**. 
+
+::: {.example #ip-kkt}
+We can compute the central path explicitly for some simple examples. Consider the optimization problem:
+\begin{equation}
+  \begin{split}
+  \mbox{minimize: } & (x + 1)^2 \\
+  \mbox{subject to: } & x \ge 0.
+  \end{split}
+  (\#eq:ip)
+\end{equation}
+We can calculate the central path as follows:
+\begin{align*}
+  f_\mu(x) := (x + 1)^2 - \mu \ln (x).
+\end{align*}
+The critical points for this function can be obtained by setting the derivative to 0. 
+\begin{align*}
+  f'_\mu(x) &= 0 \\ 
+  \implies 2(x + 1) - \dfrac{\mu}{x} &= 0 \\
+  \implies x^2 + x - \mu/2 &= 0 \\
+  \implies x &= \dfrac{-1 \pm \sqrt{1 + 2 \mu}}{2}.
+\end{align*}
+Only one of the two satisfy $x \ge 0$, so we get 
+\begin{align*}
+  x_\mu^* = \dfrac{-1 + \sqrt{1 + 2 \mu}}{2}. 
+\end{align*}
+This is the central path. Taking the limit as $\mu \to 0$ we get,
+\begin{align*}
+  \lim \limits_{\mu \to 0^+} x_\mu^* 
+  & = \lim \limits_{\mu \to 0^+} \dfrac{-1 + \sqrt{1 + 2 \mu}}{2} \\ 
+  &= 0,
+\end{align*}
+which is indeed the optimal solution for the optimization problem \@ref(eq:ip).
+:::

@@ -1,0 +1,95 @@
+# (PART) Non-Linear Programming {-}
+
+# Convex Programming
+
+We will now move toward generalizing the concepts from linear programming to non-linear optimization questions. 
+We'll only touch several subjects briefly without going into too much depth. 
+We'll start with convex optimization, which is a direct generalization of linear programming.
+
+::: {.definition}
+We say that a subset $\mathcal{S}$ of $\mathbb{R}^n$ is called **convex** if for any points ${x}_1$ and ${x}_2$ in $\mathcal{S}$, the line segment connecting them also lies in $\mathcal{S}$. More precisely, we say that $S$ is **convex** if forall ${x}_1$ in $\mathcal{S}$, ${x}_2$ in $\mathcal{S}$, and $t \in [0,1]$, the point $(1 - t) {x}_1 + t {x}_2$ also lies in $\mathcal{S}$.
+:::
+
+::: {.exercise}
+Show that the feasible region of a linear program is convex.
+:::
+
+::: {.definition}
+We say that function $f : \mathcal{S} \to \mathbb{R}$ is **convex** if for all ${x}_1$ in $\mathcal{S}$, ${x}_2$ in $\mathcal{S}$, and $t \in [0,1]$, the inequality $f((1 - t) {x}_1 + t {x}_2) \le (1 - t) f({x}_1) + t f({x}_2)$ holds. Geometrically, this is saying that any line segment connecting two points on the graph of $f$ lies above the graph. 
+:::
+
+The following theorem provides a quick way to check if a function is convex and to come up with examples of convex functions. 
+
+::: {.theorem #convexity-second-derivative}
+Let $f : \mathbb{R}^n \to \mathbb{R}$ be a $C^2$ function. $f$ is convex if and only if the Hessian matrix of $f$ is positive semi-definite. In particular, when $n = 1$, $f$ is convex if and only if $f'' \ge 0$.
+:::
+
+::: {.definition}
+An optimization problem 
+\begin{equation}
+  \begin{array}{ll}
+    \mbox{maximize: } & f(x)  \\ 
+    \mbox{subject to: } & x \in \mathcal{S} 
+  \end{array}
+  (\#eq:convex-optimization-problem)
+\end{equation}
+is called **convex** if $\mathcal{S}$ is a closed and convex subset of $\mathbb{R}^n$ and $f : \mathcal{S} \to \mathbb{R}$ is a convex function.
+:::
+
+::: {.exercise}
+Show that a linear program is a convex optimization problem.
+:::
+
+The following theorem is an example of how theorems about linear programs generalize to convex programs. 
+
+::: {.theorem #optimal-on-boundary}
+The convex optimization problem \@ref(eq:convex-optimization-problem) either has an optimal solution on the boundary of $\mathcal{S}$ or is unbounded.
+:::
+
+::: {.proof}
+Let ${x}$ be a point in the interior of $\mathcal{S}$. 
+It suffices to show that either there is some point on the boundary of $\mathcal{S}$ with an objective value that is greater than or equal to the objective value of ${x}$ or the problem is unbounded.
+
+Let ${x}_1$ be any point on the boundary of $\mathcal{S}$. Draw a ray starting at ${x}_1$ in the direction of ${x}$. 
+As $\mathcal{S}$ is closed and convex, two cases are possible: 
+
+1. The ray intersects the boundary of $\mathcal{S}$ in exactly one more point, say ${x}_2$.
+2. The ray does not intersect the boundary of $\mathcal{S}$ and the entire ray is contained within $\mathcal{S}$.
+
+**Case 1:** 
+
+We will show that either $f({x}) \le f({x}_1)$ or $f({x}) \le f({x}_2)$. 
+We prove this by contradiction. Suppose $f({x}) > f({x}_1)$ and $f({x}) > f({x}_2)$. 
+We know that $x = (1 - t) x_1 + t x_2$ for some $t \in (0, 1)$.
+Multiplying the first inequality by $(1-t)$ and the second by $t$ and adding them together, we get
+\begin{align*}
+  && (1-t) f({x}) + t f({x}) &> (1-t) f({x}_1) + t f({x}_2) \\ 
+  \implies 
+  && f({x}) &> (1-t) f({x}_1) + t f({x}_2) ,
+\end{align*}
+which contradicts the convexity of $f$.
+
+**Case 2:**
+
+If $f(x_1) \ge f(x)$, we're done. Suppose this is not the case. We'll show that the problem is unbounded. 
+
+For $0 < t \le 1$, let ${y}_t$ denote the point on the ray such that 
+\begin{align*}
+  {x} = (1-t) {x}_1 + t {y}_t.
+\end{align*}
+
+For example, ${y}_1 = {x}$ and ${y}_{1/2}$ is the point on the ray for which ${x}$ is midpoint of ${x}_1$ and ${y}_{1/2}$. As $t$ decreases, ${y}_t$ will move farther and farther away from ${x}$. Note that all of ${y}_t$ lie inside $\mathcal{S}$. By convexity of $f$, we know that 
+\begin{align*}
+  && f({x}) & \le (1-t) f({x}_1) + t f({y}_  t) \\
+\implies && f({x}) - (1-t) f({x}_1) &\le t f({y}_t) \\
+\implies && t^{-1}f({x}) - (t^{-1}-1) f({x}_1) &\le f({y}_t) \\
+\implies && t^{-1}(f({x}) - f({x}_1)) + f({x}_1) &\le f({y}_t) \\
+\end{align*}
+As $f({x}) > f({x}_1)$, the left hand side tends to $\infty$ as $t$ decreases and the optimization problem is unbounded.
+:::
+
+The following corollary follows by applying [Extreme Value Theorem](https://en.wikipedia.org/wiki/Extreme_value_theorem) to the above result.
+
+::: {.theorem}
+If $\mathcal{S}$ is bounded (in addition to being closed and convex), then the convex optimization problem \@ref(eq:convex-optimization-problem) has an optimal solution on the boundary of $\mathcal{S}$.
+:::

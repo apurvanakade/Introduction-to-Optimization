@@ -7,9 +7,7 @@ However, instead of solving linear programs in their full generality, we'll cons
 We will see later that every linear program can be *standardized* and hence it suffices to construct an algorithm for solving standard linear programs.
 
 ::: {.definition}
-
 A **standard linear program** is an optimization problem of the following form:
-
 \begin{equation}
   \begin{array}{lrrrrrrrrr}
     \mbox{maximize: } & c_0 & + & c_1 x_1 & + & \dots & + & c_n x_n & \\
@@ -23,19 +21,14 @@ A **standard linear program** is an optimization problem of the following form:
   (\#eq:standard-lp)
 \end{equation}
 where $c_i$, $a_{ij}$, and $b_j$ are real constants. The variables $x_1, \dots, x_n$ are called **decision variables**. A tuple $(x_1, \dots, x_n)$ that satisfy *all* the constraints is called a **feasible solution** and the set of all feasible solutions is called the **feasible region**. 
-
 :::
 
 ::: {.example}
-
 Equation \@ref(eq:bond-portfolio-lp) is an example of a standard linear program with 2 decision variables, 3 constraints, and the feasible region being a quadrilateral. 
-
 :::
 
 ::: {.definition}
-
 For each constraint, we introduce a **slack variable** by subtracting the LHS from the RHS as follows.
-
 \begin{equation}
   \begin{array}{lrrrrrrrrr}
       w_1 & = & b_1 & - & a_{11} x_1 & - & \dots & - & a_{1n} x_n \\
@@ -45,19 +38,15 @@ For each constraint, we introduce a **slack variable** by subtracting the LHS fr
   \end{array} 
   (\#eq:slack-variables-def)
 \end{equation}
-
 :::
 
 We can think of the slack variable $w_i$ as measuring the *slackness* in the $i^{th}$ constraint. The $i^{th}$ constraint is strictly met exactly when $w_i$ is zero. Using the slack variables, the linear program \@ref(eq:standard-lp) can be succinctly rewritten as:
-
 \begin{equation*}
   w_1, \dots, w_m, x_1, \dots, x_n \geq 0.
 \end{equation*}
 
 ::: {.example}
-
 The slack variables for the linear program \@ref(eq:bond-portfolio-lp) are as follows:
-
 \begin{equation*}
   \begin{array}{rlllllll}
   w_1 & = & 3.6 & - & 3x & - & 6y \\
@@ -65,16 +54,13 @@ The slack variables for the linear program \@ref(eq:bond-portfolio-lp) are as fo
   w_3 & = & 1 & - & x & - & y.
   \end{array}
 \end{equation*}
-
 In terms of these slack variables, the constraints can be rewritten as $x, y, w_1, w_2, w_3 \ge 0$ and the boundaries of the feasible region are given by $x = 0, y = 0, w_1 = 0, w_2 = 0, w_3 = 0$.
-
 
 ```{r, fig-bond-portfolio-slack}
 
 source("graphs/bond-portfolio-slack.R", local = knitr::knit_global())
 
 ```
-
 :::
 
 To construct the simplex method, we need a few facts about the geometry of the feasible region.
@@ -84,24 +70,18 @@ A **basic feasible solution** of the standard linear program \@ref(eq:standard-l
 At a degenerate BFS, we choose some $n$ vanishing variables to be non-basic and call the rest of the variables basic. 
 :::
 
-
 ::: {.example}
-
 The feasible region for the linear program \@ref(eq:bond-portfolio-lp) has four non-degenerate basic feasible solutions: $(0,0)$, $(0.75, 0)$, $(0, 0.6)$, and $(0.6, 0.3)$ and the optimal solution is attained at the BFS $(0.6, 0.3)$. At the origin, the non-basic variables are $x, y$ and the basic variables are $w_1, w_2, w_3$. At the optimal solution, the non-basic variables are $w_1, w_2$ and the basic variables are $x, y, w_3$.
-
 :::
 
 We will assume the following theorem without proof.
 
-
 ::: {.theorem name="Fundamental theorem of linear programming"}
-
 For a standard linear program, exactly on of the following holds:
 
 1. There is no feasible solution. In this case, we call the linear program **infeasible**.
 2. The optimal value can grow arbitrary large on the feasible region. In this case, we call the linear program **unbounded**.
 3. There is an optimal solution. In this case, we can further say that then there is a basic feasible solution which is optimal. 
-
 :::
 
 The hardest step in the proof of the Fundamental theorem is showing that some basic feasible solution is optimal, if an optimal solution exists. One way to show this is by showing that the simplex method, which finds basic feasible solutions, always halts whenever an optimal solution exists. As we'll see in the following chapters, proving this is true in the case of degeneracies is beyond the scope of this class.

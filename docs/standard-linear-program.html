@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Standard Linear Program | Introduction to Optimization</title>
+  <meta name="description" content="Chapter 2 Standard Linear Program | Introduction to Optimization." />
+  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 Standard Linear Program | Introduction to Optimization" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Chapter 2 Standard Linear Program | Introduction to Optimization." />
+  <meta name="github-repo" content="apurvanakade/Introduction-to-Optimization" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Standard Linear Program | Introduction to Optimization" />
+  
+  <meta name="twitter:description" content="Chapter 2 Standard Linear Program | Introduction to Optimization." />
+  
+
+<meta name="author" content="Apurva Nakade" />
+
+
+<meta name="date" content="2022-06-15" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="introduction.html"/>
+<link rel="next" href="the-simplex-method.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="part"><span><b>I Simplex Method</b></span></li>
+<li class="chapter" data-level="2" data-path="standard-linear-program.html"><a href="standard-linear-program.html"><i class="fa fa-check"></i><b>2</b> Standard Linear Program</a></li>
+<li class="chapter" data-level="3" data-path="the-simplex-method.html"><a href="the-simplex-method.html"><i class="fa fa-check"></i><b>3</b> The Simplex Method</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="the-simplex-method.html"><a href="the-simplex-method.html#the-simplex-step"><i class="fa fa-check"></i><b>3.1</b> The Simplex Step</a></li>
+<li class="chapter" data-level="3.2" data-path="the-simplex-method.html"><a href="the-simplex-method.html#tableau-notation"><i class="fa fa-check"></i><b>3.2</b> Tableau Notation</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="initialization.html"><a href="initialization.html"><i class="fa fa-check"></i><b>4</b> Initialization</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="initialization.html"><a href="initialization.html#auxiliary-linear-program"><i class="fa fa-check"></i><b>4.1</b> Auxiliary Linear Program</a></li>
+<li class="chapter" data-level="4.2" data-path="initialization.html"><a href="initialization.html#combined-tableau"><i class="fa fa-check"></i><b>4.2</b> Combined tableau</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="cycling.html"><a href="cycling.html"><i class="fa fa-check"></i><b>5</b> Cycling</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="cycling.html"><a href="cycling.html#degeneracy"><i class="fa fa-check"></i><b>5.1</b> Degeneracy</a></li>
+<li class="chapter" data-level="5.2" data-path="cycling.html"><a href="cycling.html#blands-rule"><i class="fa fa-check"></i><b>5.2</b> Bland’s Rule</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="standardization.html"><a href="standardization.html"><i class="fa fa-check"></i><b>6</b> Standardization</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="standardization.html"><a href="standardization.html#equivalence-of-linear-programs"><i class="fa fa-check"></i><b>6.1</b> Equivalence of Linear Programs</a></li>
+</ul></li>
+<li class="part"><span><b>II Duality Theory</b></span></li>
+<li class="chapter" data-level="7" data-path="dual-linear-program.html"><a href="dual-linear-program.html"><i class="fa fa-check"></i><b>7</b> Dual Linear Program</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="dual-linear-program.html"><a href="dual-linear-program.html#general-linear-program"><i class="fa fa-check"></i><b>7.1</b> General Linear Program</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="weak-and-strong-duality.html"><a href="weak-and-strong-duality.html"><i class="fa fa-check"></i><b>8</b> Weak and Strong Duality</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="weak-and-strong-duality.html"><a href="weak-and-strong-duality.html#weak-duality"><i class="fa fa-check"></i><b>8.1</b> Weak Duality</a></li>
+<li class="chapter" data-level="8.2" data-path="weak-and-strong-duality.html"><a href="weak-and-strong-duality.html#strong-duality"><i class="fa fa-check"></i><b>8.2</b> Strong Duality</a></li>
+<li class="chapter" data-level="8.3" data-path="weak-and-strong-duality.html"><a href="weak-and-strong-duality.html#complimentary-slackness"><i class="fa fa-check"></i><b>8.3</b> Complimentary slackness</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="sensitivity-analysis.html"><a href="sensitivity-analysis.html"><i class="fa fa-check"></i><b>9</b> Sensitivity Analysis</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="sensitivity-analysis.html"><a href="sensitivity-analysis.html#dictionaries-revisited"><i class="fa fa-check"></i><b>9.1</b> Dictionaries Revisited</a></li>
+<li class="chapter" data-level="9.2" data-path="sensitivity-analysis.html"><a href="sensitivity-analysis.html#range-of-optimality---constraints"><i class="fa fa-check"></i><b>9.2</b> Range of Optimality - Constraints</a></li>
+<li class="chapter" data-level="9.3" data-path="sensitivity-analysis.html"><a href="sensitivity-analysis.html#shadow-prices"><i class="fa fa-check"></i><b>9.3</b> Shadow Prices</a></li>
+<li class="chapter" data-level="9.4" data-path="sensitivity-analysis.html"><a href="sensitivity-analysis.html#sensitivity-analysis---objective"><i class="fa fa-check"></i><b>9.4</b> Sensitivity analysis - Objective</a></li>
+</ul></li>
+<li class="part"><span><b>III Non-Linear Programming</b></span></li>
+<li class="chapter" data-level="10" data-path="convex-programming.html"><a href="convex-programming.html"><i class="fa fa-check"></i><b>10</b> Convex Programming</a></li>
+<li class="chapter" data-level="11" data-path="separation-theorems.html"><a href="separation-theorems.html"><i class="fa fa-check"></i><b>11</b> Separation Theorems</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="separation-theorems.html"><a href="separation-theorems.html#farkas-lemma"><i class="fa fa-check"></i><b>11.1</b> Farkas’ Lemma</a></li>
+<li class="chapter" data-level="11.2" data-path="separation-theorems.html"><a href="separation-theorems.html#separating-hyperplane-theorem"><i class="fa fa-check"></i><b>11.2</b> Separating Hyperplane Theorem</a></li>
+<li class="chapter" data-level="11.3" data-path="separation-theorems.html"><a href="separation-theorems.html#equivalence-with-strong-duality"><i class="fa fa-check"></i><b>11.3</b> Equivalence with Strong Duality</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="interior-point-method.html"><a href="interior-point-method.html"><i class="fa fa-check"></i><b>12</b> Interior Point Method</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="interior-point-method.html"><a href="interior-point-method.html#gradient-descent"><i class="fa fa-check"></i><b>12.1</b> Gradient Descent</a></li>
+<li class="chapter" data-level="12.2" data-path="interior-point-method.html"><a href="interior-point-method.html#interior-point-method-1"><i class="fa fa-check"></i><b>12.2</b> Interior Point Method</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="kkt-conditions.html"><a href="kkt-conditions.html"><i class="fa fa-check"></i><b>13</b> KKT conditions</a></li>
+<li class="part"><span><b>IV Applications</b></span></li>
+<li class="chapter" data-level="14" data-path="l1-regression.html"><a href="l1-regression.html"><i class="fa fa-check"></i><b>14</b> L1-Regression</a></li>
+<li class="chapter" data-level="15" data-path="network-flow.html"><a href="network-flow.html"><i class="fa fa-check"></i><b>15</b> Network Flow</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="network-flow.html"><a href="network-flow.html#min-cut"><i class="fa fa-check"></i><b>15.1</b> Min-cut</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="integer-programming.html"><a href="integer-programming.html"><i class="fa fa-check"></i><b>16</b> Integer Programming</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="integer-programming.html"><a href="integer-programming.html#branch-and-bound"><i class="fa fa-check"></i><b>16.1</b> Branch and Bound</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Introduction to Optimization</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="standard-linear-program" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Standard Linear Program<a href="standard-linear-program.html#standard-linear-program" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Our first goal is to find a general method for solving linear programs.
+However, instead of solving linear programs in their full generality, we’ll construct an algorithm for solving standard linear programs.
+We will see later that every linear program can be <em>standardized</em> and hence it suffices to construct an algorithm for solving standard linear programs.</p>
+<div class="definition">
+<p><span id="def:unlabeled-div-3" class="definition"><strong>Definition 2.1  </strong></span>A <strong>standard linear program</strong> is an optimization problem of the following form:
+<span class="math display" id="eq:standard-lp">\[\begin{equation}
+  \begin{array}{lrrrrrrrrr}
+    \mbox{maximize: } &amp; c_0 &amp; + &amp; c_1 x_1 &amp; + &amp; \dots &amp; + &amp; c_n x_n &amp; \\
+    \mbox{subject to: } 
+      &amp; &amp; &amp; a_{11} x_1 &amp; + &amp; \dots &amp; + &amp; a_{1n} x_n &amp; \leq &amp; b_1 \\
+      &amp; &amp; &amp; a_{21} x_1 &amp; + &amp; \dots &amp; + &amp; a_{2n} x_n &amp; \leq &amp; b_2 \\
+      &amp; &amp; &amp; &amp; &amp; \vdots &amp;  \\
+      &amp; &amp; &amp; a_{m1} x_1 &amp; + &amp; \dots &amp; + &amp; a_{mn} x_n &amp; \leq &amp; b_m \\
+      &amp; &amp; &amp; x_1, &amp; x_2, &amp; \dots &amp;, &amp; x_n &amp; \geq &amp; 0
+  \end{array} 
+  \tag{2.1}
+\end{equation}\]</span>
+where <span class="math inline">\(c_i\)</span>, <span class="math inline">\(a_{ij}\)</span>, and <span class="math inline">\(b_j\)</span> are real constants. The variables <span class="math inline">\(x_1, \dots, x_n\)</span> are called <strong>decision variables</strong>. A tuple <span class="math inline">\((x_1, \dots, x_n)\)</span> that satisfy <em>all</em> the constraints is called a <strong>feasible solution</strong> and the set of all feasible solutions is called the <strong>feasible region</strong>.</p>
+</div>
+<div class="example">
+<p><span id="exm:unlabeled-div-4" class="example"><strong>Example 2.1  </strong></span>Equation <a href="introduction.html#eq:bond-portfolio-lp">(1.2)</a> is an example of a standard linear program with 2 decision variables, 3 constraints, and the feasible region being a quadrilateral.</p>
+</div>
+<div class="definition">
+<p><span id="def:unlabeled-div-5" class="definition"><strong>Definition 2.2  </strong></span>For each constraint, we introduce a <strong>slack variable</strong> by subtracting the LHS from the RHS as follows.
+<span class="math display" id="eq:slack-variables-def">\[\begin{equation}
+  \begin{array}{lrrrrrrrrr}
+      w_1 &amp; = &amp; b_1 &amp; - &amp; a_{11} x_1 &amp; - &amp; \dots &amp; - &amp; a_{1n} x_n \\
+      w_2 &amp; = &amp; b_2 &amp; - &amp; a_{21} x_1 &amp; - &amp; \dots &amp; - &amp; a_{2n} x_n \\
+      &amp; &amp; &amp; &amp; &amp; \vdots &amp;  \\
+      w_m &amp; = &amp; b_m &amp; - &amp; a_{m1} x_1 &amp; - &amp; \dots &amp; - &amp; a_{mn} x_n 
+  \end{array} 
+  \tag{2.2}
+\end{equation}\]</span></p>
+</div>
+<p>We can think of the slack variable <span class="math inline">\(w_i\)</span> as measuring the <em>slackness</em> in the <span class="math inline">\(i^{th}\)</span> constraint. The <span class="math inline">\(i^{th}\)</span> constraint is strictly met exactly when <span class="math inline">\(w_i\)</span> is zero. Using the slack variables, the linear program <a href="standard-linear-program.html#eq:standard-lp">(2.1)</a> can be succinctly rewritten as:
+<span class="math display">\[\begin{equation*}
+  w_1, \dots, w_m, x_1, \dots, x_n \geq 0.
+\end{equation*}\]</span></p>
+<div class="example">
+<p><span id="exm:unlabeled-div-6" class="example"><strong>Example 2.2  </strong></span>The slack variables for the linear program <a href="introduction.html#eq:bond-portfolio-lp">(1.2)</a> are as follows:
+<span class="math display">\[\begin{equation*}
+  \begin{array}{rlllllll}
+  w_1 &amp; = &amp; 3.6 &amp; - &amp; 3x &amp; - &amp; 6y \\
+  w_2 &amp; = &amp; 1.5 &amp; - &amp; 2x &amp; - &amp; y \\
+  w_3 &amp; = &amp; 1 &amp; - &amp; x &amp; - &amp; y.
+  \end{array}
+\end{equation*}\]</span>
+In terms of these slack variables, the constraints can be rewritten as <span class="math inline">\(x, y, w_1, w_2, w_3 \ge 0\)</span> and the boundaries of the feasible region are given by <span class="math inline">\(x = 0, y = 0, w_1 = 0, w_2 = 0, w_3 = 0\)</span>.</p>
+<p><img src="Introduction-to-Optimization_files/figure-html/fig-bond-portfolio-slack-1.png" width="672" /></p>
+</div>
+<p>To construct the simplex method, we need a few facts about the geometry of the feasible region.</p>
+<div class="definition">
+<p><span id="def:degeneracy" class="definition"><strong>Definition 2.3  </strong></span>A <strong>basic feasible solution</strong> of the standard linear program <a href="standard-linear-program.html#eq:standard-lp">(2.1)</a> is defined as a feasible solution at which at least <span class="math inline">\(n\)</span> basic or decision variables equal 0. A BFS where exactly <span class="math inline">\(n\)</span> basic or decision variables are 0 is called <strong>non-degenerate</strong>. A BFS where more than <span class="math inline">\(n\)</span> basic or decision variables are 0 is called <strong>degenerate</strong>. At a non-degenerate BFS, the <span class="math inline">\(n\)</span> variables that equal 0 are called <strong>non-basic</strong> and the remaining <span class="math inline">\(m\)</span> variables are called <strong>basic</strong>.
+At a degenerate BFS, we choose some <span class="math inline">\(n\)</span> vanishing variables to be non-basic and call the rest of the variables basic.</p>
+</div>
+<div class="example">
+<p><span id="exm:unlabeled-div-7" class="example"><strong>Example 2.3  </strong></span>The feasible region for the linear program <a href="introduction.html#eq:bond-portfolio-lp">(1.2)</a> has four non-degenerate basic feasible solutions: <span class="math inline">\((0,0)\)</span>, <span class="math inline">\((0.75, 0)\)</span>, <span class="math inline">\((0, 0.6)\)</span>, and <span class="math inline">\((0.6, 0.3)\)</span> and the optimal solution is attained at the BFS <span class="math inline">\((0.6, 0.3)\)</span>. At the origin, the non-basic variables are <span class="math inline">\(x, y\)</span> and the basic variables are <span class="math inline">\(w_1, w_2, w_3\)</span>. At the optimal solution, the non-basic variables are <span class="math inline">\(w_1, w_2\)</span> and the basic variables are <span class="math inline">\(x, y, w_3\)</span>.</p>
+</div>
+<p>We will assume the following theorem without proof.</p>
+<div class="theorem">
+<p><span id="thm:unlabeled-div-8" class="theorem"><strong>Theorem 2.1  (Fundamental theorem of linear programming) </strong></span>For a standard linear program, exactly on of the following holds:</p>
+<ol style="list-style-type: decimal">
+<li>There is no feasible solution. In this case, we call the linear program <strong>infeasible</strong>.</li>
+<li>The optimal value can grow arbitrary large on the feasible region. In this case, we call the linear program <strong>unbounded</strong>.</li>
+<li>There is an optimal solution. In this case, we can further say that then there is a basic feasible solution which is optimal.</li>
+</ol>
+</div>
+<p>The hardest step in the proof of the Fundamental theorem is showing that some basic feasible solution is optimal, if an optimal solution exists. One way to show this is by showing that the simplex method, which finds basic feasible solutions, always halts whenever an optimal solution exists. As we’ll see in the following chapters, proving this is true in the case of degeneracies is beyond the scope of this class.</p>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="introduction.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="the-simplex-method.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": "github"
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["Introduction to Optimization.pdf"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section",
+"scroll_highlight": true
+},
+"toolbar": {
+"position": "fixed"
+},
+"info": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

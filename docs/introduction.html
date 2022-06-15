@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 1 Introduction | Introduction to Optimization</title>
+  <meta name="description" content="Chapter 1 Introduction | Introduction to Optimization." />
+  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 1 Introduction | Introduction to Optimization" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Chapter 1 Introduction | Introduction to Optimization." />
+  <meta name="github-repo" content="apurvanakade/Introduction-to-Optimization" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 1 Introduction | Introduction to Optimization" />
+  
+  <meta name="twitter:description" content="Chapter 1 Introduction | Introduction to Optimization." />
+  
+
+<meta name="author" content="Apurva Nakade" />
+
+
+<meta name="date" content="2022-06-15" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="standard-linear-program.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="part"><span><b>I Simplex Method</b></span></li>
+<li class="chapter" data-level="2" data-path="standard-linear-program.html"><a href="standard-linear-program.html"><i class="fa fa-check"></i><b>2</b> Standard Linear Program</a></li>
+<li class="chapter" data-level="3" data-path="the-simplex-method.html"><a href="the-simplex-method.html"><i class="fa fa-check"></i><b>3</b> The Simplex Method</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="the-simplex-method.html"><a href="the-simplex-method.html#the-simplex-step"><i class="fa fa-check"></i><b>3.1</b> The Simplex Step</a></li>
+<li class="chapter" data-level="3.2" data-path="the-simplex-method.html"><a href="the-simplex-method.html#tableau-notation"><i class="fa fa-check"></i><b>3.2</b> Tableau Notation</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="initialization.html"><a href="initialization.html"><i class="fa fa-check"></i><b>4</b> Initialization</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="initialization.html"><a href="initialization.html#auxiliary-linear-program"><i class="fa fa-check"></i><b>4.1</b> Auxiliary Linear Program</a></li>
+<li class="chapter" data-level="4.2" data-path="initialization.html"><a href="initialization.html#combined-tableau"><i class="fa fa-check"></i><b>4.2</b> Combined tableau</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="cycling.html"><a href="cycling.html"><i class="fa fa-check"></i><b>5</b> Cycling</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="cycling.html"><a href="cycling.html#degeneracy"><i class="fa fa-check"></i><b>5.1</b> Degeneracy</a></li>
+<li class="chapter" data-level="5.2" data-path="cycling.html"><a href="cycling.html#blands-rule"><i class="fa fa-check"></i><b>5.2</b> Bland’s Rule</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="standardization.html"><a href="standardization.html"><i class="fa fa-check"></i><b>6</b> Standardization</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="standardization.html"><a href="standardization.html#equivalence-of-linear-programs"><i class="fa fa-check"></i><b>6.1</b> Equivalence of Linear Programs</a></li>
+</ul></li>
+<li class="part"><span><b>II Duality Theory</b></span></li>
+<li class="chapter" data-level="7" data-path="dual-linear-program.html"><a href="dual-linear-program.html"><i class="fa fa-check"></i><b>7</b> Dual Linear Program</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="dual-linear-program.html"><a href="dual-linear-program.html#general-linear-program"><i class="fa fa-check"></i><b>7.1</b> General Linear Program</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="weak-and-strong-duality.html"><a href="weak-and-strong-duality.html"><i class="fa fa-check"></i><b>8</b> Weak and Strong Duality</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="weak-and-strong-duality.html"><a href="weak-and-strong-duality.html#weak-duality"><i class="fa fa-check"></i><b>8.1</b> Weak Duality</a></li>
+<li class="chapter" data-level="8.2" data-path="weak-and-strong-duality.html"><a href="weak-and-strong-duality.html#strong-duality"><i class="fa fa-check"></i><b>8.2</b> Strong Duality</a></li>
+<li class="chapter" data-level="8.3" data-path="weak-and-strong-duality.html"><a href="weak-and-strong-duality.html#complimentary-slackness"><i class="fa fa-check"></i><b>8.3</b> Complimentary slackness</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="sensitivity-analysis.html"><a href="sensitivity-analysis.html"><i class="fa fa-check"></i><b>9</b> Sensitivity Analysis</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="sensitivity-analysis.html"><a href="sensitivity-analysis.html#dictionaries-revisited"><i class="fa fa-check"></i><b>9.1</b> Dictionaries Revisited</a></li>
+<li class="chapter" data-level="9.2" data-path="sensitivity-analysis.html"><a href="sensitivity-analysis.html#range-of-optimality---constraints"><i class="fa fa-check"></i><b>9.2</b> Range of Optimality - Constraints</a></li>
+<li class="chapter" data-level="9.3" data-path="sensitivity-analysis.html"><a href="sensitivity-analysis.html#shadow-prices"><i class="fa fa-check"></i><b>9.3</b> Shadow Prices</a></li>
+<li class="chapter" data-level="9.4" data-path="sensitivity-analysis.html"><a href="sensitivity-analysis.html#sensitivity-analysis---objective"><i class="fa fa-check"></i><b>9.4</b> Sensitivity analysis - Objective</a></li>
+</ul></li>
+<li class="part"><span><b>III Non-Linear Programming</b></span></li>
+<li class="chapter" data-level="10" data-path="convex-programming.html"><a href="convex-programming.html"><i class="fa fa-check"></i><b>10</b> Convex Programming</a></li>
+<li class="chapter" data-level="11" data-path="separation-theorems.html"><a href="separation-theorems.html"><i class="fa fa-check"></i><b>11</b> Separation Theorems</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="separation-theorems.html"><a href="separation-theorems.html#farkas-lemma"><i class="fa fa-check"></i><b>11.1</b> Farkas’ Lemma</a></li>
+<li class="chapter" data-level="11.2" data-path="separation-theorems.html"><a href="separation-theorems.html#separating-hyperplane-theorem"><i class="fa fa-check"></i><b>11.2</b> Separating Hyperplane Theorem</a></li>
+<li class="chapter" data-level="11.3" data-path="separation-theorems.html"><a href="separation-theorems.html#equivalence-with-strong-duality"><i class="fa fa-check"></i><b>11.3</b> Equivalence with Strong Duality</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="interior-point-method.html"><a href="interior-point-method.html"><i class="fa fa-check"></i><b>12</b> Interior Point Method</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="interior-point-method.html"><a href="interior-point-method.html#gradient-descent"><i class="fa fa-check"></i><b>12.1</b> Gradient Descent</a></li>
+<li class="chapter" data-level="12.2" data-path="interior-point-method.html"><a href="interior-point-method.html#interior-point-method-1"><i class="fa fa-check"></i><b>12.2</b> Interior Point Method</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="kkt-conditions.html"><a href="kkt-conditions.html"><i class="fa fa-check"></i><b>13</b> KKT conditions</a></li>
+<li class="part"><span><b>IV Applications</b></span></li>
+<li class="chapter" data-level="14" data-path="l1-regression.html"><a href="l1-regression.html"><i class="fa fa-check"></i><b>14</b> L1-Regression</a></li>
+<li class="chapter" data-level="15" data-path="network-flow.html"><a href="network-flow.html"><i class="fa fa-check"></i><b>15</b> Network Flow</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="network-flow.html"><a href="network-flow.html#min-cut"><i class="fa fa-check"></i><b>15.1</b> Min-cut</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="integer-programming.html"><a href="integer-programming.html"><i class="fa fa-check"></i><b>16</b> Integer Programming</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="integer-programming.html"><a href="integer-programming.html#branch-and-bound"><i class="fa fa-check"></i><b>16.1</b> Branch and Bound</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Introduction to Optimization</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="introduction" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">Chapter 1</span> Introduction<a href="introduction.html#introduction" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>An optimization problem consists of maximizing or minimizing a real function over a set of input values from within an allowed set and computing the value of the function.
+<span class="math display">\[\begin{align*}
+\mbox{optimize: } &amp; f(x_1, \dots, x_n) \\
+\mbox{subject to: } &amp; (x_1, \dots, x_n) \in D.
+\end{align*}\]</span>
+These kinds questions arise in all quantitative disciplines from computer science and engineering to operations research and economics.
+To analyze the question meaningfully, one needs to make some assumptions on <span class="math inline">\(f\)</span> and <span class="math inline">\(D\)</span>.</p>
+<p>We’ll start with the assumptions that the function <span class="math inline">\(f\)</span> is linear and the constraint set <span class="math inline">\(D\)</span> is described using linear inequalities. The study of this problem is called <em>Linear Programming</em>. Despite the simplicity of the Linear Programming setup, or perhaps because of it, LP is one of the most commonly used models for optimization problems. We’ll see how to solve linear programs using the simplex method and go on to analyze the solution sets using duality theory.</p>
+<p>Linear programs are used for modeling real world problems when prices/costs and constraints are fixed and known beforehand.
+Even when this is not the case, linear programs are often used to approximate and estimate costs/prices before moving on to more sophisticated techniques.</p>
+<div class="example">
+<p><span id="exm:bond-portfolio" class="example"><strong>Example 1.1  </strong></span>A bond portfolio manager has $100,000 to allocate to two different bonds; one corporate and one government bond.
+The corporate bond has a yield of 4%, a maturity of 3 years and an A rating from a rating agency that is translated into a numerical rating of 2 for computational purposes.
+In contrast, the government bond has a yield of 3%, a maturity of 6 years and rating of Aaa with the corresponding numerical rating of 1 (lower numerical ratings correspond to higher quality bonds). The portfolio manager would like to allocate her funds so that the average rating for the portfolio is no worse than Aa (numerical equivalent 1.5) and average maturity of the portfolio is at most 3.6 years.
+Any amount not invested in the two bonds will be kept in a cash account that is assumed to earn no interest for simplicity and does not contribute to the average rating or maturity computations.
+How should the manager allocate her funds between these two bonds to achieve her objective of maximizing the annual yield from this investment? <span class="citation">(<a href="#ref-optimization-methods-in-finance" role="doc-biblioref">Cornuéjols, Peña, and Tütüncü 2018</a>)</span></p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>Corporate</th>
+<th>Government</th>
+<th>Constraints</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Yield</td>
+<td>4%</td>
+<td>3%</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Maturity</td>
+<td>3</td>
+<td>6</td>
+<td>3.6</td>
+</tr>
+<tr class="odd">
+<td>Rating</td>
+<td>A = 2</td>
+<td>Aaa = 1</td>
+<td>1.5</td>
+</tr>
+<tr class="even">
+<td>Allocations</td>
+<td>??</td>
+<td>??</td>
+<td>100,000</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>We can model the above problem as follows:
+<span class="math display" id="eq:bond-portfolio-lp-incomplete">\[\begin{equation}
+  \begin{array}{rrrrrr}
+  \mbox{maximize:} &amp; 4x &amp; + &amp; 3y \\
+  \mbox{subject to:}
+    &amp; 3x &amp; + &amp; 6y &amp; \le &amp; 3.6 \\
+    &amp; 2x &amp; + &amp; y &amp; \le &amp; 1.5 
+    % &amp; x &amp; + &amp; y &amp; \le &amp; 1 \\
+    % &amp; x &amp; , &amp; y &amp; \ge &amp; 0,
+  \end{array}
+  \tag{1.1}
+\end{equation}\]</span>
+where <span class="math inline">\(x\)</span>, <span class="math inline">\(y\)</span> are the percentages of corporate and government bonds, respectively, and the objective function when multiplied by $100,000 gives us the net yield. This is an example of a <strong>linear program</strong>.</p>
+<p>We cannot subtract inequalities the same way that we subtract equations. So to get started, let us assume that both the inequalities are in fact equalities. We can solve the system
+<span class="math display">\[\begin{equation*}
+  \begin{array}{rrrrrl}
+    &amp; 3x &amp; + &amp; 6y &amp; = &amp; 3.6 \\
+    &amp; 2x &amp; + &amp; y &amp; = &amp; 1.5
+  \end{array}
+\end{equation*}\]</span>
+to obtain <span class="math inline">\(x = 0.6\)</span> and <span class="math inline">\(y = 0.3\)</span>. But for this solution <span class="math inline">\(x + y = 0.9\)</span> which is less that 1, meaning that we’re not investing all the available funds! Which raises the question: Is it possible to increase the yield further by not satisfying both of the above equalities and investing all the money instead? This question becomes even more apparent once we realize that the linear program <a href="introduction.html#eq:bond-portfolio-lp-incomplete">(1.1)</a> is incomplete and the complete linear program that models the problem is as follows:
+<span class="math display" id="eq:bond-portfolio-lp">\[\begin{equation}
+  \begin{array}{rrrrrl}
+  \mbox{maximize:} &amp; 4x &amp; + &amp; 3y \\
+  \mbox{subject to:}
+    &amp; 3x &amp; + &amp; 6y &amp; \le &amp; 3.6 \\
+    &amp; 2x &amp; + &amp; y &amp; \le &amp; 1.5 \\
+    &amp; x &amp; + &amp; y &amp; \le &amp; 1 \\
+    &amp; x &amp;  &amp;  &amp; \ge &amp; 0 \\
+    &amp;   &amp;  &amp; y &amp; \ge &amp; 0.
+  \end{array}
+  \tag{1.2}
+\end{equation}\]</span>
+The solution <span class="math inline">\((x, y) = (0.6, 0.3)\)</span> is obtained by changing the first two inequalities to equalities. But this choice is completely arbitrary! We could have switched some other set of inequalities to equalities and obtained a different solution. We’d then need to compare the solutions obtained in each of these cases and find the one that maximizes it. This is essentially the <em>simplex method</em> which we’ll study in more details in the next chapters. For this particular problem, we can use a graphing calculator to solve the problem.</p>
+<p><img src="Introduction-to-Optimization_files/figure-html/fig-bond-portfolio-1.png" width="672" /></p>
+<p>The feasible set is the quadrilateral formed by the overlap of all three constraint regions. The level sets of the objective function are straight lines of the form <span class="math inline">\(4x + 3y = c\)</span>. We can see that the largest value of <span class="math inline">\(c\)</span> for which these level sets intersect the feasible region turns out to be <span class="math inline">\(c = 3.3\%\)</span> for <span class="math inline">\((x, y) = (0.6, 0.3)\)</span>.</p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-1" class="exercise"><strong>Exercise 1.1  </strong></span>What are some possible ways to relax the constraints in the above problem so that all the money can be invested? What is the improved annual yield?</p>
+</div>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-2" class="exercise"><strong>Exercise 1.2  </strong></span>The following exercises review some basic facts about inequalities:</p>
+<ol style="list-style-type: decimal">
+<li>Find constants <span class="math inline">\(a, b, c, d\)</span> such that <span class="math inline">\(a &lt; b\)</span>, <span class="math inline">\(c &lt; d\)</span>, <span class="math inline">\(a - c &lt; b - d\)</span>, and <span class="math inline">\(ac &lt; bd\)</span>.</li>
+<li>Find constants <span class="math inline">\(a, b, c, d\)</span> such that <span class="math inline">\(a &lt; b\)</span>, <span class="math inline">\(c &lt; d\)</span>, <span class="math inline">\(a - c &lt; b - d\)</span>, and <span class="math inline">\(ac &gt; bd\)</span>.</li>
+<li>Find constants <span class="math inline">\(a, b, c, d\)</span> such that <span class="math inline">\(a &lt; b\)</span>, <span class="math inline">\(c &lt; d\)</span>, <span class="math inline">\(a - c &gt; b - d\)</span>, and <span class="math inline">\(ac &lt; bd\)</span>.</li>
+<li>Find constants <span class="math inline">\(a, b, c, d\)</span> such that <span class="math inline">\(a &lt; b\)</span>, <span class="math inline">\(c &lt; d\)</span>, <span class="math inline">\(a - c &gt; b - d\)</span>, and <span class="math inline">\(ac &gt; bd\)</span>.</li>
+<li>Prove that if <span class="math inline">\(a, b, c, d\)</span> are constants such that <span class="math inline">\(a &lt; b\)</span> and <span class="math inline">\(c &lt; d\)</span>, then <span class="math inline">\(a + c &lt; b + d\)</span>. Why does this proof fail when we try to subtract the two inequalities instead of adding them?</li>
+</ol>
+</div>
+
+</div>
+
+
+
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-optimization-methods-in-finance" class="csl-entry">
+Cornuéjols, Gérard, Javier Peña, and Reha Tütüncü. 2018. <em>Optimization Methods in Finance</em>. 2nd ed. Cambridge University Press. <a href="https://doi.org/10.1017/9781107297340">https://doi.org/10.1017/9781107297340</a>.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="standard-linear-program.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": "github"
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["Introduction to Optimization.pdf"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section",
+"scroll_highlight": true
+},
+"toolbar": {
+"position": "fixed"
+},
+"info": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
