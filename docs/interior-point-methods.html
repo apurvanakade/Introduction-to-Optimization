@@ -4,20 +4,20 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 1 Introduction | Introduction to Optimization</title>
-  <meta name="description" content="Chapter 1 Introduction | Introduction to Optimization." />
+  <title>Chapter 12 Interior Point Methods | Introduction to Optimization</title>
+  <meta name="description" content="Chapter 12 Interior Point Methods | Introduction to Optimization." />
   <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 1 Introduction | Introduction to Optimization" />
+  <meta property="og:title" content="Chapter 12 Interior Point Methods | Introduction to Optimization" />
   <meta property="og:type" content="book" />
   
-  <meta property="og:description" content="Chapter 1 Introduction | Introduction to Optimization." />
+  <meta property="og:description" content="Chapter 12 Interior Point Methods | Introduction to Optimization." />
   <meta name="github-repo" content="apurvanakade/Introduction-to-Optimization" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 1 Introduction | Introduction to Optimization" />
+  <meta name="twitter:title" content="Chapter 12 Interior Point Methods | Introduction to Optimization" />
   
-  <meta name="twitter:description" content="Chapter 1 Introduction | Introduction to Optimization." />
+  <meta name="twitter:description" content="Chapter 12 Interior Point Methods | Introduction to Optimization." />
   
 
 <meta name="author" content="Apurva Nakade" />
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="index.html"/>
-<link rel="next" href="standard-linear-program.html"/>
+<link rel="prev" href="separation-theorems.html"/>
+<link rel="next" href="kkt-conditions.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -178,151 +178,113 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="introduction" class="section level1 hasAnchor" number="1">
-<h1><span class="header-section-number">Chapter 1</span> Introduction<a href="introduction.html#introduction" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>An optimization problem consists of maximizing or minimizing a real function over a set of input values from within an allowed set.
+<div id="interior-point-methods" class="section level1 hasAnchor" number="12">
+<h1><span class="header-section-number">Chapter 12</span> Interior Point Methods<a href="interior-point-methods.html#interior-point-methods" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Throughout this chapter we will let <span class="math inline">\(f\)</span> denote a twice differentiable function from <span class="math inline">\(\mathbb{R}^n\)</span> to <span class="math inline">\(\mathbb{R}\)</span>.</p>
+<div id="gradient-descent" class="section level2 hasAnchor" number="12.1">
+<h2><span class="header-section-number">12.1</span> Gradient Descent<a href="interior-point-methods.html#gradient-descent" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We will start by trying to solve the following unconstrained optimization problem:
 <span class="math display">\[\begin{align*}
-\mbox{optimize: } &amp; f(x_1, \dots, x_n) \\
-\mbox{subject to: } &amp; (x_1, \dots, x_n) \in D.
+  \mbox{minimize: } &amp; f(x)
 \end{align*}\]</span>
-These kinds questions arise in all quantitative disciplines from computer science and engineering to operations research and economics.
-As stated, this question is too broad.
-To make any meaningful analysis, we need to make several simplifying assumptions about <span class="math inline">\(f\)</span> and <span class="math inline">\(D\)</span>.</p>
-<p>To begin with, we’ll assume that the function <span class="math inline">\(f\)</span> is linear and the constraint set <span class="math inline">\(D\)</span> is described using linear inequalities. The study of this problem is called <em>Linear Programming</em>. Despite the simplicity of the linear programming setup, or perhaps because of it, LP is one of the most commonly used models for optimization problems. Let’s start with an example before getting into the precise definitions.</p>
-<div class="example">
-<p><span id="exm:bond-portfolio" class="example"><strong>Example 1.1  </strong></span>A bond portfolio manager has $100,000 to allocate to two different bonds; one corporate and one government bond.
-The corporate bond has a yield of 4%, a maturity of 3 years and an A rating from a rating agency that is translated into a numerical rating of 2 for computational purposes.
-In contrast, the government bond has a yield of 3%, a maturity of 6 years and rating of Aaa with the corresponding numerical rating of 1 (lower numerical ratings correspond to higher quality bonds). The portfolio manager would like to allocate her funds so that the average rating for the portfolio is no worse than Aa (numerical equivalent 1.5) and average maturity of the portfolio is at most 3.6 years.
-Any amount not invested in the two bonds will be kept in a cash account that is assumed to earn no interest for simplicity and does not contribute to the average rating or maturity computations.
-How should the manager allocate her funds between these two bonds to achieve her objective of maximizing the annual yield from this investment? <span class="citation">(<a href="#ref-optimization-methods-in-finance" role="doc-biblioref">Cornuéjols, Peña, and Tütüncü 2018</a>)</span></p>
-<table>
-<thead>
-<tr class="header">
-<th></th>
-<th>Corporate</th>
-<th>Government</th>
-<th>Constraints</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Yield</td>
-<td>4%</td>
-<td>3%</td>
-<td></td>
-</tr>
-<tr class="even">
-<td>Maturity</td>
-<td>3</td>
-<td>6</td>
-<td>3.6</td>
-</tr>
-<tr class="odd">
-<td>Rating</td>
-<td>A = 2</td>
-<td>Aaa = 1</td>
-<td>1.5</td>
-</tr>
-<tr class="even">
-<td>Allocations</td>
-<td>??</td>
-<td>??</td>
-<td>100,000</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>We can model the above problem as follows:
-<span class="math display" id="eq:bond-portfolio-lp-incomplete">\[\begin{equation}
-  \begin{array}{rrrrrr}
-  \mbox{maximize:} &amp; 4x &amp; + &amp; 3y \\
-  \mbox{subject to:}
-    &amp; 3x &amp; + &amp; 6y &amp; \le &amp; 3.6 \\
-    &amp; 2x &amp; + &amp; y &amp; \le &amp; 1.5
-    % &amp; x &amp; + &amp; y &amp; \le &amp; 1 \\
-    % &amp; x &amp; , &amp; y &amp; \ge &amp; 0,
-  \end{array}
-  \tag{1.1}
-\end{equation}\]</span>
-where <span class="math inline">\(x\)</span>, <span class="math inline">\(y\)</span> are the percentages of funds allocated to corporate and government bonds, respectively, and the objective function when multiplied by $100,000 gives us the net yield. This is an example of a <em>linear program</em>.
-Note that we cannot subtract inequalities the same way that we subtract equations. So to get started, let us assume that both the inequalities are in fact equations. We can solve the resulting system,
-<span class="math display">\[\begin{equation*}
-  \begin{array}{rrrrrl}
-    &amp; 3x &amp; + &amp; 6y &amp; = &amp; 3.6 \\
-    &amp; 2x &amp; + &amp; y &amp; = &amp; 1.5,
-  \end{array}
-\end{equation*}\]</span>
-to obtain <span class="math inline">\(x = 0.6\)</span> and <span class="math inline">\(y = 0.3\)</span>.For this solution <span class="math inline">\(x + y = 0.9\)</span> which is less that 1, meaning that we’re not investing all the available funds.
-This seems less than ideal! Surely, we must invest all the funds to get maximum yield!!</p>
-<p>To complicate things further, notice that the linear program <a href="introduction.html#eq:bond-portfolio-lp-incomplete">(1.1)</a> is incomplete and the complete linear program that models the problem is as follows:
-<span class="math display" id="eq:bond-portfolio-lp">\[\begin{equation}
-  \begin{array}{rrrrrl}
-  \mbox{maximize:} &amp; 4x &amp; + &amp; 3y \\
-  \mbox{subject to:}
-    &amp; 3x &amp; + &amp; 6y &amp; \le &amp; 3.6 \\
-    &amp; 2x &amp; + &amp; y &amp; \le &amp; 1.5 \\
-    &amp; x &amp; + &amp; y &amp; \le &amp; 1 \\
-    &amp; x &amp;  &amp;  &amp; \ge &amp; 0 \\
-    &amp;   &amp;  &amp; y &amp; \ge &amp; 0.
-  \end{array}
-  \tag{1.2}
-\end{equation}\]</span>
-The solution <span class="math inline">\((x, y) = (0.6, 0.3)\)</span> is obtained by changing the first two inequalities to equations. We could have switched some other set of inequalities to equations and solved for a different solution. We would then need to compare the yields for each of these solutions and find the one that maximizes it.</p>
-<p>However, now there is an additional issue that needs to be dealt with carefully. Solving these modified equations might produce a solution that does not satisfy the original constraints. For example, solving the system of equations
-<span class="math display">\[\begin{equation*}
-  \begin{array}{rrrrrl}
-    &amp; 2x &amp; + &amp; y &amp; = &amp; 1.5 \\
-    &amp; x  &amp;  &amp;  &amp; = &amp; 0
-  \end{array}
-\end{equation*}\]</span>
-gives us <span class="math inline">\((x, y) = (0, 1.5)\)</span> which breaks the constraints <span class="math inline">\(3x + 6y \le 3.6\)</span> and <span class="math inline">\(x + y \le 1\)</span>. So, not only do we need to compare the yields at these solutions but we also need to make sure that they satisfy all the original constraints.
-As you can imagine, this naive approach becomes unwieldy for large linear programs.
-It is not even clear that changing inequalities to equations is the right approach to solving such a problem.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>
-For this particular problem, we can use a graphing calculator to solve the problem as there are only two variables.
-The following figure shows the region described by the various constraints in the first quadrant (<span class="math inline">\(x \ge 0, y \ge 0\)</span>).</p>
-<p><img src="Introduction-to-Optimization_files/figure-html/fig-bond-portfolio-1.png" width="672" /></p>
-<p>The points within the quadrilateral formed by the overlap of all three constraint regions satisfy all the constraints. The level sets of the objective function are straight lines of the form <span class="math inline">\(4x + 3y = c\)</span>. We can see that the largest value of <span class="math inline">\(c\)</span> for which these level sets intersect the feasible region is <span class="math inline">\(c = 3.3\%\)</span> for <span class="math inline">\((x, y) = (0.6, 0.3)\)</span>.
-Our original solution was indeed correct! And it is not possible to invest more money and increase the yield!!</p>
-<div class="exercise">
-<p><span id="exr:unlabeled-div-1" class="exercise"><strong>Exercise 1.1  </strong></span>What are some possible ways to relax the constraints in the above problem so that all the money can be invested? What is the improved annual yield?</p>
-</div>
-<div class="exercise">
-<p><span id="exr:unlabeled-div-2" class="exercise"><strong>Exercise 1.2  </strong></span>The following exercises review some basic facts about inequalities:</p>
+where <span class="math inline">\(x\)</span> is any vector in <span class="math inline">\(\mathbb{R}^n\)</span>.
+<strong>Gradient descent</strong> is a simple algorithm for solving this problem using basic differential calculus.
+It relies on the fact that <em>the negative of the gradient points in the direction in which the function decreases the fastest</em>.
+So the general principle is to move in the direction of the negative gradient until the function is no longer decreasing.
+More precisely, we create a sequence of guesses using the following GD recurrence relation:
+<span class="math display">\[x_{k+1} = x_k - t_k \nabla f(x_k)\]</span>
+where <span class="math inline">\(t_k\)</span> is the “step size” for the <span class="math inline">\(k^{th}\)</span> iteration and can be chosen to be a small constant or some function of <span class="math inline">\(k\)</span>, <span class="math inline">\(x_k\)</span>, <span class="math inline">\(f(x_k)\)</span>, or <span class="math inline">\(\nabla f(x_k)\)</span>.</p>
+<p>There are several issues with this technique:</p>
 <ol style="list-style-type: decimal">
-<li>Find constants <span class="math inline">\(a, b, c, d\)</span> such that <span class="math inline">\(a &lt; b\)</span>, <span class="math inline">\(c &lt; d\)</span>, <span class="math inline">\(a - c &lt; b - d\)</span>, and <span class="math inline">\(ac &lt; bd\)</span>.</li>
-<li>Find constants <span class="math inline">\(a, b, c, d\)</span> such that <span class="math inline">\(a &lt; b\)</span>, <span class="math inline">\(c &lt; d\)</span>, <span class="math inline">\(a - c &lt; b - d\)</span>, and <span class="math inline">\(ac &gt; bd\)</span>.</li>
-<li>Find constants <span class="math inline">\(a, b, c, d\)</span> such that <span class="math inline">\(a &lt; b\)</span>, <span class="math inline">\(c &lt; d\)</span>, <span class="math inline">\(a - c &gt; b - d\)</span>, and <span class="math inline">\(ac &lt; bd\)</span>.</li>
-<li>Find constants <span class="math inline">\(a, b, c, d\)</span> such that <span class="math inline">\(a &lt; b\)</span>, <span class="math inline">\(c &lt; d\)</span>, <span class="math inline">\(a - c &gt; b - d\)</span>, and <span class="math inline">\(ac &gt; bd\)</span>.</li>
-<li>Prove that if <span class="math inline">\(a, b, c, d\)</span> are constants such that <span class="math inline">\(a &lt; b\)</span> and <span class="math inline">\(c &lt; d\)</span>, then <span class="math inline">\(a + c &lt; b + d\)</span>. Why does this proof fail when we try to subtract the two inequalities instead of adding them?</li>
+<li>If the function has multiple local minima, then the sequence might converge to a non-absolute minima depending on the starting guess and the choice of step sizes.</li>
+<li>If the step sizes are chosen to be too large, then the sequence can completely miss the minima and may not converge.</li>
+<li>If the step sizes are chosen to be too small, then the sequence may take a long time to converge.</li>
 </ol>
+<p>Unfortunately, there is no easy way to resolve these issues. In practice, either we need some additional information about the function and its gradient or we proceed by trial and error to find step sizes that work. Even then there is no guarantee that the algorithm will converge to an absolute minima and not a local minima, if at all. In spite of these issues, because of its simplicity, ease of implementation, and good convergence properties in practice, Gradient Descent is a very popular algorithm for solving unconstrained optimization problems.</p>
 </div>
-<p>There are two main families of efficient algorithms for solving linear programs: simplex method(s) (Chapter <a href="the-simplex-method.html#the-simplex-method">3</a>) and interior point methods (Chapter <a href="interior-point-methods.html#interior-point-methods">12</a>).
-The simplex method is a combinatorial algorithm that essentially performs the above analysis systematically.
-Interior point methods modify <a href="https://en.wikipedia.org/wiki/Gradient_descent">gradient descent</a> algorithms to search for an optimal solution within the feasible region. We’ll analyze the simplex method in great detail and only briefly introduce a basic interior point method.</p>
-
-</div>
-
-
-
-<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div id="refs" class="references csl-bib-body hanging-indent">
-<div id="ref-optimization-methods-in-finance" class="csl-entry">
-Cornuéjols, Gérard, Javier Peña, and Reha Tütüncü. 2018. <em>Optimization Methods in Finance</em>. 2nd ed. Cambridge University Press. <a href="https://doi.org/10.1017/9781107297340">https://doi.org/10.1017/9781107297340</a>.
-</div>
-</div>
-<div class="footnotes">
-<hr />
-<ol start="1">
-<li id="fn1"><p>That this is indeed the case is the content of the <em>Fundamental Theorem of Linear Programming</em> (Theorem <a href="standard-linear-program.html#thm:fundamental-theorem-lp">2.1</a>).<a href="introduction.html#fnref1" class="footnote-back">↩︎</a></p></li>
+<div id="interior-point-method" class="section level2 hasAnchor" number="12.2">
+<h2><span class="header-section-number">12.2</span> Interior Point Method<a href="interior-point-methods.html#interior-point-method" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Gradient descent can be modified to solve constrained optimization problems by introducing barrier functions.
+Consider the following problem:
+<span class="math display" id="eq:constrained-optimization-problem">\[\begin{equation}
+  \begin{array}{llr}
+    \mbox{minimize: } &amp; f(x) \\
+    \mbox{subject to: } &amp; g_i(x) \ge 0, &amp; \mbox{ for } 1 \le i \le m. \\
+  \end{array}
+  \tag{12.1}
+\end{equation}\]</span>
+We can apply GD to this problem and find a critical point for <span class="math inline">\(f(x)\)</span>. However, this might not answer the optimization question for two reasons:</p>
+<ol style="list-style-type: decimal">
+<li>The critical point might not be in the feasible region.</li>
+<li>The optimal solution might not be obtained at a critical of <span class="math inline">\(f(x)\)</span> and could lie on the boundary <span class="math inline">\(g(x) = 0\)</span> of the feasible region.</li>
 </ol>
+<p>Gradient descent algorithm only <em>sees</em> the objective function and does not <em>know</em> about the constraints. So, we modify the objective function to include the constraints using barrier functions.</p>
+<div class="definition">
+<p><span id="def:unlabeled-div-70" class="definition"><strong>Definition 12.1  </strong></span>A <strong>barrier function</strong> is a differentiable function <span class="math inline">\(b\)</span> from <span class="math inline">\((0, \infty)\)</span> to <span class="math inline">\(\mathbb{R}\)</span> that has the property <span class="math inline">\(\lim \limits_{x \to 0^+} f(x) = \infty\)</span>.</p>
+</div>
+<p>We’ll use the barrier function <span class="math inline">\(-\ln x\)</span>. Using a small positive parameter <span class="math inline">\(\mu\)</span>, we create a new objective function:
+<span class="math display">\[\begin{align*}
+  f_\mu(x) := &amp; f(x) - \mu \sum \limits_{i = 1} ^ m \ln (g_i(x)).
+\end{align*}\]</span>
+Consider the unconstrained optimization problem
+<span class="math display">\[\begin{align*}
+  \mbox{minimize: } &amp; f_\mu (x).
+\end{align*}\]</span>
+Because the domain of <span class="math inline">\(\ln x\)</span> is <span class="math inline">\((0, \infty)\)</span>, any critical point of <span class="math inline">\(f_\mu(x)\)</span> must lie in the feasible region of <a href="interior-point-methods.html#eq:constrained-optimization-problem">(12.1)</a>.
+Let <span class="math inline">\(x_\mu^*\)</span> be a solution of the above problem.
+For sufficiently good functions <span class="math inline">\(f\)</span> and <span class="math inline">\(g_i\)</span>, <em><span class="math inline">\(x_\mu^*\)</span> exists and is continuous in <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\lim \limits_{\mu \to 0^+} x_\mu^* = x^*\)</span> where <span class="math inline">\(x^*\)</span> is an optimal solution to <a href="interior-point-methods.html#eq:constrained-optimization-problem">(12.1)</a>.</em> This assumption is valid, for example, for linear programs. With this assumption, we now have a method for solving <a href="interior-point-methods.html#eq:constrained-optimization-problem">(12.1)</a>:</p>
+<ul>
+<li>Start with a small <span class="math inline">\(\mu_0 &gt; 0\)</span> and optimize <span class="math inline">\(f_{\mu_0}(x)\)</span> using GD. Call the solution <span class="math inline">\(x_{\mu_0}^*\)</span>.</li>
+<li>Repeat the following until the sequence <span class="math inline">\(x_{\mu_k}^*\)</span> stabilizes sufficiently:
+<ol style="list-style-type: decimal">
+<li>Set <span class="math inline">\(\mu_{k+1} = \mu_k - \delta_k\)</span> for some small <span class="math inline">\(\delta_k\)</span>.</li>
+<li>Using <span class="math inline">\(x^*_{\mu_k}\)</span> as a starting point for GD, optimize <span class="math inline">\(f_{\mu_{k+1}}(x)\)</span>. Call the solution <span class="math inline">\(x_{\mu_{k+1}}^*\)</span>.</li>
+<li>Increase <span class="math inline">\(k\)</span> to <span class="math inline">\(k + 1\)</span>.</li>
+</ol></li>
+</ul>
+<p>This method is a very simplified <strong>interior point method</strong>. The sequence of points <span class="math inline">\(x_{\mu}\)</span> is called the <strong>central path</strong>.</p>
+<div class="example">
+<p><span id="exm:ip-kkt" class="example"><strong>Example 12.1  </strong></span>We can compute the central path explicitly for some simple examples. Consider the optimization problem:
+<span class="math display" id="eq:ip">\[\begin{equation}
+  \begin{split}
+  \mbox{minimize: } &amp; (x + 1)^2 \\
+  \mbox{subject to: } &amp; x \ge 0.
+  \end{split}
+  \tag{12.2}
+\end{equation}\]</span>
+We can calculate the central path as follows:
+<span class="math display">\[\begin{align*}
+  f_\mu(x) := (x + 1)^2 - \mu \ln (x).
+\end{align*}\]</span>
+The critical points for this function can be obtained by setting the derivative to 0.
+<span class="math display">\[\begin{align*}
+  f&#39;_\mu(x) &amp;= 0 \\
+  \implies 2(x + 1) - \dfrac{\mu}{x} &amp;= 0 \\
+  \implies x^2 + x - \mu/2 &amp;= 0 \\
+  \implies x &amp;= \dfrac{-1 \pm \sqrt{1 + 2 \mu}}{2}.
+\end{align*}\]</span>
+Only one of the two satisfy <span class="math inline">\(x \ge 0\)</span>, so we get
+<span class="math display">\[\begin{align*}
+  x_\mu^* = \dfrac{-1 + \sqrt{1 + 2 \mu}}{2}.
+\end{align*}\]</span>
+This is the central path. Taking the limit as <span class="math inline">\(\mu \to 0\)</span> we get,
+<span class="math display">\[\begin{align*}
+  \lim \limits_{\mu \to 0^+} x_\mu^*
+  &amp; = \lim \limits_{\mu \to 0^+} \dfrac{-1 + \sqrt{1 + 2 \mu}}{2} \\
+  &amp;= 0,
+\end{align*}\]</span>
+which is indeed the optimal solution for the optimization problem <a href="interior-point-methods.html#eq:ip">(12.2)</a>.</p>
+</div>
+
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="standard-linear-program.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="separation-theorems.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="kkt-conditions.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

@@ -2,9 +2,8 @@
 
 # Standard Linear Program
 
-Our first goal is to find a general method for solving linear programs.
-However, instead of solving linear programs in their full generality, we'll construct an algorithm for solving standard linear programs.
-We will see later that every linear program can be *standardized* and hence it suffices to construct an algorithm for solving standard linear programs.
+We will describe the simplex method for solving a special kind of linear program called *standard linear program*.
+We will see later that every linear program can be *standardized* (Chapter \@ref(standardization)) and hence this method is sufficient for solving any linear program.
 
 ::: {.definition}
 A **standard linear program** is an optimization problem of the following form:
@@ -24,11 +23,11 @@ where $c_i$, $a_{ij}$, and $b_j$ are real constants. The variables $x_1, \dots, 
 :::
 
 ::: {.example}
-Equation \@ref(eq:bond-portfolio-lp) is an example of a standard linear program with 2 decision variables, 3 constraints, and the feasible region being a quadrilateral. 
+Equation \@ref(eq:bond-portfolio-lp) is an example of a standard linear program with 2 decision variables and 3 constraints. The feasible region is a quadrilateral with vertices $(0,0)$, $(0.75, 0)$, $(0.6, 0.3)$, and $(0, 0.6)$. 
 :::
 
 ::: {.definition}
-For each constraint, we introduce a **slack variable** by subtracting the LHS from the RHS as follows.
+For each constraint of the standard linear program \@ref(eq:standard-lp), we introduce a **slack variable** by subtracting the LHS from the RHS as follows.
 \begin{equation}
   \begin{array}{lrrrrrrrrr}
       w_1 & = & b_1 & - & a_{11} x_1 & - & \dots & - & a_{1n} x_n \\
@@ -63,25 +62,42 @@ source("graphs/bond-portfolio-slack.R", local = knitr::knit_global())
 ```
 :::
 
-To construct the simplex method, we need a few facts about the geometry of the feasible region.
-
 ::: {.definition #degeneracy}
-A **basic feasible solution** of the standard linear program \@ref(eq:standard-lp) is defined as a feasible solution at which at least $n$ basic or decision variables equal 0. A BFS where exactly $n$ basic or decision variables are 0 is called **non-degenerate**. A BFS where more than $n$ basic or decision variables are 0 is called **degenerate**. At a non-degenerate BFS, the $n$ variables that equal 0 are called **non-basic** and the remaining $m$ variables are called **basic**.
+A **basic feasible solution** (BFS) to the standard linear program \@ref(eq:standard-lp) is defined as a feasible solution at which at least $n$ decision or slack variables are zero. A BFS where exactly $n$ decision or slack variables are zero is called **non-degenerate**. A BFS where more than $n$ basic or decision variables are 0 is called **degenerate**. At a non-degenerate BFS, the $n$ variables that equal 0 are called **non-basic** and the remaining $m$ variables are called **basic**.
 At a degenerate BFS, we choose some $n$ vanishing variables to be non-basic and call the rest of the variables basic. 
 :::
 
-::: {.example}
-The feasible region for the linear program \@ref(eq:bond-portfolio-lp) has four non-degenerate basic feasible solutions: $(0,0)$, $(0.75, 0)$, $(0, 0.6)$, and $(0.6, 0.3)$ and the optimal solution is attained at the BFS $(0.6, 0.3)$. At the origin, the non-basic variables are $x, y$ and the basic variables are $w_1, w_2, w_3$. At the optimal solution, the non-basic variables are $w_1, w_2$ and the basic variables are $x, y, w_3$.
+The basic feasible solutions are precisely the solutions obtained by changing $n$ or more inequalities to equations and solving the resulting simultaneous system of equations. As there are $n$ variables, we need to change at least $n$ equations in our simultaneous system of linear equations for the solution to be a single point. A degeneracy occurs when more than $n$ equations have a single solution, for example, when three lines in $\mathbb{R}^3$ or four planes in $\mathbb{R}^3$ intersecting at a single point.
+It is useful to think of the non-degenerate basic feasible solutions as *vertices* of the feasible region.
+The degenerate BFS do not have a nice geometric description.
+
+::: {.exercise}
+Show that if $k < n$ then the solution set of a system of $k$ linear equations in $n$ variables cannot be a single point.
 :::
 
-We will assume the following theorem without proof.
+::: {.example}
+The feasible region for the linear program \@ref(eq:bond-portfolio-lp) has four non-degenerate basic feasible solutions: $(0,0)$, $(0.75, 0)$, $(0.6, 0.3)$, and$(0, 0.6)$. and the optimal solution is attained at the BFS $(0.6, 0.3)$. At the origin, the non-basic variables are $x, y$ and the basic variables are $w_1, w_2, w_3$. At the optimal solution, the non-basic variables are $w_1, w_2$ and the basic variables are $x, y, w_3$. If we replace the constraint $x + y \le 1$ with $x + y \le 0.9$ then the BFS $(0.6, 0.3)$ becomes degenerate as here three (slack) variables $w_1, w_2, w_3$ are zero.
 
-::: {.theorem name="Fundamental theorem of linear programming"}
-For a standard linear program, exactly on of the following holds:
+```{r, fig-bond-portfolio-degenerate}
+
+source("graphs/bond-portfolio-degenerate.R", local = knitr::knit_global())
+
+```
+:::
+
+It turns out that it is sufficient to search for optimal solutions within the set of basic feasible solutions, which is finite, as made precise by the following theorem.
+
+::: {.theorem #fundamental-theorem-lp name="Fundamental theorem of linear programming"}
+For a standard linear program, exactly one of the following holds:
 
 1. There is no feasible solution. In this case, we call the linear program **infeasible**.
-2. The optimal value can grow arbitrary large on the feasible region. In this case, we call the linear program **unbounded**.
+2. The objective value can grow arbitrary large on the feasible region. In this case, we call the linear program **unbounded**.
 3. There is an optimal solution. In this case, we can further say that then there is a basic feasible solution which is optimal. 
 :::
 
-The hardest step in the proof of the Fundamental theorem is showing that some basic feasible solution is optimal, if an optimal solution exists. One way to show this is by showing that the simplex method, which finds basic feasible solutions, always halts whenever an optimal solution exists. As we'll see in the following chapters, proving this is true in the case of degeneracies is beyond the scope of this class.
+We will assume this theorem without proof.
+The hardest step in the proof is showing that some basic feasible solution is optimal (if an optimal solution exists) when there are degenerate basic feasible solutions.
+
+::: {.exercise}
+Find an upper bound on the set of basic feasible solutions for the standard linear program with $n$ decision variables and $m$ equations.
+:::

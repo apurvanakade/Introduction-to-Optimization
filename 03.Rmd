@@ -1,6 +1,6 @@
 # The Simplex Method
 
-The simplex method is an iterative process for finding the optimal solution of a standard linear program. It starts at some BFS and in each step moves to an adjacent BFS with a higher objective value. The following picture shows one possible run of the simplex method for solving the linear program \@ref(eq:bond-portfolio-lp).
+The simplex method is an iterative process for finding a basic feasible solution to a standard linear program that is optimal. It starts at some BFS and in each step moves to an adjacent one with a higher objective value. The following picture shows one possible run of the simplex method for solving the linear program \@ref(eq:bond-portfolio-lp).
 
 ```{r, sample-run, fig.cap="A possible run of the simplex algorithm."}
 
@@ -8,7 +8,7 @@ source("graphs/bond-portfolio-simplex.R", local = knitr::knit_global())
 
 ```
 
-In each step, one non-basic variable **enters** the set of basic variables and one basic variable **leaves** the set of basic variables. The table below explains how these sets are getting updated in the sample simplex algorithm run in Figure \@ref(fig:sample-run).
+In each step, one non-basic variable **enters** the set of basic variables and one basic variable **leaves** the set of basic variables. The table below explains how these sets are getting updated in the sample simplex method run in Figure \@ref(fig:sample-run).
 
 |  | Leaving variable | Entering variable | Basic variables | Non-basic variables |
 | - | - | - | - | - |
@@ -22,11 +22,11 @@ source("graphs/bond-portfolio-entering.R", local = knitr::knit_global())
 
 ```
 
-Using this terminology, our goal at each step is reduced to finding the entering and leaving variables. 
+Using this terminology, our goal at each step is reduced to finding which variable enters and which variable leaves. 
 To do this algebraically, we'll introduce the notion of dictionaries. 
 
 ::: {.definition}
-The **dictionary** at a basic feasible solution is a set of equations describing the objective function and the constraints in terms of the non-basic variables. 
+The **dictionary** at a basic feasible solution is the set of equations describing the objective function and the constraints in terms of the non-basic variables. 
 :::
 
 ::: {.example #dictionaries}
@@ -73,13 +73,14 @@ From the dictionary, one can extract the set of basic variables and the set of n
 - the values of the basic variables are simply the constants "$b_i$", and 
 - the value of the objective function is the constant "$c_0$".
 
-For example, from the final dictionary above, we can immediately see that $x = 0.6$, $y = 0.3$, $w_3 = 0.9$, and the objective value is $3.3%$ (and $w_1 = 0$ and $w_2 = 0.3$) at the optimal solution.
+For example, from the final dictionary above, we can immediately see that $x = 0.6$, $y = 0.3$, $w_3 = 0.1$, and the objective value is $3.3%$ (and non-basic variables $w_1$ and $w_2$ are both zero) at the optimal solution.
 :::
 
 
 ## The Simplex Step
 
-Suppose we are at a BFS. Let $\bar{w}_1, \dots, \bar{w}_m$ be the basic variables, $\bar{x}_1, \dots, \bar{x}_n$ be the non-basic variables. Let $\bar{c}_j$, $\bar{b}_i$, and $\bar{a}_{ij}$ be the constants appearing in the dictionary at the BFS so that the dictionary is as follows:
+Suppose we are at a BFS.
+\Let $\bar{w}_1, \dots, \bar{w}_m$ be the basic variables, $\bar{x}_1, \dots, \bar{x}_n$ be the non-basic variables. Let $\bar{c}_j$, $\bar{b}_i$, and $\bar{a}_{ij}$ be the constants appearing in the dictionary at the BFS so that the dictionary is as follows:
 \begin{equation}
   \begin{array}{rrrrrrrrrr}
   \mbox{objective} & = & \bar{c}_0 & + & \bar{c}_1\bar{x}_1 & + & \dots & + & \bar{c}_n\bar{x}_n \\
@@ -90,47 +91,52 @@ Suppose we are at a BFS. Let $\bar{w}_1, \dots, \bar{w}_m$ be the basic variable
   \end{array} 
   (\#eq:standard-dictionary)
 \end{equation}
-The first step is to choose the *direction of the simplex step*. 
-Algebraically, this is done by choosing the entering variable.
-We want to move to an adjacent BFS with a higher objective value. The current objective function is 
+
+### Entering variable 
+
+We want to move to an adjacent BFS with a higher objective value. 
+The current objective function is 
 \begin{align*}
   \bar{c}_0  +  \bar{c}_1\bar{x}_1  +  \dots  +  \bar{c}_n\bar{x}_n.
 \end{align*}
-and the current objective value is $\bar{c}_0$ as all the non-basic variables $\bar{x}_j$ are equal 0. 
-We can move away from the current BFS by increasing one of the non-basic variables $\bar{x}_j$ from 0 to a positive value. The objective value will increase if $\bar{c}_j > 0$. This then is the criterion for choosing the entering variable. 
+and the current objective value is $\bar{c}_0$ as all the non-basic variables $\bar{x}_j$ are zero. 
+We can move away from the current BFS by increasing one of the non-basic variables $\bar{x}_j$ from zero to a positive value. The objective value will increase precisely when $\bar{c}_j > 0$. This then is the criterion for choosing the entering variable. We can think of this as choosing the *direction* of the simplex step.
 
 ::: {.proposition #entering-variable name="Entering variable"}
 A non-basic variable $\bar{x}_j$ can be entering if $\bar{c}_j > 0$.
 :::
 
 ::: {.example}
-In the dictionary \@ref(eq:example-dictionary-1), the objective function is $4x + 3y$. Hence, both $x$ and $y$ can be chosen as the entering variables. Geometrically, we can see that there are two different paths going from the origin to the optimal solution. In the dictionary \@ref(eq:example-dictionary-2), the objective function is $3 + (-2)w_2 + y$ and only $y$ can be the entering variable. In dictionary \@ref(eq:example-dictionary-3), the objective function is $3.3 + (-5/3)w_2 + (-2/9)w_1$ and there cannot be any entering variable.
+In the dictionary \@ref(eq:example-dictionary-1), the objective function is $4x + 3y$. Hence, both $x$ and $y$ can be chosen as entering variables. We can see that there are two different paths along the BFS going from the origin to the optimal solution. In the dictionary \@ref(eq:example-dictionary-2), the objective function is $3 + (-2)w_2 + y$ and only $y$ can be the entering variable. In dictionary \@ref(eq:example-dictionary-3), the objective function is $3.3 + (-5/3)w_2 + (-2/9)w_1$ and there cannot be any entering variable.
 :::
 
+### Leaving Variable
 
-Suppose $\bar{x}_j$ is the chosen entering variable. 
+Suppose we choose $\bar{x}_j$ as our entering variable. 
 This determines the direction of the simplex step.
 We next need to figure out the amount by which to increase $\bar{x}_j$ without leaving the feasible region.
-The basic variables are related to $\bar{x}_j$ by the following relations
+The basic variable $\bar{w}_i$ is related to $\bar{x}_j$ by the following relation
 \begin{align*}
   \bar{w}_i = \bar{b}_i - \bar{a}_{ij} \bar{x}_j - \sum \limits_{k = 1, k \neq j}^{n}  \bar{a}_{ik} \bar{x}_k.
 \end{align*}
-The summation quantity stays at 0. 
-As $x_j$ increases $w_i$ will decrease exactly when $a_{ij} > 0$. 
-Because we want all the variables to be non-negative, we must always have $w_i = b_i - a_{ij} x_j \ge 0$. 
-This condition must hold true for all such $w_i$. Hence, we get the following criterion for choosing the leaving variable.
+As we increase (only) $\bar{x}_j$, the quantity within the summation remains zero. 
+If $a_{ij} > 0$, then as we increase $\bar{x}_j$ the basic variable $\bar{w}_j$ will decrease. 
+Because we want all the variables to be non-negative, we must always have $\bar{w}_i = \bar{b}_i - \bar{a}_{ij} \bar{x}_j \ge 0$. 
+This condition must hold true for all such $\bar{w}_i$. 
+Hence, we get the following criterion for choosing the leaving variable.
 
 ::: {.proposition #leaving-variable name="Leaving variable"}
-Suppose $\bar{x}_j$ is the entering variable. A basic variable $\bar{w}_i$ can be chosen to be the leaving variable if 
+Suppose $\bar{x}_j$ is the entering variable. 
+The basic variable $\bar{w}_i$ can be chosen to be the leaving variable if 
 \begin{align*}
-  i = {\arg \min} _{a_{ij} > 0} \dfrac{b_i}{a_{ij}}.
+  i = {\arg \min} _{\bar{a}_{ij} > 0} \dfrac{\bar{b}_i}{\bar{a}_{ij}}.
 \end{align*}
 :::
 
-In this case, after the simplex step $w_i$ decreases to $0$, $x_j$ increases to $\min_{a_{ij} > 0} {b_i}/{a_{ij}}$, and the objective value increases by $\bar{c}_j \min_{a_{ij} > 0} {b_i}/{a_{ij}}$.
+If we choose $\bar{w}_i$ to be leaving then after the simplex step, $\bar{w}_i$ decreases to $0$, $\bar{x}_j$ increases to $\min_{\bar{a}_{ij} > 0} {\bar{b}_i}/{\bar{a}_{ij}}$, and the objective value increases by $\bar{c}_j \min_{\bar{a}_{ij} > 0} {\bar{b}_i}/{\bar{a}_{ij}}$.
 
 ::: {.example}
-In the dictionary \@ref(eq:example-dictionary-1), if we choose $x$ to be our entering variable then we need to get the following ratios to compare 
+In the dictionary \@ref(eq:example-dictionary-1), if we choose $x$ to be our entering variable then we need to compare the following ratios:
 
 | $i$ | $\bar{a}_{ij}$ | $\bar{b}_i$ | $\bar{b}_i/\bar{a}_{ij}$ | 
 | :-: | :-: | :-: | :-: | 
@@ -144,7 +150,7 @@ We can see that the smallest ratio is obtained for $w_2$. Hence, it is the only 
 
 ## Tableau Notation
 
-When manipulating linear systems, one can forget the variables and simply perform manipulations on the coefficients using matrices. 
+When manipulating a linear system of equations, one can forget the variables and simply perform manipulations on the coefficients using matrices. 
 The same is true for linear programs. 
 We start by rewriting the constraints in the dictionary with all the variables on the LHS and all the constants on the RHS:
 \begin{equation}
@@ -165,7 +171,7 @@ This can then be encoded using the following augmented matrix:
       \bar{a}_{m1}  & & \dots & & \bar{a}_{mn}  & & & & & & 1 &\bar{b}_m\\
   \end{array}
 \end{equation*}
-We add back the objective function, but because of a quirk of algebra we need to add the objective function coefficients as follows.
+We add back the objective function, but because of a quirk of algebra we need to add the objective function coefficients as follows:
 \begin{equation*}
  \begin{array}{rrrrrrrrrrr|r}
       \bar{a}_{11}  & & \dots & & \bar{a}_{1n}  & 1 & & & & & &\bar{b}_1\\
@@ -176,8 +182,7 @@ We add back the objective function, but because of a quirk of algebra we need to
   \end{array} 
 \end{equation*}
 The columns in this augmented matrix correspond to the variables $\bar{x}_j$ and $\bar{w}_i$. The columns with the *pivots* correspond to the basic variables. 
-
-If $\bar{x}_j$ is the entering variable and $\bar{w}_i$ is the leaving variable, then we simply perform elementary row operations and turn the entry $\bar{a}_{ij}$ into a pivot for its column. Hence, this step is also called the **pivot step**.
+If $\bar{x}_j$ is the entering variable and $\bar{w}_i$ is the leaving variable, then *we simply perform elementary row operations and turn the entry $\bar{a}_{ij}$ into a pivot for its column*. Hence, the simplex step is also called the **pivot step**.
 
 ::: {.example}
 The tableau corresponding to the dictionary \@ref(eq:example-dictionary-1) is as follows:

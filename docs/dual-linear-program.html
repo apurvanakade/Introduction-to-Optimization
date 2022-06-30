@@ -23,7 +23,7 @@
 <meta name="author" content="Apurva Nakade" />
 
 
-<meta name="date" content="2022-06-15" />
+<meta name="date" content="2022-06-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -97,7 +97,11 @@ div.csl-indent {
 <li class="chapter" data-level="2" data-path="standard-linear-program.html"><a href="standard-linear-program.html"><i class="fa fa-check"></i><b>2</b> Standard Linear Program</a></li>
 <li class="chapter" data-level="3" data-path="the-simplex-method.html"><a href="the-simplex-method.html"><i class="fa fa-check"></i><b>3</b> The Simplex Method</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="the-simplex-method.html"><a href="the-simplex-method.html#the-simplex-step"><i class="fa fa-check"></i><b>3.1</b> The Simplex Step</a></li>
+<li class="chapter" data-level="3.1" data-path="the-simplex-method.html"><a href="the-simplex-method.html#the-simplex-step"><i class="fa fa-check"></i><b>3.1</b> The Simplex Step</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="the-simplex-method.html"><a href="the-simplex-method.html#entering-variable"><i class="fa fa-check"></i><b>3.1.1</b> Entering variable</a></li>
+<li class="chapter" data-level="3.1.2" data-path="the-simplex-method.html"><a href="the-simplex-method.html#leaving-variable"><i class="fa fa-check"></i><b>3.1.2</b> Leaving Variable</a></li>
+</ul></li>
 <li class="chapter" data-level="3.2" data-path="the-simplex-method.html"><a href="the-simplex-method.html#tableau-notation"><i class="fa fa-check"></i><b>3.2</b> Tableau Notation</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="initialization.html"><a href="initialization.html"><i class="fa fa-check"></i><b>4</b> Initialization</a>
@@ -140,10 +144,10 @@ div.csl-indent {
 <li class="chapter" data-level="11.2" data-path="separation-theorems.html"><a href="separation-theorems.html#separating-hyperplane-theorem"><i class="fa fa-check"></i><b>11.2</b> Separating Hyperplane Theorem</a></li>
 <li class="chapter" data-level="11.3" data-path="separation-theorems.html"><a href="separation-theorems.html#equivalence-with-strong-duality"><i class="fa fa-check"></i><b>11.3</b> Equivalence with Strong Duality</a></li>
 </ul></li>
-<li class="chapter" data-level="12" data-path="interior-point-method.html"><a href="interior-point-method.html"><i class="fa fa-check"></i><b>12</b> Interior Point Method</a>
+<li class="chapter" data-level="12" data-path="interior-point-methods.html"><a href="interior-point-methods.html"><i class="fa fa-check"></i><b>12</b> Interior Point Methods</a>
 <ul>
-<li class="chapter" data-level="12.1" data-path="interior-point-method.html"><a href="interior-point-method.html#gradient-descent"><i class="fa fa-check"></i><b>12.1</b> Gradient Descent</a></li>
-<li class="chapter" data-level="12.2" data-path="interior-point-method.html"><a href="interior-point-method.html#interior-point-method-1"><i class="fa fa-check"></i><b>12.2</b> Interior Point Method</a></li>
+<li class="chapter" data-level="12.1" data-path="interior-point-methods.html"><a href="interior-point-methods.html#gradient-descent"><i class="fa fa-check"></i><b>12.1</b> Gradient Descent</a></li>
+<li class="chapter" data-level="12.2" data-path="interior-point-methods.html"><a href="interior-point-methods.html#interior-point-method"><i class="fa fa-check"></i><b>12.2</b> Interior Point Method</a></li>
 </ul></li>
 <li class="chapter" data-level="13" data-path="kkt-conditions.html"><a href="kkt-conditions.html"><i class="fa fa-check"></i><b>13</b> KKT conditions</a></li>
 <li class="part"><span><b>IV Applications</b></span></li>
@@ -193,17 +197,17 @@ The standard linear program <a href="standard-linear-program.html#eq:standard-lp
 <span class="math display">\[\begin{equation*}
 \begin{array}{lrll}
   \mbox{maximize: } &amp; c_0 + c^T x \\
-  \mbox{subject to: } 
+  \mbox{subject to: }
     &amp; A x &amp; \leq &amp; b \\
     &amp; x &amp; \geq &amp; 0.
 \end{array}
 \end{equation*}\]</span></p>
 <div class="definition">
-<p><span id="def:unlabeled-div-36" class="definition"><strong>Definition 7.1  </strong></span>The <strong>dual</strong> of this linear program is defined as the following linear program:
+<p><span id="def:unlabeled-div-37" class="definition"><strong>Definition 7.1  </strong></span>The <strong>dual</strong> of this linear program is defined as the following linear program:
 <span class="math display" id="eq:standard-dual-lp">\[\begin{equation}
   \begin{array}{lrll}
     \mbox{minimize: } &amp; c_0 + b^T y \\
-    \mbox{subject to: } 
+    \mbox{subject to: }
       &amp; A^T y &amp; \geq &amp; c \\
       &amp; y &amp; \geq &amp; 0,
   \end{array}
@@ -213,17 +217,17 @@ where <span class="math inline">\(y = \begin{bmatrix} y_1 \\ y_2 \\ \vdots \\ y_
 </div>
 <p>The original linear program is called the <strong>primal</strong>. The dual decision variables correspond to the constraints of the original linear program. By explicitly computation, we can easily prove that the following theorem.</p>
 <div class="theorem">
-<p><span id="thm:unlabeled-div-37" class="theorem"><strong>Theorem 7.1  </strong></span>The the dual of the (standardized) dual is equivalent to the primal.</p>
+<p><span id="thm:unlabeled-div-38" class="theorem"><strong>Theorem 7.1  </strong></span>The the dual of the (standardized) dual is equivalent to the primal.</p>
 </div>
 <p>Hence, we think of linear programs as occurring in <strong>primal-dual pairs</strong>.
 Every linear program has a dual and it is itself the dual of the dual.
 The dual decision variables correspond to the constraints of the original linear program and the primal decision variables correspond to the constraints of the dual.
 The meaning of the dual decision variables will become clear when we study shadow prices.</p>
 <div class="example">
-<p><span id="exm:unlabeled-div-38" class="example"><strong>Example 7.1  </strong></span>The dual of <a href="introduction.html#eq:bond-portfolio-lp">(1.2)</a> is:
+<p><span id="exm:unlabeled-div-39" class="example"><strong>Example 7.1  </strong></span>The dual of <a href="introduction.html#eq:bond-portfolio-lp">(1.2)</a> is:
 <span class="math display" id="eq:bond-portfolio-dual">\[\begin{equation}
 \begin{array}{lrrrrrrrrrr}
-  \mbox{minimize: } 
+  \mbox{minimize: }
     &amp; 3.6 y_1 &amp; + &amp; 1.5 y_2 &amp; + &amp; y_3 \\
   \mbox{subject to: }
     &amp; 3y_1 &amp; + &amp; 2 y_2 &amp; + &amp; y_3 &amp; \geq &amp; 4 \\

@@ -31,8 +31,12 @@ library(ggplot2)
 
 # Preface {.unnumbered}
 
-These are the class notes for a quarter long course I taught at Northwestern University in Winter and Spring 2022. 
-The notes only cover the theoretical aspect of the course. Students were also assigned weekly worksheets to solve using the SOLVER add-in for Excel. 
+These are class notes for a quarter long course on *Introduction to Optimization* (Math 368) at Northwestern University taught during the Winter and Spring of 2022. 
+For the most part, these notes talk about linear programming and duality theory, and only towards the very end we discuss non-linear programming.
+The class is aimed at upper-level undergrads who've completed a basic sequence in
+linear algebra and calculus.
+The prerequisites for the linear programming part are Gaussian elimination and basic theorem proving.
+For the non-linear programming part, you'll need to know basic properties of gradients and directional derivatives.
 
 These notes are licensed under a [Creative Commons Attribution-ShareAlike 4.0 International License]([http://creativecommons.org/licenses/by-sa/4.0/](http://creativecommons.org/licenses/by-sa/4.0/)).
 Please feel free to fork and modify the Github repo or use these notes as-is.

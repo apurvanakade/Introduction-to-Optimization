@@ -23,7 +23,7 @@
 <meta name="author" content="Apurva Nakade" />
 
 
-<meta name="date" content="2022-06-15" />
+<meta name="date" content="2022-06-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -216,7 +216,7 @@ We can apply GD to this problem and find a critical point for <span class="math 
 </ol>
 <p>Gradient descent algorithm only <em>sees</em> the objective function and does not <em>know</em> about the constraints. So, we modify the objective function to include the constraints using barrier functions.</p>
 <div class="definition">
-<p><span id="def:unlabeled-div-69" class="definition"><strong>Definition 12.1  </strong></span>A <strong>barrier function</strong> is a differentiable function <span class="math inline">\(b\)</span> from <span class="math inline">\((0, \infty)\)</span> to <span class="math inline">\(\mathbb{R}\)</span> that has the property <span class="math inline">\(\lim \limits_{x \to 0^+} f(x) = \infty\)</span>.</p>
+<p><span id="def:unlabeled-div-68" class="definition"><strong>Definition 12.1  </strong></span>A <strong>barrier function</strong> is a differentiable function <span class="math inline">\(b\)</span> from <span class="math inline">\((0, \infty)\)</span> to <span class="math inline">\(\mathbb{R}\)</span> that has the property <span class="math inline">\(\lim \limits_{x \to 0^+} f(x) = \infty\)</span>.</p>
 </div>
 <p>We’ll use the barrier function <span class="math inline">\(-\ln x\)</span>. Using a small positive parameter <span class="math inline">\(\mu\)</span>, we create a new objective function:
 <span class="math display">\[\begin{align*}
@@ -254,19 +254,19 @@ We can calculate the central path as follows:
 \end{align*}\]</span>
 The critical points for this function can be obtained by setting the derivative to 0.
 <span class="math display">\[\begin{align*}
-  f&#39;_\mu(x) &amp;= 0 \\ 
+  f&#39;_\mu(x) &amp;= 0 \\
   \implies 2(x + 1) - \dfrac{\mu}{x} &amp;= 0 \\
   \implies x^2 + x - \mu/2 &amp;= 0 \\
   \implies x &amp;= \dfrac{-1 \pm \sqrt{1 + 2 \mu}}{2}.
 \end{align*}\]</span>
 Only one of the two satisfy <span class="math inline">\(x \ge 0\)</span>, so we get
 <span class="math display">\[\begin{align*}
-  x_\mu^* = \dfrac{-1 + \sqrt{1 + 2 \mu}}{2}. 
+  x_\mu^* = \dfrac{-1 + \sqrt{1 + 2 \mu}}{2}.
 \end{align*}\]</span>
 This is the central path. Taking the limit as <span class="math inline">\(\mu \to 0\)</span> we get,
 <span class="math display">\[\begin{align*}
-  \lim \limits_{\mu \to 0^+} x_\mu^* 
-  &amp; = \lim \limits_{\mu \to 0^+} \dfrac{-1 + \sqrt{1 + 2 \mu}}{2} \\ 
+  \lim \limits_{\mu \to 0^+} x_\mu^*
+  &amp; = \lim \limits_{\mu \to 0^+} \dfrac{-1 + \sqrt{1 + 2 \mu}}{2} \\
   &amp;= 0,
 \end{align*}\]</span>
 which is indeed the optimal solution for the optimization problem <a href="interior-point-method.html#eq:ip">(12.2)</a>.</p>

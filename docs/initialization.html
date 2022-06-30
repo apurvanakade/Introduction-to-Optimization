@@ -23,7 +23,7 @@
 <meta name="author" content="Apurva Nakade" />
 
 
-<meta name="date" content="2022-06-15" />
+<meta name="date" content="2022-06-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -97,7 +97,11 @@ div.csl-indent {
 <li class="chapter" data-level="2" data-path="standard-linear-program.html"><a href="standard-linear-program.html"><i class="fa fa-check"></i><b>2</b> Standard Linear Program</a></li>
 <li class="chapter" data-level="3" data-path="the-simplex-method.html"><a href="the-simplex-method.html"><i class="fa fa-check"></i><b>3</b> The Simplex Method</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="the-simplex-method.html"><a href="the-simplex-method.html#the-simplex-step"><i class="fa fa-check"></i><b>3.1</b> The Simplex Step</a></li>
+<li class="chapter" data-level="3.1" data-path="the-simplex-method.html"><a href="the-simplex-method.html#the-simplex-step"><i class="fa fa-check"></i><b>3.1</b> The Simplex Step</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="the-simplex-method.html"><a href="the-simplex-method.html#entering-variable"><i class="fa fa-check"></i><b>3.1.1</b> Entering variable</a></li>
+<li class="chapter" data-level="3.1.2" data-path="the-simplex-method.html"><a href="the-simplex-method.html#leaving-variable"><i class="fa fa-check"></i><b>3.1.2</b> Leaving Variable</a></li>
+</ul></li>
 <li class="chapter" data-level="3.2" data-path="the-simplex-method.html"><a href="the-simplex-method.html#tableau-notation"><i class="fa fa-check"></i><b>3.2</b> Tableau Notation</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="initialization.html"><a href="initialization.html"><i class="fa fa-check"></i><b>4</b> Initialization</a>
@@ -140,10 +144,10 @@ div.csl-indent {
 <li class="chapter" data-level="11.2" data-path="separation-theorems.html"><a href="separation-theorems.html#separating-hyperplane-theorem"><i class="fa fa-check"></i><b>11.2</b> Separating Hyperplane Theorem</a></li>
 <li class="chapter" data-level="11.3" data-path="separation-theorems.html"><a href="separation-theorems.html#equivalence-with-strong-duality"><i class="fa fa-check"></i><b>11.3</b> Equivalence with Strong Duality</a></li>
 </ul></li>
-<li class="chapter" data-level="12" data-path="interior-point-method.html"><a href="interior-point-method.html"><i class="fa fa-check"></i><b>12</b> Interior Point Method</a>
+<li class="chapter" data-level="12" data-path="interior-point-methods.html"><a href="interior-point-methods.html"><i class="fa fa-check"></i><b>12</b> Interior Point Methods</a>
 <ul>
-<li class="chapter" data-level="12.1" data-path="interior-point-method.html"><a href="interior-point-method.html#gradient-descent"><i class="fa fa-check"></i><b>12.1</b> Gradient Descent</a></li>
-<li class="chapter" data-level="12.2" data-path="interior-point-method.html"><a href="interior-point-method.html#interior-point-method-1"><i class="fa fa-check"></i><b>12.2</b> Interior Point Method</a></li>
+<li class="chapter" data-level="12.1" data-path="interior-point-methods.html"><a href="interior-point-methods.html#gradient-descent"><i class="fa fa-check"></i><b>12.1</b> Gradient Descent</a></li>
+<li class="chapter" data-level="12.2" data-path="interior-point-methods.html"><a href="interior-point-methods.html#interior-point-method"><i class="fa fa-check"></i><b>12.2</b> Interior Point Method</a></li>
 </ul></li>
 <li class="chapter" data-level="13" data-path="kkt-conditions.html"><a href="kkt-conditions.html"><i class="fa fa-check"></i><b>13</b> KKT conditions</a></li>
 <li class="part"><span><b>IV Applications</b></span></li>
@@ -179,7 +183,7 @@ div.csl-indent {
 <p>We now know how to move from a BFS to an adjacent one with a higher objective value.
 We can start the simplex method at the origin if the origin is a BFS. However, this is not always the case.</p>
 <div class="proposition">
-<p><span id="prp:unlabeled-div-14" class="proposition"><strong>Proposition 4.1  </strong></span>The origin is a basic feasible solution of the standard linear program <a href="standard-linear-program.html#eq:standard-lp">(2.1)</a> if and only if <span class="math inline">\(b_i \ge 0\)</span> for all <span class="math inline">\(1 \le i \le m.\)</span></p>
+<p><span id="prp:unlabeled-div-15" class="proposition"><strong>Proposition 4.1  </strong></span>The origin is a basic feasible solution of the standard linear program <a href="standard-linear-program.html#eq:standard-lp">(2.1)</a> if and only if <span class="math inline">\(b_i \ge 0\)</span> for all <span class="math inline">\(1 \le i \le m.\)</span></p>
 </div>
 <p>When the origin is not a BFS, we need a process to find some vertex of the feasible region.
 This is called the <strong>Initialization Phase</strong> or <strong>Phase I</strong> of the simplex method.
@@ -187,21 +191,21 @@ To do this we need to create an auxiliary linear program.</p>
 <div id="auxiliary-linear-program" class="section level2 hasAnchor" number="4.1">
 <h2><span class="header-section-number">4.1</span> Auxiliary Linear Program<a href="initialization.html#auxiliary-linear-program" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="definition">
-<p><span id="def:unlabeled-div-15" class="definition"><strong>Definition 4.1  </strong></span>We say that a linear program is <strong>feasible</strong> if its feasible region is non-empty.</p>
+<p><span id="def:unlabeled-div-16" class="definition"><strong>Definition 4.1  </strong></span>We say that a linear program is <strong>feasible</strong> if its feasible region is non-empty.</p>
 </div>
 <p>The initialization phase determines if a standard linear program is feasible and if it is then it finds a BFS by solving the following auxiliary linear program.</p>
 <div class="definition">
-<p><span id="def:unlabeled-div-16" class="definition"><strong>Definition 4.2  </strong></span>The <strong>auxiliary linear program</strong> of the standard linear program <a href="standard-linear-program.html#eq:standard-lp">(2.1)</a> is defined as follows:
+<p><span id="def:unlabeled-div-17" class="definition"><strong>Definition 4.2  </strong></span>The <strong>auxiliary linear program</strong> of the standard linear program <a href="standard-linear-program.html#eq:standard-lp">(2.1)</a> is defined as follows:
 <span class="math display" id="eq:auxiliary-lp">\[\begin{equation}
   \begin{array}{lrrrrrrrrrrr}
     \mbox{maximize: } &amp;  &amp;  &amp;   &amp;  &amp; &amp;  &amp; &amp; - &amp; x_0 &amp; \\
-    \mbox{subject to: } 
+    \mbox{subject to: }
       &amp; &amp; &amp; a_{11} x_1 &amp; + &amp; \dots &amp; + &amp; a_{1n} x_n &amp; - &amp;x_0 &amp; \leq &amp; b_1 \\
       &amp; &amp; &amp; a_{21} x_1 &amp; + &amp; \dots &amp; + &amp; a_{2n} x_n &amp; - &amp;x_0 &amp; \leq &amp; b_2 \\
       &amp; &amp; &amp; &amp; &amp; \vdots &amp;  \\
       &amp; &amp; &amp; a_{m1} x_1 &amp; + &amp; \dots &amp; + &amp; a_{mn} x_n &amp; - &amp;x_0 &amp; \leq &amp; b_m \\
       &amp; &amp; &amp; x_1, &amp; x_2, &amp; \dots &amp;, &amp; x_n &amp; , &amp; x_0 &amp; \geq &amp; 0
-  \end{array} 
+  \end{array}
   \tag{4.1}
 \end{equation}\]</span></p>
 </div>
@@ -209,20 +213,20 @@ To do this we need to create an auxiliary linear program.</p>
 <span class="math display">\[\begin{equation*}
   \begin{array}{lrrrrrrrrrrrrr}
     \mbox{minimize: } &amp; &amp; &amp; &amp; &amp; &amp; &amp; &amp; &amp; &amp; &amp; x_0 &amp; \\
-    \mbox{subject to: } 
+    \mbox{subject to: }
       &amp; &amp; &amp; a_{11} x_1 &amp; + &amp; \dots &amp; + &amp; a_{1n} x_n &amp; \leq &amp; b_1 &amp; + &amp; x_0 \\
       &amp; &amp; &amp; a_{21} x_1 &amp; + &amp; \dots &amp; + &amp; a_{2n} x_n &amp; \leq &amp; b_2 &amp; + &amp; x_0 \\
       &amp; &amp; &amp; &amp; &amp; \vdots &amp;  \\
       &amp; &amp; &amp; a_{m1} x_1 &amp; + &amp; \dots &amp; + &amp; a_{mn} x_n &amp; \leq &amp; b_m &amp; + &amp; x_0 \\
       &amp; &amp; &amp; x_1, &amp; x_2, &amp; \dots &amp;, &amp; x_n &amp; , &amp; x_0 &amp; \geq &amp; 0
-  \end{array} 
+  \end{array}
 \end{equation*}\]</span>
 We can interpret <span class="math inline">\(x_0\)</span> as a relaxation of the constraints. The auxiliary linear program is then asking - <em>what is the smallest constraint relaxation necessary to make our linear program feasible?</em>. The primary linear program should feasible if and only if no relaxation is necessary. This is indeed the case.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-17" class="exercise"><strong>Exercise 4.1  </strong></span>Show that the auxiliary linear program <a href="initialization.html#eq:auxiliary-lp">(4.1)</a> is always feasible by explicitly constructing a feasible solution.</p>
+<p><span id="exr:unlabeled-div-18" class="exercise"><strong>Exercise 4.1  </strong></span>Show that the auxiliary linear program <a href="initialization.html#eq:auxiliary-lp">(4.1)</a> is always feasible by explicitly constructing a feasible solution.</p>
 </div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-18" class="exercise"><strong>Exercise 4.2  </strong></span>Show that the objective values of the auxiliary linear program <a href="initialization.html#eq:auxiliary-lp">(4.1)</a> are bounded from above by 0. Using the <a href="https://en.wikipedia.org/wiki/Extreme_value_theorem">extreme value theorem</a>, conclude that <a href="initialization.html#eq:auxiliary-lp">(4.1)</a> always has an optimal solution.</p>
+<p><span id="exr:unlabeled-div-19" class="exercise"><strong>Exercise 4.2  </strong></span>Show that the objective values of the auxiliary linear program <a href="initialization.html#eq:auxiliary-lp">(4.1)</a> are bounded from above by 0. Using the <a href="https://en.wikipedia.org/wiki/Extreme_value_theorem">extreme value theorem</a>, conclude that <a href="initialization.html#eq:auxiliary-lp">(4.1)</a> always has an optimal solution.</p>
 </div>
 <p>Finally, we get the following theorem (proof left as an exercise) which provides an explicit connection between the optimal solution of the auxiliary linear program and the feasible region of the standard linear program</p>
 <div class="theorem">
@@ -232,7 +236,7 @@ We can interpret <span class="math inline">\(x_0\)</span> as a relaxation of the
 Note that the origin is not in the feasible region, so we cannot start applying the simplex steps.
 The following exercise provides us a way to find a BFS of the auxiliary linear program.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-19" class="exercise"><strong>Exercise 4.3  </strong></span>Suppose some <span class="math inline">\(b_i\)</span> is negative.
+<p><span id="exr:unlabeled-div-20" class="exercise"><strong>Exercise 4.3  </strong></span>Suppose some <span class="math inline">\(b_i\)</span> is negative.
 Without any loss of generality, assume that <span class="math inline">\(b_1\)</span> is the smallest among all the <span class="math inline">\(b_i\)</span> (i.e. the most negative).
 Show that after the pivot step in tableau about the column corresponding to <span class="math inline">\(x_0\)</span> and the row corresponding to <span class="math inline">\(w_1\)</span>, all the <span class="math inline">\(b_i\)</span>’s become positive.</p>
 </div>
@@ -252,7 +256,7 @@ Suppose <span class="math inline">\((k_1, k_2, \dots, k_n, k_0)\)</span> is an o
 <h2><span class="header-section-number">4.2</span> Combined tableau<a href="initialization.html#combined-tableau" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>In the above algorithm, at the end of Phase I, we need to calculate the dictionary at the $BFS <span class="math inline">\((k_1, \dots, k_n)\)</span> when starting Phase II. We can avoid this recalculation by instead manipulating a <em>combined tableau</em> which contains information about both the auxiliary linear program and the primary linear program.</p>
 <div class="definition">
-<p><span id="def:unlabeled-div-20" class="definition"><strong>Definition 4.3  </strong></span>The combined tableau is defined as follows:
+<p><span id="def:unlabeled-div-21" class="definition"><strong>Definition 4.3  </strong></span>The combined tableau is defined as follows:
 <span class="math display">\[\begin{equation*}
   \begin{array}{rrrrrrrrrrrr|l}
       a_{11}  &amp; &amp; \dots &amp; &amp; a_{1n}  &amp; 1 &amp; &amp; &amp; &amp; &amp; &amp; -1 &amp;b_1\\
@@ -261,19 +265,19 @@ Suppose <span class="math inline">\((k_1, k_2, \dots, k_n, k_0)\)</span> is an o
       a_{m1}  &amp; &amp; \dots &amp; &amp; a_{mn}  &amp; &amp; &amp; &amp; &amp; &amp; 1 &amp; -1 &amp;b_m\\ \hline
       c_1  &amp; &amp; \dots &amp; &amp; c_{n}  &amp; 0 &amp; &amp; 0 &amp; \dots &amp; &amp; 0 &amp; 0 &amp; 0\\ \hline
       0  &amp; &amp; \dots &amp; &amp; 0  &amp; 0 &amp; &amp; 0 &amp; \dots &amp; &amp; 0 &amp; -1 &amp; 0
-  \end{array} 
+  \end{array}
 \end{equation*}\]</span></p>
 </div>
 <p>The second last row of the tableau corresponds to the objective function of the primary linear program and the last row of the tableau corresponds to the objective of the auxiliary linear program. We use the combined tableau to first perform Phase I and then neglect the auxiliary objective and the variable <span class="math inline">\(x_0\)</span> and proceed on to Phase II using the same tableau.</p>
 <div class="example">
-<p><span id="exm:unlabeled-div-21" class="example"><strong>Example 4.1  </strong></span>Consider the following linear program:
+<p><span id="exm:unlabeled-div-22" class="example"><strong>Example 4.1  </strong></span>Consider the following linear program:
 <span class="math display">\[\begin{equation*}
   \begin{array}{rrrrrl}
   \mbox{maximize:} &amp; x &amp; + &amp; y \\
   \mbox{subject to:}
     &amp; x &amp; + &amp; 2y &amp; \le &amp; 6 \\
-    &amp; -x &amp;  &amp;  &amp; \le &amp; -1 \\ 
-    &amp;  &amp;  &amp; -y &amp; \le &amp; -2 \\ 
+    &amp; -x &amp;  &amp;  &amp; \le &amp; -1 \\
+    &amp;  &amp;  &amp; -y &amp; \le &amp; -2 \\
     &amp; x &amp; , &amp; y &amp; \ge &amp; 0.
   \end{array}
 \end{equation*}\]</span>
@@ -284,7 +288,7 @@ Because <span class="math inline">\((0,0)\)</span> is not feasible, we need to s
     -1 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; -1 &amp; -1 \\
     0 &amp; -1 &amp; 0 &amp; 0 &amp; 1 &amp; \boxed{-1} &amp; -2 \\ \hline
     1 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\ \hline
-    0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; -1 &amp; 0 
+    0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; -1 &amp; 0
   \end{array}
 \end{equation*}\]</span>
 The first pivot is in the column corresponding to the variable <span class="math inline">\(x_0\)</span> and the row corresponding to the <em>most negative <span class="math inline">\(b_i\)</span></em> (which is <span class="math inline">\(b_3 = -2\)</span>). This results in the following combined tableau:
@@ -294,7 +298,7 @@ The first pivot is in the column corresponding to the variable <span class="math
     -1 &amp; 1 &amp; 0 &amp; 1 &amp; -1 &amp; 0 &amp; 1 \\
     0 &amp; 1 &amp; 0 &amp; 0 &amp; -1 &amp; 1 &amp; 2 \\ \hline
     1 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\ \hline
-    0 &amp; 1 &amp; 0 &amp; 0 &amp; -1 &amp; 0 &amp; 2 
+    0 &amp; 1 &amp; 0 &amp; 0 &amp; -1 &amp; 0 &amp; 2
   \end{array}
 \end{equation*}\]</span>
 We then continue performing pivot steps to find the solution:
@@ -304,7 +308,7 @@ We then continue performing pivot steps to find the solution:
     0 &amp; 1 &amp; 0 &amp; 0 &amp; -1 &amp; 1 &amp; 2 \\
     1 &amp; 0 &amp; 0 &amp; -1 &amp; 0 &amp; 1 &amp; 1 \\ \hline
     0 &amp; 0 &amp; 0 &amp; 1 &amp; 1 &amp; -2 &amp; -3 \\ \hline
-    0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; -1 &amp; \mathbf{0} 
+    0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; -1 &amp; \mathbf{0}
   \end{array}
 \end{equation*}\]</span>
 We see that the optimal value is 0 and hence the primary linear program is feasible. We then remove the auxiliary objective and coefficient to get the following tableau for the primary linear program:
@@ -322,7 +326,7 @@ Continuing with the simplex method we get the following final tableau
     0 &amp; 0 &amp; 1 &amp; 1 &amp; 2 &amp; 1 \\
     0 &amp; 1 &amp; 0 &amp; 0 &amp; -1 &amp; 2 \\
     1 &amp; 0 &amp; 1 &amp; 0 &amp; 2 &amp; 2 \\ \hline
-    0 &amp; 0 &amp; -1 &amp; 0 &amp; -1 &amp; -4 
+    0 &amp; 0 &amp; -1 &amp; 0 &amp; -1 &amp; -4
   \end{array}
 \end{equation*}\]</span>
 The final non-basic variables are <span class="math inline">\(w_1\)</span> and <span class="math inline">\(w_3\)</span>, the basic variables are <span class="math inline">\(x\)</span>, <span class="math inline">\(y\)</span>, <span class="math inline">\(w_2\)</span> with values <span class="math inline">\(2\)</span>, <span class="math inline">\(2\)</span>, <span class="math inline">\(1\)</span>, respectively, and the optimal objective value is <span class="math inline">\(4\)</span>.</p>

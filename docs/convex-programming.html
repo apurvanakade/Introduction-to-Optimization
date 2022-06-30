@@ -23,7 +23,7 @@
 <meta name="author" content="Apurva Nakade" />
 
 
-<meta name="date" content="2022-06-15" />
+<meta name="date" content="2022-06-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -97,7 +97,11 @@ div.csl-indent {
 <li class="chapter" data-level="2" data-path="standard-linear-program.html"><a href="standard-linear-program.html"><i class="fa fa-check"></i><b>2</b> Standard Linear Program</a></li>
 <li class="chapter" data-level="3" data-path="the-simplex-method.html"><a href="the-simplex-method.html"><i class="fa fa-check"></i><b>3</b> The Simplex Method</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="the-simplex-method.html"><a href="the-simplex-method.html#the-simplex-step"><i class="fa fa-check"></i><b>3.1</b> The Simplex Step</a></li>
+<li class="chapter" data-level="3.1" data-path="the-simplex-method.html"><a href="the-simplex-method.html#the-simplex-step"><i class="fa fa-check"></i><b>3.1</b> The Simplex Step</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="the-simplex-method.html"><a href="the-simplex-method.html#entering-variable"><i class="fa fa-check"></i><b>3.1.1</b> Entering variable</a></li>
+<li class="chapter" data-level="3.1.2" data-path="the-simplex-method.html"><a href="the-simplex-method.html#leaving-variable"><i class="fa fa-check"></i><b>3.1.2</b> Leaving Variable</a></li>
+</ul></li>
 <li class="chapter" data-level="3.2" data-path="the-simplex-method.html"><a href="the-simplex-method.html#tableau-notation"><i class="fa fa-check"></i><b>3.2</b> Tableau Notation</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="initialization.html"><a href="initialization.html"><i class="fa fa-check"></i><b>4</b> Initialization</a>
@@ -140,10 +144,10 @@ div.csl-indent {
 <li class="chapter" data-level="11.2" data-path="separation-theorems.html"><a href="separation-theorems.html#separating-hyperplane-theorem"><i class="fa fa-check"></i><b>11.2</b> Separating Hyperplane Theorem</a></li>
 <li class="chapter" data-level="11.3" data-path="separation-theorems.html"><a href="separation-theorems.html#equivalence-with-strong-duality"><i class="fa fa-check"></i><b>11.3</b> Equivalence with Strong Duality</a></li>
 </ul></li>
-<li class="chapter" data-level="12" data-path="interior-point-method.html"><a href="interior-point-method.html"><i class="fa fa-check"></i><b>12</b> Interior Point Method</a>
+<li class="chapter" data-level="12" data-path="interior-point-methods.html"><a href="interior-point-methods.html"><i class="fa fa-check"></i><b>12</b> Interior Point Methods</a>
 <ul>
-<li class="chapter" data-level="12.1" data-path="interior-point-method.html"><a href="interior-point-method.html#gradient-descent"><i class="fa fa-check"></i><b>12.1</b> Gradient Descent</a></li>
-<li class="chapter" data-level="12.2" data-path="interior-point-method.html"><a href="interior-point-method.html#interior-point-method-1"><i class="fa fa-check"></i><b>12.2</b> Interior Point Method</a></li>
+<li class="chapter" data-level="12.1" data-path="interior-point-methods.html"><a href="interior-point-methods.html#gradient-descent"><i class="fa fa-check"></i><b>12.1</b> Gradient Descent</a></li>
+<li class="chapter" data-level="12.2" data-path="interior-point-methods.html"><a href="interior-point-methods.html#interior-point-method"><i class="fa fa-check"></i><b>12.2</b> Interior Point Method</a></li>
 </ul></li>
 <li class="chapter" data-level="13" data-path="kkt-conditions.html"><a href="kkt-conditions.html"><i class="fa fa-check"></i><b>13</b> KKT conditions</a></li>
 <li class="part"><span><b>IV Applications</b></span></li>
@@ -180,38 +184,38 @@ div.csl-indent {
 We’ll only touch several subjects briefly without going into too much depth.
 We’ll start with convex optimization, which is a direct generalization of linear programming.</p>
 <div class="definition">
-<p><span id="def:unlabeled-div-55" class="definition"><strong>Definition 10.1  </strong></span>We say that a subset <span class="math inline">\(\mathcal{S}\)</span> of <span class="math inline">\(\mathbb{R}^n\)</span> is called <strong>convex</strong> if for any points <span class="math inline">\({x}_1\)</span> and <span class="math inline">\({x}_2\)</span> in <span class="math inline">\(\mathcal{S}\)</span>, the line segment connecting them also lies in <span class="math inline">\(\mathcal{S}\)</span>. More precisely, we say that <span class="math inline">\(S\)</span> is <strong>convex</strong> if forall <span class="math inline">\({x}_1\)</span> in <span class="math inline">\(\mathcal{S}\)</span>, <span class="math inline">\({x}_2\)</span> in <span class="math inline">\(\mathcal{S}\)</span>, and <span class="math inline">\(t \in [0,1]\)</span>, the point <span class="math inline">\((1 - t) {x}_1 + t {x}_2\)</span> also lies in <span class="math inline">\(\mathcal{S}\)</span>.</p>
+<p><span id="def:unlabeled-div-56" class="definition"><strong>Definition 10.1  </strong></span>We say that a subset <span class="math inline">\(\mathcal{S}\)</span> of <span class="math inline">\(\mathbb{R}^n\)</span> is called <strong>convex</strong> if for any points <span class="math inline">\({x}_1\)</span> and <span class="math inline">\({x}_2\)</span> in <span class="math inline">\(\mathcal{S}\)</span>, the line segment connecting them also lies in <span class="math inline">\(\mathcal{S}\)</span>. More precisely, we say that <span class="math inline">\(S\)</span> is <strong>convex</strong> if forall <span class="math inline">\({x}_1\)</span> in <span class="math inline">\(\mathcal{S}\)</span>, <span class="math inline">\({x}_2\)</span> in <span class="math inline">\(\mathcal{S}\)</span>, and <span class="math inline">\(t \in [0,1]\)</span>, the point <span class="math inline">\((1 - t) {x}_1 + t {x}_2\)</span> also lies in <span class="math inline">\(\mathcal{S}\)</span>.</p>
 </div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-56" class="exercise"><strong>Exercise 10.1  </strong></span>Show that the feasible region of a linear program is convex.</p>
+<p><span id="exr:unlabeled-div-57" class="exercise"><strong>Exercise 10.1  </strong></span>Show that the feasible region of a linear program is convex.</p>
 </div>
 <div class="definition">
-<p><span id="def:unlabeled-div-57" class="definition"><strong>Definition 10.2  </strong></span>We say that function <span class="math inline">\(f : \mathcal{S} \to \mathbb{R}\)</span> is <strong>convex</strong> if for all <span class="math inline">\({x}_1\)</span> in <span class="math inline">\(\mathcal{S}\)</span>, <span class="math inline">\({x}_2\)</span> in <span class="math inline">\(\mathcal{S}\)</span>, and <span class="math inline">\(t \in [0,1]\)</span>, the inequality <span class="math inline">\(f((1 - t) {x}_1 + t {x}_2) \le (1 - t) f({x}_1) + t f({x}_2)\)</span> holds. Geometrically, this is saying that any line segment connecting two points on the graph of <span class="math inline">\(f\)</span> lies above the graph.</p>
+<p><span id="def:unlabeled-div-58" class="definition"><strong>Definition 10.2  </strong></span>We say that function <span class="math inline">\(f : \mathcal{S} \to \mathbb{R}\)</span> is <strong>convex</strong> if for all <span class="math inline">\({x}_1\)</span> in <span class="math inline">\(\mathcal{S}\)</span>, <span class="math inline">\({x}_2\)</span> in <span class="math inline">\(\mathcal{S}\)</span>, and <span class="math inline">\(t \in [0,1]\)</span>, the inequality <span class="math inline">\(f((1 - t) {x}_1 + t {x}_2) \le (1 - t) f({x}_1) + t f({x}_2)\)</span> holds. Geometrically, this is saying that any line segment connecting two points on the graph of <span class="math inline">\(f\)</span> lies above the graph.</p>
 </div>
 <p>The following theorem provides a quick way to check if a function is convex and to come up with examples of convex functions.</p>
 <div class="theorem">
 <p><span id="thm:convexity-second-derivative" class="theorem"><strong>Theorem 10.1  </strong></span>Let <span class="math inline">\(f : \mathbb{R}^n \to \mathbb{R}\)</span> be a <span class="math inline">\(C^2\)</span> function. <span class="math inline">\(f\)</span> is convex if and only if the Hessian matrix of <span class="math inline">\(f\)</span> is positive semi-definite. In particular, when <span class="math inline">\(n = 1\)</span>, <span class="math inline">\(f\)</span> is convex if and only if <span class="math inline">\(f&#39;&#39; \ge 0\)</span>.</p>
 </div>
 <div class="definition">
-<p><span id="def:unlabeled-div-58" class="definition"><strong>Definition 10.3  </strong></span>An optimization problem
+<p><span id="def:unlabeled-div-59" class="definition"><strong>Definition 10.3  </strong></span>An optimization problem
 <span class="math display" id="eq:convex-optimization-problem">\[\begin{equation}
   \begin{array}{ll}
-    \mbox{maximize: } &amp; f(x)  \\ 
-    \mbox{subject to: } &amp; x \in \mathcal{S} 
+    \mbox{maximize: } &amp; f(x)  \\
+    \mbox{subject to: } &amp; x \in \mathcal{S}
   \end{array}
   \tag{10.1}
 \end{equation}\]</span>
 is called <strong>convex</strong> if <span class="math inline">\(\mathcal{S}\)</span> is a closed and convex subset of <span class="math inline">\(\mathbb{R}^n\)</span> and <span class="math inline">\(f : \mathcal{S} \to \mathbb{R}\)</span> is a convex function.</p>
 </div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-59" class="exercise"><strong>Exercise 10.2  </strong></span>Show that a linear program is a convex optimization problem.</p>
+<p><span id="exr:unlabeled-div-60" class="exercise"><strong>Exercise 10.2  </strong></span>Show that a linear program is a convex optimization problem.</p>
 </div>
 <p>The following theorem is an example of how theorems about linear programs generalize to convex programs.</p>
 <div class="theorem">
 <p><span id="thm:optimal-on-boundary" class="theorem"><strong>Theorem 10.2  </strong></span>The convex optimization problem <a href="convex-programming.html#eq:convex-optimization-problem">(10.1)</a> either has an optimal solution on the boundary of <span class="math inline">\(\mathcal{S}\)</span> or is unbounded.</p>
 </div>
 <div class="proof">
-<p><span id="unlabeled-div-60" class="proof"><em>Proof</em>. </span>Let <span class="math inline">\({x}\)</span> be a point in the interior of <span class="math inline">\(\mathcal{S}\)</span>.
+<p><span id="unlabeled-div-61" class="proof"><em>Proof</em>. </span>Let <span class="math inline">\({x}\)</span> be a point in the interior of <span class="math inline">\(\mathcal{S}\)</span>.
 It suffices to show that either there is some point on the boundary of <span class="math inline">\(\mathcal{S}\)</span> with an objective value that is greater than or equal to the objective value of <span class="math inline">\({x}\)</span> or the problem is unbounded.</p>
 <p>Let <span class="math inline">\({x}_1\)</span> be any point on the boundary of <span class="math inline">\(\mathcal{S}\)</span>. Draw a ray starting at <span class="math inline">\({x}_1\)</span> in the direction of <span class="math inline">\({x}\)</span>.
 As <span class="math inline">\(\mathcal{S}\)</span> is closed and convex, two cases are possible:</p>
@@ -225,8 +229,8 @@ We prove this by contradiction. Suppose <span class="math inline">\(f({x}) &gt; 
 We know that <span class="math inline">\(x = (1 - t) x_1 + t x_2\)</span> for some <span class="math inline">\(t \in (0, 1)\)</span>.
 Multiplying the first inequality by <span class="math inline">\((1-t)\)</span> and the second by <span class="math inline">\(t\)</span> and adding them together, we get
 <span class="math display">\[\begin{align*}
-  &amp;&amp; (1-t) f({x}) + t f({x}) &amp;&gt; (1-t) f({x}_1) + t f({x}_2) \\ 
-  \implies 
+  &amp;&amp; (1-t) f({x}) + t f({x}) &amp;&gt; (1-t) f({x}_1) + t f({x}_2) \\
+  \implies
   &amp;&amp; f({x}) &amp;&gt; (1-t) f({x}_1) + t f({x}_2) ,
 \end{align*}\]</span>
 which contradicts the convexity of <span class="math inline">\(f\)</span>.</p>
@@ -247,7 +251,7 @@ As <span class="math inline">\(f({x}) &gt; f({x}_1)\)</span>, the left hand side
 </div>
 <p>The following corollary follows by applying <a href="https://en.wikipedia.org/wiki/Extreme_value_theorem">Extreme Value Theorem</a> to the above result.</p>
 <div class="theorem">
-<p><span id="thm:unlabeled-div-61" class="theorem"><strong>Theorem 10.3  </strong></span>If <span class="math inline">\(\mathcal{S}\)</span> is bounded (in addition to being closed and convex), then the convex optimization problem <a href="convex-programming.html#eq:convex-optimization-problem">(10.1)</a> has an optimal solution on the boundary of <span class="math inline">\(\mathcal{S}\)</span>.</p>
+<p><span id="thm:unlabeled-div-62" class="theorem"><strong>Theorem 10.3  </strong></span>If <span class="math inline">\(\mathcal{S}\)</span> is bounded (in addition to being closed and convex), then the convex optimization problem <a href="convex-programming.html#eq:convex-optimization-problem">(10.1)</a> has an optimal solution on the boundary of <span class="math inline">\(\mathcal{S}\)</span>.</p>
 </div>
 
 </div>

@@ -23,7 +23,7 @@
 <meta name="author" content="Apurva Nakade" />
 
 
-<meta name="date" content="2022-06-15" />
+<meta name="date" content="2022-06-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -97,7 +97,11 @@ div.csl-indent {
 <li class="chapter" data-level="2" data-path="standard-linear-program.html"><a href="standard-linear-program.html"><i class="fa fa-check"></i><b>2</b> Standard Linear Program</a></li>
 <li class="chapter" data-level="3" data-path="the-simplex-method.html"><a href="the-simplex-method.html"><i class="fa fa-check"></i><b>3</b> The Simplex Method</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="the-simplex-method.html"><a href="the-simplex-method.html#the-simplex-step"><i class="fa fa-check"></i><b>3.1</b> The Simplex Step</a></li>
+<li class="chapter" data-level="3.1" data-path="the-simplex-method.html"><a href="the-simplex-method.html#the-simplex-step"><i class="fa fa-check"></i><b>3.1</b> The Simplex Step</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="the-simplex-method.html"><a href="the-simplex-method.html#entering-variable"><i class="fa fa-check"></i><b>3.1.1</b> Entering variable</a></li>
+<li class="chapter" data-level="3.1.2" data-path="the-simplex-method.html"><a href="the-simplex-method.html#leaving-variable"><i class="fa fa-check"></i><b>3.1.2</b> Leaving Variable</a></li>
+</ul></li>
 <li class="chapter" data-level="3.2" data-path="the-simplex-method.html"><a href="the-simplex-method.html#tableau-notation"><i class="fa fa-check"></i><b>3.2</b> Tableau Notation</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="initialization.html"><a href="initialization.html"><i class="fa fa-check"></i><b>4</b> Initialization</a>
@@ -140,10 +144,10 @@ div.csl-indent {
 <li class="chapter" data-level="11.2" data-path="separation-theorems.html"><a href="separation-theorems.html#separating-hyperplane-theorem"><i class="fa fa-check"></i><b>11.2</b> Separating Hyperplane Theorem</a></li>
 <li class="chapter" data-level="11.3" data-path="separation-theorems.html"><a href="separation-theorems.html#equivalence-with-strong-duality"><i class="fa fa-check"></i><b>11.3</b> Equivalence with Strong Duality</a></li>
 </ul></li>
-<li class="chapter" data-level="12" data-path="interior-point-method.html"><a href="interior-point-method.html"><i class="fa fa-check"></i><b>12</b> Interior Point Method</a>
+<li class="chapter" data-level="12" data-path="interior-point-methods.html"><a href="interior-point-methods.html"><i class="fa fa-check"></i><b>12</b> Interior Point Methods</a>
 <ul>
-<li class="chapter" data-level="12.1" data-path="interior-point-method.html"><a href="interior-point-method.html#gradient-descent"><i class="fa fa-check"></i><b>12.1</b> Gradient Descent</a></li>
-<li class="chapter" data-level="12.2" data-path="interior-point-method.html"><a href="interior-point-method.html#interior-point-method-1"><i class="fa fa-check"></i><b>12.2</b> Interior Point Method</a></li>
+<li class="chapter" data-level="12.1" data-path="interior-point-methods.html"><a href="interior-point-methods.html#gradient-descent"><i class="fa fa-check"></i><b>12.1</b> Gradient Descent</a></li>
+<li class="chapter" data-level="12.2" data-path="interior-point-methods.html"><a href="interior-point-methods.html#interior-point-method"><i class="fa fa-check"></i><b>12.2</b> Interior Point Method</a></li>
 </ul></li>
 <li class="chapter" data-level="13" data-path="kkt-conditions.html"><a href="kkt-conditions.html"><i class="fa fa-check"></i><b>13</b> KKT conditions</a></li>
 <li class="part"><span><b>IV Applications</b></span></li>
@@ -179,12 +183,12 @@ div.csl-indent {
 <p>We have an algorithm for solving a standard linear program.
 We’ll not extend it to more general linear programs, which is simply an optimization problem where the objective function is a linear program and the constraints are linear equalities or inequalities.</p>
 <div class="definition">
-<p><span id="def:unlabeled-div-31" class="definition"><strong>Definition 6.1  </strong></span>A <strong>general linear program</strong> is an optimization problem of the following form:
+<p><span id="def:unlabeled-div-32" class="definition"><strong>Definition 6.1  </strong></span>A <strong>general linear program</strong> is an optimization problem of the following form:
 <span class="math display" id="eq:intro-lp">\[\begin{equation}
   \begin{array}{llllllll}
-    \mbox{optimize: } 
+    \mbox{optimize: }
       &amp; c_1 x_1 &amp; + &amp; \dots &amp; + &amp; c_n x_n &amp; \\
-    \mbox{subject to: } 
+    \mbox{subject to: }
       &amp; a_{11} x_1 &amp; + &amp; \dots &amp; + &amp; a_{1n} x_n &amp; \lesseqqgtr &amp; b_1 \\
       &amp; a_{21} x_1 &amp; + &amp; \dots &amp; + &amp; a_{2n} x_n &amp; \lesseqqgtr &amp; b_2 \\
       &amp; &amp; &amp; \vdots &amp;  \\
@@ -197,7 +201,7 @@ where the symbol <span class="math inline">\(\lesseqqgtr\)</span> stands for <sp
 <p>We do not allow strict inequalities <span class="math inline">\(&lt;\)</span> or <span class="math inline">\(&gt;\)</span> in a linear program as linear functions do not always achieve maxima/minima on open sets even when the sets are bounded. Consider the following simple example.
 <span class="math display">\[\begin{align*}
   \mbox{maximize:} &amp;&amp; x \\
-  \mbox{subject to:} 
+  \mbox{subject to:}
   &amp;&amp; x &amp;&lt; 1 \\
   &amp;&amp; x &amp;\ge 0
 \end{align*}\]</span>
@@ -207,7 +211,7 @@ Changing the inequality <span class="math inline">\(&lt;\)</span> to <span class
 <h2><span class="header-section-number">6.1</span> Equivalence of Linear Programs<a href="standardization.html#equivalence-of-linear-programs" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Any linear program can be changed to a <em>maximization problem</em> as minimizing a function is the same as maximizing its negation. From now on, we’ll assume that the goal of our linear programs is to <em>maximize</em> the objective function.</p>
 <div class="definition">
-<p><span id="def:unlabeled-div-32" class="definition"><strong>Definition 6.2  </strong></span>Two (maximizing) linear programs LP and LP’ are said to be <strong>equivalent</strong> if for any feasible solution <span class="math inline">\((x_1, \dots, x_n)\)</span> to LP, there exists a feasible solution <span class="math inline">\((x&#39;_1, \dots, x&#39;_{n&#39;})\)</span> to LP’ with the same objective value and for any feasible solution <span class="math inline">\((y&#39;_1, \dots, y&#39;_n)\)</span> to LP’, there exists a feasible solution <span class="math inline">\((y_1, \dots, y_{n})\)</span> to LP with the same objective value . Thus solving LP is equivalent to LP’.</p>
+<p><span id="def:unlabeled-div-33" class="definition"><strong>Definition 6.2  </strong></span>Two (maximizing) linear programs LP and LP’ are said to be <strong>equivalent</strong> if for any feasible solution <span class="math inline">\((x_1, \dots, x_n)\)</span> to LP, there exists a feasible solution <span class="math inline">\((x&#39;_1, \dots, x&#39;_{n&#39;})\)</span> to LP’ with the same objective value and for any feasible solution <span class="math inline">\((y&#39;_1, \dots, y&#39;_n)\)</span> to LP’, there exists a feasible solution <span class="math inline">\((y_1, \dots, y_{n})\)</span> to LP with the same objective value . Thus solving LP is equivalent to LP’.</p>
 </div>
 <div class="remark">
 <p><span id="lp-equiv-definition" class="remark"><em>Remark</em>. </span> 
@@ -215,15 +219,15 @@ Changing the inequality <span class="math inline">\(&lt;\)</span> to <span class
 2. There need not be a one-to-one correspondence between the feasible sets of LP and LP’ i.e. for a feasible solution to LP there could be multiple feasible solutions with the same objective value. Similarly, in the other direction.</p>
 </div>
 <div class="remark">
-<p><span id="unlabeled-div-33" class="remark"><em>Remark</em>. </span>Even though equivalence of linear programs only requires the existence of an abstract correspondence between the feasible sets of LP and LP’, in practice, one constructs linear transformations <span class="math inline">\(T: \mathbb{R}^n \to \mathbb{R}^{n&#39;}\)</span> and <span class="math inline">\(S: \mathbb{R}^{n&#39;} \to \mathbb{R}^{n}\)</span> which map the feasible set of LP to LP’ and the feasible set of LP’ to LP, respectively. These linear transformations need not be inverses of each other, or even isomorphisms. They only need to preserve the objective values.</p>
+<p><span id="unlabeled-div-34" class="remark"><em>Remark</em>. </span>Even though equivalence of linear programs only requires the existence of an abstract correspondence between the feasible sets of LP and LP’, in practice, one constructs linear transformations <span class="math inline">\(T: \mathbb{R}^n \to \mathbb{R}^{n&#39;}\)</span> and <span class="math inline">\(S: \mathbb{R}^{n&#39;} \to \mathbb{R}^{n}\)</span> which map the feasible set of LP to LP’ and the feasible set of LP’ to LP, respectively. These linear transformations need not be inverses of each other, or even isomorphisms. They only need to preserve the objective values.</p>
 </div>
 <div class="example">
-<p><span id="exm:unlabeled-div-34" class="example"><strong>Example 6.1  </strong></span>The following two linear programs are equivalent to each other
+<p><span id="exm:unlabeled-div-35" class="example"><strong>Example 6.1  </strong></span>The following two linear programs are equivalent to each other
 <span class="math display">\[\begin{align*}
 \begin{aligned}
   \mbox{maximize: } &amp;&amp; x + y &amp; \\
   \mbox{subject to: } &amp;&amp; 0 \le x &amp;\le 1 \\
-     &amp;&amp; 0 \le y &amp;\le 1 
+     &amp;&amp; 0 \le y &amp;\le 1
 \end{aligned}
 &amp;&amp;
 \begin{aligned}
@@ -237,7 +241,7 @@ via the transformations <span class="math inline">\(T(x, y) = x + y\)</span> and
 <p><span id="thm:lp-to-standard-form" class="theorem"><strong>Theorem 6.1  </strong></span>Every linear program is equivalent to a linear program in the standard form.</p>
 </div>
 <div class="proof">
-<p><span id="unlabeled-div-35" class="proof"><em>Proof</em>. </span>The proof is by providing an explicit <em>standardization</em> algorithm. Consider the linear program in <a href="standardization.html#eq:intro-lp">(6.1)</a>, where we’re assuming that the goal is to maximize the objective function. If it is in the standard form, then we’re done. If not, then there must be a finite number of <em>errors</em> of the following types:</p>
+<p><span id="unlabeled-div-36" class="proof"><em>Proof</em>. </span>The proof is by providing an explicit <em>standardization</em> algorithm. Consider the linear program in <a href="standardization.html#eq:intro-lp">(6.1)</a>, where we’re assuming that the goal is to maximize the objective function. If it is in the standard form, then we’re done. If not, then there must be a finite number of <em>errors</em> of the following types:</p>
 <ol style="list-style-type: decimal">
 <li>A linear constraint is a lower bound and has the form <span class="math display">\[a_{i1} x_1 + \dots + a_{in} x_n \geq b_i.\]</span></li>
 <li>A linear constraint is an equality and has the form <span class="math display">\[a_{i1} x_1 + \dots + a_{in} x_n = b_i.\]</span></li>

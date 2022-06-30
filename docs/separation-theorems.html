@@ -23,7 +23,7 @@
 <meta name="author" content="Apurva Nakade" />
 
 
-<meta name="date" content="2022-06-15" />
+<meta name="date" content="2022-06-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="convex-programming.html"/>
-<link rel="next" href="interior-point-method.html"/>
+<link rel="next" href="interior-point-methods.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -97,7 +97,11 @@ div.csl-indent {
 <li class="chapter" data-level="2" data-path="standard-linear-program.html"><a href="standard-linear-program.html"><i class="fa fa-check"></i><b>2</b> Standard Linear Program</a></li>
 <li class="chapter" data-level="3" data-path="the-simplex-method.html"><a href="the-simplex-method.html"><i class="fa fa-check"></i><b>3</b> The Simplex Method</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="the-simplex-method.html"><a href="the-simplex-method.html#the-simplex-step"><i class="fa fa-check"></i><b>3.1</b> The Simplex Step</a></li>
+<li class="chapter" data-level="3.1" data-path="the-simplex-method.html"><a href="the-simplex-method.html#the-simplex-step"><i class="fa fa-check"></i><b>3.1</b> The Simplex Step</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="the-simplex-method.html"><a href="the-simplex-method.html#entering-variable"><i class="fa fa-check"></i><b>3.1.1</b> Entering variable</a></li>
+<li class="chapter" data-level="3.1.2" data-path="the-simplex-method.html"><a href="the-simplex-method.html#leaving-variable"><i class="fa fa-check"></i><b>3.1.2</b> Leaving Variable</a></li>
+</ul></li>
 <li class="chapter" data-level="3.2" data-path="the-simplex-method.html"><a href="the-simplex-method.html#tableau-notation"><i class="fa fa-check"></i><b>3.2</b> Tableau Notation</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="initialization.html"><a href="initialization.html"><i class="fa fa-check"></i><b>4</b> Initialization</a>
@@ -140,10 +144,10 @@ div.csl-indent {
 <li class="chapter" data-level="11.2" data-path="separation-theorems.html"><a href="separation-theorems.html#separating-hyperplane-theorem"><i class="fa fa-check"></i><b>11.2</b> Separating Hyperplane Theorem</a></li>
 <li class="chapter" data-level="11.3" data-path="separation-theorems.html"><a href="separation-theorems.html#equivalence-with-strong-duality"><i class="fa fa-check"></i><b>11.3</b> Equivalence with Strong Duality</a></li>
 </ul></li>
-<li class="chapter" data-level="12" data-path="interior-point-method.html"><a href="interior-point-method.html"><i class="fa fa-check"></i><b>12</b> Interior Point Method</a>
+<li class="chapter" data-level="12" data-path="interior-point-methods.html"><a href="interior-point-methods.html"><i class="fa fa-check"></i><b>12</b> Interior Point Methods</a>
 <ul>
-<li class="chapter" data-level="12.1" data-path="interior-point-method.html"><a href="interior-point-method.html#gradient-descent"><i class="fa fa-check"></i><b>12.1</b> Gradient Descent</a></li>
-<li class="chapter" data-level="12.2" data-path="interior-point-method.html"><a href="interior-point-method.html#interior-point-method-1"><i class="fa fa-check"></i><b>12.2</b> Interior Point Method</a></li>
+<li class="chapter" data-level="12.1" data-path="interior-point-methods.html"><a href="interior-point-methods.html#gradient-descent"><i class="fa fa-check"></i><b>12.1</b> Gradient Descent</a></li>
+<li class="chapter" data-level="12.2" data-path="interior-point-methods.html"><a href="interior-point-methods.html#interior-point-method"><i class="fa fa-check"></i><b>12.2</b> Interior Point Method</a></li>
 </ul></li>
 <li class="chapter" data-level="13" data-path="kkt-conditions.html"><a href="kkt-conditions.html"><i class="fa fa-check"></i><b>13</b> KKT conditions</a></li>
 <li class="part"><span><b>IV Applications</b></span></li>
@@ -183,12 +187,12 @@ div.csl-indent {
 <p><span id="thm:farkas-lemma" class="theorem"><strong>Theorem 11.1  (Farkas' lemma) </strong></span>Let <span class="math inline">\(A\)</span> be an <span class="math inline">\(m \times n\)</span> matrix and <span class="math inline">\(b\)</span> be a vector in <span class="math inline">\(\mathbb{R}^m\)</span>.
 Exactly one of the following systems has a solution:
 <span class="math display" id="eq:farkas-eq1">\[\begin{align}
-  A x &amp; = b \\ 
+  A x &amp; = b \\
   x &amp; \ge 0.
 \tag{11.1}
 \end{align}\]</span>
 <span class="math display" id="eq:farkas-eq2">\[\begin{align}
-  y^T A &amp; \ge 0 \\ 
+  y^T A &amp; \ge 0 \\
   y^T b &amp; &lt; 0.
 \tag{11.2}
 \end{align}\]</span>
@@ -197,12 +201,12 @@ Exactly one of the following systems has a solution:
 2. $y^T A \ge 0$, $y^T b < 0.$ --></p>
 </div>
 <div class="proof">
-<p><span id="unlabeled-div-62" class="proof"><em>Proof</em>. </span>We’ll prove Farkas’ lemma using strong duality. Consider the following linear program:
+<p><span id="unlabeled-div-63" class="proof"><em>Proof</em>. </span>We’ll prove Farkas’ lemma using strong duality. Consider the following linear program:
 <span class="math display" id="eq:farkas-primal">\[\begin{equation}
   \begin{array}{llll}
     \mbox{maximize: } &amp; 0 \\
-    \mbox{subject to: } 
-      &amp; A x &amp; = &amp; b \\ 
+    \mbox{subject to: }
+      &amp; A x &amp; = &amp; b \\
       &amp; x &amp; \ge &amp; 0.
   \end{array}
 \tag{11.3}
@@ -211,7 +215,7 @@ The optimal solution to the linear program <a href="separation-theorems.html#eq:
 <span class="math display" id="eq:farkas-dual">\[\begin{equation}
   \begin{array}{llll}
     \mbox{minimize: } &amp; y^T b \\
-    \mbox{subject to: } 
+    \mbox{subject to: }
       &amp; y^T A &amp; \ge &amp; 0.
   \end{array}
 \tag{11.4}
@@ -227,19 +231,19 @@ The optimal solution to the linear program <a href="separation-theorems.html#eq:
 <h2><span class="header-section-number">11.2</span> Separating Hyperplane Theorem<a href="separation-theorems.html#separating-hyperplane-theorem" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <!-- Let $\{v_1, \dots, v_n\}$ be a set of vectors in $\mathbb{R}^m$.  -->
 <div class="definition">
-<p><span id="def:unlabeled-div-63" class="definition"><strong>Definition 11.1  </strong></span>The <strong>convex cone</strong> of a finite set of vectors in <span class="math inline">\(\mathbb{R}^m\)</span> is the set of positive linear combinations of vectors in the set.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>
+<p><span id="def:unlabeled-div-64" class="definition"><strong>Definition 11.1  </strong></span>The <strong>convex cone</strong> of a finite set of vectors in <span class="math inline">\(\mathbb{R}^m\)</span> is the set of positive linear combinations of vectors in the set.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>
 <span class="math display">\[\begin{align*}
   C_+(v_1, \dots, v_n) &amp; := \{c_1 v_1 + \dots + c_n v_n \mid c_i \ge 0 \}.
 \end{align*}\]</span></p>
 </div>
 <div class="definition">
-<p><span id="def:unlabeled-div-64" class="definition"><strong>Definition 11.2  </strong></span>A <strong>hyperplane</strong> in <span class="math inline">\(\mathbb{R}^m\)</span> is the set of solutions to a single linear equation.
+<p><span id="def:unlabeled-div-65" class="definition"><strong>Definition 11.2  </strong></span>A <strong>hyperplane</strong> in <span class="math inline">\(\mathbb{R}^m\)</span> is the set of solutions to a single linear equation.
 The complement of a hyperplane in <span class="math inline">\(\mathbb{R}^n\)</span> consists of two connected components.
 The closures of these components are called <strong>half-spaces</strong>.</p>
 </div>
 <p>If the equation of the hyperplane is given by <span class="math inline">\(b^T y = b_0\)</span>, where <span class="math inline">\(b\)</span> is a vector in <span class="math inline">\(\mathbb{R}^m\)</span> and <span class="math inline">\(b_0 \in \mathbb{R}\)</span>, then the corresponding two half-spaces are described by <span class="math inline">\(b^T y \le b_0\)</span> and <span class="math inline">\(b^T y \ge b_0\)</span>.</p>
 <div class="definition">
-<p><span id="def:unlabeled-div-65" class="definition"><strong>Definition 11.3  </strong></span>We say that a hyperplane <span class="math inline">\(H\)</span> <strong>separates</strong> two subsets <span class="math inline">\(S_1\)</span> and <span class="math inline">\(S_2\)</span> of <span class="math inline">\(\mathbb{R}^m\)</span> if <span class="math inline">\(S_1\)</span> and <span class="math inline">\(S_2\)</span> do not intersect <span class="math inline">\(H\)</span> and belong to the two different half-spaces of <span class="math inline">\(H\)</span>.</p>
+<p><span id="def:unlabeled-div-66" class="definition"><strong>Definition 11.3  </strong></span>We say that a hyperplane <span class="math inline">\(H\)</span> <strong>separates</strong> two subsets <span class="math inline">\(S_1\)</span> and <span class="math inline">\(S_2\)</span> of <span class="math inline">\(\mathbb{R}^m\)</span> if <span class="math inline">\(S_1\)</span> and <span class="math inline">\(S_2\)</span> do not intersect <span class="math inline">\(H\)</span> and belong to the two different half-spaces of <span class="math inline">\(H\)</span>.</p>
 </div>
 <p>Using convex cones and separating hyperplanes, we can reinterpret <a href="separation-theorems.html#thm:farkas-lemma">11.1</a> as follows.</p>
 <div class="theorem">
@@ -253,7 +257,7 @@ The closures of these components are called <strong>half-spaces</strong>.</p>
 The statement of Farkas’ lemma <a href="separation-theorems.html#thm:farkas-geometry">11.2</a> can be generalized to arbitrary convex sets using metric topology.
 For now, we’ll generalize it to convex polyhedra.</p>
 <div class="definition">
-<p><span id="def:unlabeled-div-66" class="definition"><strong>Definition 11.4  </strong></span>Intersection of finitely many half-spaces is called a <strong>convex polyhedron</strong>.</p>
+<p><span id="def:unlabeled-div-67" class="definition"><strong>Definition 11.4  </strong></span>Intersection of finitely many half-spaces is called a <strong>convex polyhedron</strong>.</p>
 </div>
 <p>So, a convex polyhedron is the set of solutions to a system of linear inequalities <span class="math inline">\(A x \le b\)</span>.
 But this set is precisely the feasible region of a linear program!
@@ -271,10 +275,10 @@ Exactly one of the following systems has a solution:</p>
 </ol>
 </div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-67" class="exercise"><strong>Exercise 11.2  </strong></span>Let <span class="math inline">\(P_1\)</span> be the convex polyhedron defined by <span class="math inline">\(A_1 x \le b_1\)</span> and let <span class="math inline">\(P_2\)</span> be the convex polyhedron defined by <span class="math inline">\(A_2 x \le b_2\)</span> where <span class="math inline">\(A_1\)</span>, <span class="math inline">\(A_2\)</span>, <span class="math inline">\(b_1\)</span>, and <span class="math inline">\(b_2\)</span> have sizes <span class="math inline">\(m_1 \times n\)</span>, <span class="math inline">\(m_2 \times n\)</span>, <span class="math inline">\(m_1\)</span>, and <span class="math inline">\(m_2\)</span>, respectively. Suppose the system
+<p><span id="exr:unlabeled-div-68" class="exercise"><strong>Exercise 11.2  </strong></span>Let <span class="math inline">\(P_1\)</span> be the convex polyhedron defined by <span class="math inline">\(A_1 x \le b_1\)</span> and let <span class="math inline">\(P_2\)</span> be the convex polyhedron defined by <span class="math inline">\(A_2 x \le b_2\)</span> where <span class="math inline">\(A_1\)</span>, <span class="math inline">\(A_2\)</span>, <span class="math inline">\(b_1\)</span>, and <span class="math inline">\(b_2\)</span> have sizes <span class="math inline">\(m_1 \times n\)</span>, <span class="math inline">\(m_2 \times n\)</span>, <span class="math inline">\(m_1\)</span>, and <span class="math inline">\(m_2\)</span>, respectively. Suppose the system
 <span class="math display" id="eq:eq1">\[\begin{equation}
   \begin{bmatrix} A_1 \\ A_2 \end{bmatrix}
-  x 
+  x
   \le
   \begin{bmatrix} b_1 \\ b_2 \end{bmatrix}
   \tag{11.5}
@@ -293,11 +297,11 @@ does not have a solution.</p>
 <h2><span class="header-section-number">11.3</span> Equivalence with Strong Duality<a href="separation-theorems.html#equivalence-with-strong-duality" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>It is possible to prove Strong Duality using Farkas’ lemma, which itself can be proven using metric topology. So, Strong Duality, Farkas’ lemma, and Separating Hyperplane Theorem should all be thought of as equivalent to each other. We provide below a proof of Strong Duality (Theorem <a href="weak-and-strong-duality.html#thm:strong-duality">8.2</a>) using Farkas’ lemma.</p>
 <div class="proof">
-<p><span id="unlabeled-div-68" class="proof"><em>Proof</em>. </span>Consider the system of equations</p>
+<p><span id="unlabeled-div-69" class="proof"><em>Proof</em>. </span>Consider the system of equations</p>
 <p><span class="math display" id="eq:strong-using-farkas">\[\begin{equation}
 \begin{split}
 Ax &amp; \le b \\
--A^T y &amp; \le -c \\ 
+-A^T y &amp; \le -c \\
 x, y &amp; \ge 0 \\
 -c^T x + b^T y &amp; \le 0.
 \end{split}
@@ -308,7 +312,7 @@ x, y &amp; \ge 0 \\
 <span class="math display">\[\begin{align*}
     \begin{bmatrix} A &amp; 0 \\ 0 &amp; -A^T \\ -c^T &amp; b^T \end{bmatrix}
     \begin{bmatrix} x \\ y  \end{bmatrix}
-      &amp; \le 
+      &amp; \le
     \begin{bmatrix} b \\ -c \\ 0 \end{bmatrix} \\
     x, y &amp; \ge 0.
 \end{align*}\]</span>
@@ -352,7 +356,7 @@ Because this system has a solution, by applying (variant of) Farkas’ lemma aga
 <span class="math display">\[\begin{align*}
     \begin{bmatrix} A &amp; 0 \\ 0 &amp; -A^T \end{bmatrix}
     \begin{bmatrix} x \\ y  \end{bmatrix}
-      &amp; \le 
+      &amp; \le
     \begin{bmatrix} b \\ -c \end{bmatrix} \\
     x, y &amp; \ge 0.
 \end{align*}\]</span>
@@ -364,7 +368,7 @@ We had assumed that the primal is feasible. The only way the above system is inf
 Applying (variant of) Farkas’ lemma yet again we see that the dual system
 <span class="math display">\[\begin{align*}
   z^T c &amp; &lt; 0\\
-  z^T A^T &amp;\ge 0 \\ 
+  z^T A^T &amp;\ge 0 \\
   z &amp;\le 0
 \end{align*}\]</span>
 must have a solution.
@@ -375,8 +379,8 @@ But now, if <span class="math inline">\(x\)</span> is any primal-feasible soluti
 </div>
 <div class="footnotes">
 <hr />
-<ol start="1">
-<li id="fn1"><p>One can also define convex cones for infinite sets of vectors. In this case, we need to take the closure of the set of positive linear combinations.<a href="separation-theorems.html#fnref1" class="footnote-back">↩︎</a></p></li>
+<ol start="2">
+<li id="fn2"><p>One can also define convex cones for infinite sets of vectors. In this case, we need to take the closure of the set of positive linear combinations.<a href="separation-theorems.html#fnref2" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>
@@ -385,7 +389,7 @@ But now, if <span class="math inline">\(x\)</span> is any primal-feasible soluti
         </div>
       </div>
 <a href="convex-programming.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="interior-point-method.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="interior-point-methods.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

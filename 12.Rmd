@@ -1,4 +1,4 @@
-# Interior Point Method
+# Interior Point Methods
 
 Throughout this chapter we will let $f$ denote a twice differentiable function from $\mathbb{R}^n$ to $\mathbb{R}$. 
 

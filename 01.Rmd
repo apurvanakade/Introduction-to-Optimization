@@ -1,18 +1,15 @@
 # Introduction
 
-An optimization problem consists of maximizing or minimizing a real function over a set of input values from within an allowed set and computing the value of the function. 
+An optimization problem consists of maximizing or minimizing a real function over a set of input values from within an allowed set. 
 \begin{align*}
 \mbox{optimize: } & f(x_1, \dots, x_n) \\
 \mbox{subject to: } & (x_1, \dots, x_n) \in D.
 \end{align*}
 These kinds questions arise in all quantitative disciplines from computer science and engineering to operations research and economics.
-To analyze the question meaningfully, one needs to make some assumptions on $f$ and $D$. 
+As stated, this question is too broad. 
+To make any meaningful analysis, we need to make several simplifying assumptions about $f$ and $D$. 
 
-We'll start with the assumptions that the function $f$ is linear and the constraint set $D$ is described using linear inequalities. The study of this problem is called *Linear Programming*. Despite the simplicity of the Linear Programming setup, or perhaps because of it, LP is one of the most commonly used models for optimization problems. We'll see how to solve linear programs using the simplex method and go on to analyze the solution sets using duality theory. 
-
-Linear programs are used for modeling real world problems when prices/costs and constraints are fixed and known beforehand.
-Even when this is not the case, linear programs are often used to approximate and estimate costs/prices before moving on to more sophisticated techniques.
-
+To begin with, we'll assume that the function $f$ is linear and the constraint set $D$ is described using linear inequalities. The study of this problem is called *Linear Programming*. Despite the simplicity of the linear programming setup, or perhaps because of it, LP is one of the most commonly used models for optimization problems. Let's start with an example before getting into the precise definitions.
 
 ::: {.example #bond-portfolio}
 A bond portfolio manager has $100,000 to allocate to two different bonds; one corporate and one government bond. 
@@ -41,16 +38,18 @@ We can model the above problem as follows:
   \end{array}
   (\#eq:bond-portfolio-lp-incomplete)
 \end{equation}
-where $x$, $y$ are the percentages of corporate and government bonds, respectively, and the objective function when multiplied by $100,000 gives us the net yield. This is an example of a **linear program**.
-
-We cannot subtract inequalities the same way that we subtract equations. So to get started, let us assume that both the inequalities are in fact equalities. We can solve the system 
+where $x$, $y$ are the percentages of funds allocated to corporate and government bonds, respectively, and the objective function when multiplied by $100,000 gives us the net yield. This is an example of a *linear program*.
+Note that we cannot subtract inequalities the same way that we subtract equations. So to get started, let us assume that both the inequalities are in fact equations. We can solve the resulting system, 
 \begin{equation*}
   \begin{array}{rrrrrl}
     & 3x & + & 6y & = & 3.6 \\
-    & 2x & + & y & = & 1.5
+    & 2x & + & y & = & 1.5,
   \end{array}
 \end{equation*}
-to obtain $x = 0.6$ and $y = 0.3$. But for this solution $x + y = 0.9$ which is less that 1, meaning that we're not investing all the available funds! Which raises the question: Is it possible to increase the yield further by not satisfying both of the above equalities and investing all the money instead? This question becomes even more apparent once we realize that the linear program \@ref(eq:bond-portfolio-lp-incomplete) is incomplete and the complete linear program that models the problem is as follows:
+to obtain $x = 0.6$ and $y = 0.3$.For this solution $x + y = 0.9$ which is less that 1, meaning that we're not investing all the available funds.
+This seems less than ideal! Surely, we must invest all the funds to get maximum yield!! 
+
+To complicate things further, notice that the linear program \@ref(eq:bond-portfolio-lp-incomplete) is incomplete and the complete linear program that models the problem is as follows:
 \begin{equation}
   \begin{array}{rrrrrl}
   \mbox{maximize:} & 4x & + & 3y \\
@@ -63,7 +62,20 @@ to obtain $x = 0.6$ and $y = 0.3$. But for this solution $x + y = 0.9$ which is 
   \end{array}
   (\#eq:bond-portfolio-lp)
 \end{equation}
-The solution $(x, y) = (0.6, 0.3)$ is obtained by changing the first two inequalities to equalities. But this choice is completely arbitrary! We could have switched some other set of inequalities to equalities and obtained a different solution. We'd then need to compare the solutions obtained in each of these cases and find the one that maximizes it. This is essentially the *simplex method* which we'll study in more details in the next chapters. For this particular problem, we can use a graphing calculator to solve the problem. 
+The solution $(x, y) = (0.6, 0.3)$ is obtained by changing the first two inequalities to equations. We could have switched some other set of inequalities to equations and solved for a different solution. We would then need to compare the yields for each of these solutions and find the one that maximizes it. 
+
+However, now there is an additional issue that needs to be dealt with carefully. Solving these modified equations might produce a solution that does not satisfy the original constraints. For example, solving the system of equations
+\begin{equation*}
+  \begin{array}{rrrrrl}
+    & 2x & + & y & = & 1.5 \\
+    & x  &  &  & = & 0
+  \end{array}
+\end{equation*}
+gives us $(x, y) = (0, 1.5)$ which breaks the constraints $3x + 6y \le 3.6$ and $x + y \le 1$. So, not only do we need to compare the yields at these solutions but we also need to make sure that they satisfy all the original constraints.
+As you can imagine, this naive approach becomes unwieldy for large linear programs. 
+It is not even clear that changing inequalities to equations is the right approach to solving such a problem.^[That this is indeed the case is the content of the *Fundamental Theorem of Linear Programming* (Theorem \@ref(thm:fundamental-theorem-lp)).]
+For this particular problem, we can use a graphing calculator to solve the problem as there are only two variables. 
+The following figure shows the region described by the various constraints in the first quadrant ($x \ge 0, y \ge 0$).
 
 ```{r, fig-bond-portfolio}
 
@@ -71,7 +83,8 @@ source("graphs/bond-portfolio-solution.R", local = knitr::knit_global())
 
 ```
 
-The feasible set is the quadrilateral formed by the overlap of all three constraint regions. The level sets of the objective function are straight lines of the form $4x + 3y = c$. We can see that the largest value of $c$ for which these level sets intersect the feasible region turns out to be $c = 3.3\%$ for $(x, y) = (0.6, 0.3)$.
+The points within the quadrilateral formed by the overlap of all three constraint regions satisfy all the constraints. The level sets of the objective function are straight lines of the form $4x + 3y = c$. We can see that the largest value of $c$ for which these level sets intersect the feasible region is $c = 3.3\%$ for $(x, y) = (0.6, 0.3)$.
+Our original solution was indeed correct! And it is not possible to invest more money and increase the yield!!
 
 ::: {.exercise}
 What are some possible ways to relax the constraints in the above problem so that all the money can be invested? What is the improved annual yield?
@@ -86,3 +99,7 @@ The following exercises review some basic facts about inequalities:
 4. Find constants $a, b, c, d$ such that $a < b$, $c < d$, $a - c > b - d$, and $ac > bd$.
 5. Prove that if $a, b, c, d$ are constants such that  $a < b$ and $c < d$, then $a + c < b + d$. Why does this proof fail when we try to subtract the two inequalities instead of adding them?
 :::
+
+There are two main families of efficient algorithms for solving linear programs: simplex method(s) (Chapter \@ref(the-simplex-method)) and interior point methods (Chapter \@ref(interior-point-methods)).
+The simplex method is a combinatorial algorithm that essentially performs the above analysis systematically. 
+Interior point methods modify [gradient descent](https://en.wikipedia.org/wiki/Gradient_descent) algorithms to search for an optimal solution within the feasible region. We'll analyze the simplex method in great detail and only briefly introduce a basic interior point method.

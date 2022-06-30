@@ -23,14 +23,14 @@
 <meta name="author" content="Apurva Nakade" />
 
 
-<meta name="date" content="2022-06-15" />
+<meta name="date" content="2022-06-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="interior-point-method.html"/>
+<link rel="prev" href="interior-point-methods.html"/>
 <link rel="next" href="l1-regression.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -97,7 +97,11 @@ div.csl-indent {
 <li class="chapter" data-level="2" data-path="standard-linear-program.html"><a href="standard-linear-program.html"><i class="fa fa-check"></i><b>2</b> Standard Linear Program</a></li>
 <li class="chapter" data-level="3" data-path="the-simplex-method.html"><a href="the-simplex-method.html"><i class="fa fa-check"></i><b>3</b> The Simplex Method</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="the-simplex-method.html"><a href="the-simplex-method.html#the-simplex-step"><i class="fa fa-check"></i><b>3.1</b> The Simplex Step</a></li>
+<li class="chapter" data-level="3.1" data-path="the-simplex-method.html"><a href="the-simplex-method.html#the-simplex-step"><i class="fa fa-check"></i><b>3.1</b> The Simplex Step</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="the-simplex-method.html"><a href="the-simplex-method.html#entering-variable"><i class="fa fa-check"></i><b>3.1.1</b> Entering variable</a></li>
+<li class="chapter" data-level="3.1.2" data-path="the-simplex-method.html"><a href="the-simplex-method.html#leaving-variable"><i class="fa fa-check"></i><b>3.1.2</b> Leaving Variable</a></li>
+</ul></li>
 <li class="chapter" data-level="3.2" data-path="the-simplex-method.html"><a href="the-simplex-method.html#tableau-notation"><i class="fa fa-check"></i><b>3.2</b> Tableau Notation</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="initialization.html"><a href="initialization.html"><i class="fa fa-check"></i><b>4</b> Initialization</a>
@@ -140,10 +144,10 @@ div.csl-indent {
 <li class="chapter" data-level="11.2" data-path="separation-theorems.html"><a href="separation-theorems.html#separating-hyperplane-theorem"><i class="fa fa-check"></i><b>11.2</b> Separating Hyperplane Theorem</a></li>
 <li class="chapter" data-level="11.3" data-path="separation-theorems.html"><a href="separation-theorems.html#equivalence-with-strong-duality"><i class="fa fa-check"></i><b>11.3</b> Equivalence with Strong Duality</a></li>
 </ul></li>
-<li class="chapter" data-level="12" data-path="interior-point-method.html"><a href="interior-point-method.html"><i class="fa fa-check"></i><b>12</b> Interior Point Method</a>
+<li class="chapter" data-level="12" data-path="interior-point-methods.html"><a href="interior-point-methods.html"><i class="fa fa-check"></i><b>12</b> Interior Point Methods</a>
 <ul>
-<li class="chapter" data-level="12.1" data-path="interior-point-method.html"><a href="interior-point-method.html#gradient-descent"><i class="fa fa-check"></i><b>12.1</b> Gradient Descent</a></li>
-<li class="chapter" data-level="12.2" data-path="interior-point-method.html"><a href="interior-point-method.html#interior-point-method-1"><i class="fa fa-check"></i><b>12.2</b> Interior Point Method</a></li>
+<li class="chapter" data-level="12.1" data-path="interior-point-methods.html"><a href="interior-point-methods.html#gradient-descent"><i class="fa fa-check"></i><b>12.1</b> Gradient Descent</a></li>
+<li class="chapter" data-level="12.2" data-path="interior-point-methods.html"><a href="interior-point-methods.html#interior-point-method"><i class="fa fa-check"></i><b>12.2</b> Interior Point Method</a></li>
 </ul></li>
 <li class="chapter" data-level="13" data-path="kkt-conditions.html"><a href="kkt-conditions.html"><i class="fa fa-check"></i><b>13</b> KKT conditions</a></li>
 <li class="part"><span><b>IV Applications</b></span></li>
@@ -177,33 +181,33 @@ div.csl-indent {
 <div id="kkt-conditions" class="section level1 hasAnchor" number="13">
 <h1><span class="header-section-number">Chapter 13</span> KKT conditions<a href="kkt-conditions.html#kkt-conditions" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>We can use the central path to derive some conditions for optimality.
-Consider the optimization problem <a href="interior-point-method.html#eq:constrained-optimization-problem">(12.1)</a> again.
+Consider the optimization problem <a href="interior-point-methods.html#eq:constrained-optimization-problem">(12.1)</a> again.
 As before, we’ll assume that <em>there is a central path <span class="math inline">\(x_\mu^*\)</span> converging to an optimal solution <span class="math inline">\(x^*\)</span>.</em>
 Because <span class="math inline">\(x_\mu^*\)</span> is a critical point of <span class="math inline">\(f_\mu(x)\)</span>, we get
 <span class="math display">\[\begin{align*}
   \nabla_x f_\mu(x_\mu^*) &amp;= 0 \\
-  \implies \nabla f(x_\mu^*) - \sum \limits_{i = 1}^m \dfrac{\mu}{g_i(x_\mu^*)} \nabla g_i (x_\mu^*)&amp;= 0 
+  \implies \nabla f(x_\mu^*) - \sum \limits_{i = 1}^m \dfrac{\mu}{g_i(x_\mu^*)} \nabla g_i (x_\mu^*)&amp;= 0
 \end{align*}\]</span>
 Applying <span class="math inline">\(\lim \limits_{\mu \to 0^+}\)</span> to both sides, we get
 <span class="math display">\[\begin{align*}
-   \lim \limits_{\mu \to 0^+} \nabla f(x_\mu^*) - \sum \limits_{i = 1}^m \lim \limits_{\mu \to 0^+}\dfrac{\mu}{g_i(x_\mu^*)} \nabla g_i (x_\mu^*)&amp;= 0 
+   \lim \limits_{\mu \to 0^+} \nabla f(x_\mu^*) - \sum \limits_{i = 1}^m \lim \limits_{\mu \to 0^+}\dfrac{\mu}{g_i(x_\mu^*)} \nabla g_i (x_\mu^*)&amp;= 0
 \end{align*}\]</span>
 which simplifies to
 <span class="math display">\[\begin{align*}
-  \nabla f(x^*) = \sum \limits_{i = 1}^m \lambda_i \nabla g_i (x^*) 
+  \nabla f(x^*) = \sum \limits_{i = 1}^m \lambda_i \nabla g_i (x^*)
 \end{align*}\]</span>
 where <span class="math inline">\(\lambda_i = \lim \limits_{\mu \to 0^+}\frac{\mu}{g_i(x_\mu^*)}\)</span> for <span class="math inline">\(1 \le i \le m\)</span>. (There are several assumptions here about the existence and convergence of limits that we’re brushing under the rug.)
 We can further analyze the constants <span class="math inline">\(\lambda_i\)</span>.
 <span class="math display">\[\begin{align*}
-  &amp;&amp; \dfrac{\mu}{g_i(x_\mu^*)} \cdot g_i(x_\mu^*) &amp;= \mu \\ 
-  \implies &amp;&amp; \lim \limits_{\mu \to 0^+}\dfrac{\mu}{g_i(x_\mu^*)} \cdot \lim \limits_{\mu \to 0^+}g_i(x_\mu^*) &amp;= \lim \limits_{\mu \to 0^+}\mu \\ 
+  &amp;&amp; \dfrac{\mu}{g_i(x_\mu^*)} \cdot g_i(x_\mu^*) &amp;= \mu \\
+  \implies &amp;&amp; \lim \limits_{\mu \to 0^+}\dfrac{\mu}{g_i(x_\mu^*)} \cdot \lim \limits_{\mu \to 0^+}g_i(x_\mu^*) &amp;= \lim \limits_{\mu \to 0^+}\mu \\
   \implies &amp;&amp;\lambda_i g_i(x^*) &amp;= 0.
 \end{align*}\]</span>
 Finally, because <span class="math inline">\(g_i(x_\mu^*) \ge 0\)</span> and <span class="math inline">\(\mu &gt; 0\)</span>, we must have
 <span class="math display">\[\begin{align*}
   \lambda_i \ge 0.
 \end{align*}\]</span>
-To summarize, if <span class="math inline">\(x^*\)</span> is an optimal solution to <a href="interior-point-method.html#eq:constrained-optimization-problem">(12.1)</a> and there exists a central path <span class="math inline">\(x_\mu^*\)</span> converging to <span class="math inline">\(x^*\)</span>, then the following conditions are satisfied:
+To summarize, if <span class="math inline">\(x^*\)</span> is an optimal solution to <a href="interior-point-methods.html#eq:constrained-optimization-problem">(12.1)</a> and there exists a central path <span class="math inline">\(x_\mu^*\)</span> converging to <span class="math inline">\(x^*\)</span>, then the following conditions are satisfied:
 <span class="math display">\[\begin{align*}
   \nabla f(x^*) &amp;= \sum \limits_{i = 1}^m \lambda_i \nabla g_i (x^*) \\
   \lambda_i g_i(x^*) &amp;= 0 \\
@@ -216,7 +220,7 @@ We can combine the above derivation with Lagrange multipliers to get the followi
 <span class="math display">\[\begin{equation*}
   \begin{array}{llr}
     \mbox{minimize: } &amp; f(x) \\
-    \mbox{subject to: } 
+    \mbox{subject to: }
       &amp; g_i(x) \ge 0, &amp; \mbox{ for } 1 \le i \le m \\
       &amp; h_i(x) = 0, &amp; \mbox{ for } 1 \le i \le k.
   \end{array}
@@ -224,7 +228,7 @@ We can combine the above derivation with Lagrange multipliers to get the followi
 Assume that this problem has an optimal solution <span class="math inline">\(x^*\)</span> and there is a central path <span class="math inline">\(x_\mu^*\)</span> converging to <span class="math inline">\(x^*\)</span>.
 Then under certain regularity conditions, the following conditions are satisfied:
 <span class="math display">\[\begin{align*}
-  \nabla f(x^*) &amp;= \sum \limits_{i = 1}^m \lambda_i \nabla g_i (x^*) 
+  \nabla f(x^*) &amp;= \sum \limits_{i = 1}^m \lambda_i \nabla g_i (x^*)
   + \sum \limits_{i = 1}^k \lambda&#39;_i \nabla h_i (x^*) \\
   \lambda_i g_i(x^*) &amp;= 0, \mbox{ for } 1 \le i \le m \\
   \lambda_i &amp;\ge 0, \mbox{ for } 1 \le i \le m.
@@ -232,7 +236,7 @@ Then under certain regularity conditions, the following conditions are satisfied
 </div>
 <p>The conditions for necessity, sufficiency and the regularity conditions are quite non-trivial and are beyond the scope of this course.</p>
 <div class="example">
-<p><span id="exm:unlabeled-div-70" class="example"><strong>Example 13.1  </strong></span>Consider Example <a href="interior-point-method.html#exm:ip-kkt">12.1</a> again. The KKT conditions for this example are
+<p><span id="exm:unlabeled-div-71" class="example"><strong>Example 13.1  </strong></span>Consider Example <a href="interior-point-methods.html#exm:ip-kkt">12.1</a> again. The KKT conditions for this example are
 <span class="math display">\[\begin{align*}
   2(x + 1) &amp;= \lambda \\
   \lambda x &amp;= 0 \\
@@ -241,10 +245,10 @@ Then under certain regularity conditions, the following conditions are satisfied
 These need to be satisfied in addition to the original constraint <span class="math inline">\(x \ge 0\)</span>. The only solution to this system is <span class="math inline">\(x = 0\)</span>, which is indeed the optimal solution.</p>
 </div>
 <div class="example">
-<p><span id="exm:unlabeled-div-71" class="example"><strong>Example 13.2  </strong></span>Consider the linear program
+<p><span id="exm:unlabeled-div-72" class="example"><strong>Example 13.2  </strong></span>Consider the linear program
 <span class="math display">\[\begin{align*}
   \mbox{minimize: } &amp; c^T x \\
-  \mbox{subject to: } &amp; Ax \ge b 
+  \mbox{subject to: } &amp; Ax \ge b
 \end{align*}\]</span>
 The KKT conditions for this problem are
 <span class="math display">\[\begin{align*}
@@ -256,10 +260,10 @@ This is precisely the dual of the linear programming problem and <em>complementa
 Thus the KKT conditions recover duality in the linear programming sense.</p>
 </div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-72" class="exercise"><strong>Exercise 13.1  </strong></span>Find the KKT conditions for the standard linear program
+<p><span id="exr:unlabeled-div-73" class="exercise"><strong>Exercise 13.1  </strong></span>Find the KKT conditions for the standard linear program
 <span class="math display">\[\begin{align*}
   \mbox{maximize: } &amp; c^T x \\
-  \mbox{subject to: } &amp; Ax \le b \\ 
+  \mbox{subject to: } &amp; Ax \le b \\
   &amp; x \ge 0.
 \end{align*}\]</span>
 Explain how these conditions recover the dual constraints and complementary slackness.</p>
@@ -274,7 +278,7 @@ Explain how these conditions recover the dual constraints and complementary slac
           </div>
         </div>
       </div>
-<a href="interior-point-method.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="interior-point-methods.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="l1-regression.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
