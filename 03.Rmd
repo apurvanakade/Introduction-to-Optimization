@@ -1,6 +1,6 @@
 # The Simplex Method
 
-The simplex method is an iterative process for finding a basic feasible solution to a standard linear program that is optimal. It starts at some BFS and in each step moves to an adjacent one with a higher objective value. The following picture shows one possible run of the simplex method for solving the linear program \@ref(eq:bond-portfolio-lp).
+The simplex method is an iterative process for finding an optimal basic feasible solution to a standard linear program. It starts at some BFS and in each step moves to an adjacent one with a higher objective value. The following picture shows one possible run of the simplex method for the linear program \@ref(eq:bond-portfolio-lp).
 
 ```{r, sample-run, fig.cap="A possible run of the simplex algorithm."}
 
@@ -70,8 +70,8 @@ We can repeat the above process and get the dictionary for the optimal solution:
 ::: {.remark} 
 From the dictionary, one can extract the set of basic variables and the set of non-basic variables by looking at the variables appearing on the LHS and RHS, respectively. Furthermore, by setting the non-basic variables to 0, we obtain the very useful fact that 
 
-- the values of the basic variables are simply the constants "$b_i$", and 
-- the value of the objective function is the constant "$c_0$".
+1. the values of the basic variables are simply the constants "$b_i$", and 
+2. the value of the objective function is the constant "$c_0$".
 
 For example, from the final dictionary above, we can immediately see that $x = 0.6$, $y = 0.3$, $w_3 = 0.1$, and the objective value is $3.3%$ (and non-basic variables $w_1$ and $w_2$ are both zero) at the optimal solution.
 :::
@@ -80,7 +80,7 @@ For example, from the final dictionary above, we can immediately see that $x = 0
 ## The Simplex Step
 
 Suppose we are at a BFS.
-\Let $\bar{w}_1, \dots, \bar{w}_m$ be the basic variables, $\bar{x}_1, \dots, \bar{x}_n$ be the non-basic variables. Let $\bar{c}_j$, $\bar{b}_i$, and $\bar{a}_{ij}$ be the constants appearing in the dictionary at the BFS so that the dictionary is as follows:
+Let $\bar{w}_1, \dots, \bar{w}_m$ be the basic variables, $\bar{x}_1, \dots, \bar{x}_n$ be the non-basic variables, $\bar{c}_j$, $\bar{b}_i$, and $\bar{a}_{ij}$ be the constants appearing in the dictionary at the BFS so that the dictionary is as follows:
 \begin{equation}
   \begin{array}{rrrrrrrrrr}
   \mbox{objective} & = & \bar{c}_0 & + & \bar{c}_1\bar{x}_1 & + & \dots & + & \bar{c}_n\bar{x}_n \\
@@ -107,7 +107,7 @@ A non-basic variable $\bar{x}_j$ can be entering if $\bar{c}_j > 0$.
 :::
 
 ::: {.example}
-In the dictionary \@ref(eq:example-dictionary-1), the objective function is $4x + 3y$. Hence, both $x$ and $y$ can be chosen as entering variables. We can see that there are two different paths along the BFS going from the origin to the optimal solution. In the dictionary \@ref(eq:example-dictionary-2), the objective function is $3 + (-2)w_2 + y$ and only $y$ can be the entering variable. In dictionary \@ref(eq:example-dictionary-3), the objective function is $3.3 + (-5/3)w_2 + (-2/9)w_1$ and there cannot be any entering variable.
+In the dictionary \@ref(eq:example-dictionary-1), the objective function is $4x + 3y$. Hence, both $x$ and $y$ can be chosen as entering variables. We can see that there are two different paths along the boundary of the feasible region from the origin to the optimal solution. In the dictionary \@ref(eq:example-dictionary-2), the objective function is $3 + (-2)w_2 + y$ and only $y$ can be the entering variable. In dictionary \@ref(eq:example-dictionary-3), the objective function is $3.3 + (-5/3)w_2 + (-2/9)w_1$ and no variable can enter.
 :::
 
 ### Leaving Variable
@@ -150,7 +150,7 @@ We can see that the smallest ratio is obtained for $w_2$. Hence, it is the only 
 
 ## Tableau Notation
 
-When manipulating a linear system of equations, one can forget the variables and simply perform manipulations on the coefficients using matrices. 
+When manipulating a linear system of equations, one can forget the variables and perform manipulations on the coefficients using matrices. 
 The same is true for linear programs. 
 We start by rewriting the constraints in the dictionary with all the variables on the LHS and all the constants on the RHS:
 \begin{equation}
@@ -162,7 +162,7 @@ We start by rewriting the constraints in the dictionary with all the variables o
   \end{array} 
   (\#eq:standard-tableau)
 \end{equation}
-This can then be encoded using the following augmented matrix:
+This can be encoded using the following augmented matrix:
 \begin{equation*}
   \begin{array}{rrrrrrrrrrr|r}
       \bar{a}_{11}  & & \dots & & \bar{a}_{1n}  & 1 & & & & & &\bar{b}_1\\
@@ -182,7 +182,7 @@ We add back the objective function, but because of a quirk of algebra we need to
   \end{array} 
 \end{equation*}
 The columns in this augmented matrix correspond to the variables $\bar{x}_j$ and $\bar{w}_i$. The columns with the *pivots* correspond to the basic variables. 
-If $\bar{x}_j$ is the entering variable and $\bar{w}_i$ is the leaving variable, then *we simply perform elementary row operations and turn the entry $\bar{a}_{ij}$ into a pivot for its column*. Hence, the simplex step is also called the **pivot step**.
+If $\bar{x}_j$ is the entering variable and $\bar{w}_i$ is the leaving variable, then *we perform elementary row operations and turn the entry $\bar{a}_{ij}$ into a pivot for its column* to obtain the tableau at the next BFS. Hence, the simplex step is also called the **pivot step**.
 
 ::: {.example}
 The tableau corresponding to the dictionary \@ref(eq:example-dictionary-1) is as follows:
