@@ -33,14 +33,6 @@
   \KOMAoptions{parskip=half}}
 \makeatother
 \usepackage{xcolor}
-\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
-\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
-\hypersetup{
-  pdftitle={Introduction to Optimization},
-  pdfauthor={Apurva Nakade},
-  hidelinks,
-  pdfcreator={LaTeX via pandoc}}
-\urlstyle{same} % disable monospaced font for URLs
 \usepackage{longtable,booktabs,array}
 \usepackage{calc} % for calculating minipage widths
 % Correct order of tables after \paragraph or \subparagraph
@@ -77,10 +69,18 @@
 \usepackage[]{natbib}
 \bibliographystyle{plainnat}
 \nocite{*}
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Introduction to Optimization},
+  pdfauthor={Apurva Nakade},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
 
 \title{Introduction to Optimization}
 \author{Apurva Nakade}
-\date{2022-06-15}
+\date{2022-07-11}
 
 \usepackage{amsthm}
 \newtheorem{theorem}{Theorem}[chapter]
@@ -121,66 +121,33 @@
 \chapter*{Preface}\label{preface}}
 
 
-These are the class notes for a quarter long course I taught at Northwestern University in Winter and Spring 2022. The topics include:
-
-\begin{itemize}
-\tightlist
-\item
-  Linear programming
-
-  \begin{itemize}
-  \tightlist
-  \item
-    Simplex method
-  \item
-    Duality theory
-  \end{itemize}
-\item
-  Non-linear programming
-
-  \begin{itemize}
-  \tightlist
-  \item
-    KKT conditions
-  \item
-    Interior point methods
-  \end{itemize}
-\item
-  Applications
-
-  \begin{itemize}
-  \tightlist
-  \item
-    Network flow
-  \item
-    \(L^1\)-regression
-  \end{itemize}
-\end{itemize}
-
-These notes only cover the theoretical aspect of the course. Students were also assigned weekly worksheets to solve using the SOLVER add-in for Excel. These worksheets were an integral part of the learning experience. Some of these can be found in the Github repository and several more are available in the references.
-
-\hypertarget{copyright}{%
-\section*{Copyright}\label{copyright}}
+These are class notes for a quarter long course on \emph{Introduction to Optimization} (Math 368) at Northwestern University taught during the Winter and Spring of 2022.
+For the most part, these notes talk about linear programming and duality theory, and only towards the very end we discuss non-linear programming.
+The class is aimed at upper-level undergrads who've completed a basic sequence in
+linear algebra and calculus.
+The prerequisites for the linear programming part are Gaussian elimination and basic theorem proving.
+For the non-linear programming part, you'll need to know basic properties of gradients and directional derivatives.
 
 These notes are licensed under a \href{\%5Bhttp://creativecommons.org/licenses/by-sa/4.0/\%5D(http://creativecommons.org/licenses/by-sa/4.0/)}{Creative Commons Attribution-ShareAlike 4.0 International License}.
+Please feel free to fork and modify the Github repo or use these notes as-is.
+Any suggestions and improvements to the notes are welcome and greatly appreciated.
+You can \href{mailto:apurva.nakade@northwestern.edu}{send me an email} or \href{https://github.com/apurvanakade/Introduction-to-Optimization/issues}{open an issue} on Github.
 
 \includegraphics{images/cc-by-sa-4.png}
 
 \hypertarget{introduction}{%
 \chapter{Introduction}\label{introduction}}
 
-An optimization problem consists of maximizing or minimizing a real function over a set of input values from within an allowed set and computing the value of the function.
+An optimization problem consists of maximizing or minimizing a real function over a set of input values from within an allowed set.
 \begin{align*}
 \mbox{optimize: } & f(x_1, \dots, x_n) \\
 \mbox{subject to: } & (x_1, \dots, x_n) \in D.
 \end{align*}
 These kinds questions arise in all quantitative disciplines from computer science and engineering to operations research and economics.
-To analyze the question meaningfully, one needs to make some assumptions on \(f\) and \(D\).
+As stated, this question is too broad.
+To make any meaningful analysis, we need to make several simplifying assumptions about \(f\) and \(D\).
 
-We'll start with the assumptions that the function \(f\) is linear and the constraint set \(D\) is described using linear inequalities. The study of this problem is called \emph{Linear Programming}. Despite the simplicity of the Linear Programming setup, or perhaps because of it, LP is one of the most commonly used models for optimization problems. We'll see how to solve linear programs using the simplex method and go on to analyze the solution sets using duality theory.
-
-Linear programs are used for modeling real world problems when prices/costs and constraints are fixed and known beforehand.
-Even when this is not the case, linear programs are often used to approximate and estimate costs/prices before moving on to more sophisticated techniques.
+To begin with, we'll assume that the function \(f\) is linear and the constraint set \(D\) is described using linear inequalities. The study of this problem is called \emph{Linear Programming}. Despite the simplicity of the linear programming setup, or perhaps because of it, LP is one of the most commonly used models for optimization problems. Let's start with an example before getting into the precise definitions.
 
 \begin{example}
 \protect\hypertarget{exm:bond-portfolio}{}\label{exm:bond-portfolio}
@@ -192,15 +159,15 @@ Any amount not invested in the two bonds will be kept in a cash account that is 
 How should the manager allocate her funds between these two bonds to achieve her objective of maximizing the annual yield from this investment? \citep{optimization-methods-in-finance}
 
 \begin{longtable}[]{@{}llll@{}}
-\toprule
+\toprule()
 & Corporate & Government & Constraints \\
-\midrule
+\midrule()
 \endhead
 Yield & 4\% & 3\% & \\
 Maturity & 3 & 6 & 3.6 \\
 Rating & A = 2 & Aaa = 1 & 1.5 \\
 Allocations & ?? & ?? & 100,000 \\
-\bottomrule
+\bottomrule()
 \end{longtable}
 
 \end{example}
@@ -217,16 +184,18 @@ We can model the above problem as follows:
   \end{array}
   \label{eq:bond-portfolio-lp-incomplete}
 \end{equation}
-where \(x\), \(y\) are the percentages of corporate and government bonds, respectively, and the objective function when multiplied by \$100,000 gives us the net yield. This is an example of a \textbf{linear program}.
-
-We cannot subtract inequalities the same way that we subtract equations. So to get started, let us assume that both the inequalities are in fact equalities. We can solve the system
+where \(x\), \(y\) are the percentages of funds allocated to corporate and government bonds, respectively, and the objective function when multiplied by \$100,000 gives us the net yield. This is an example of a \emph{linear program}.
+Note that we cannot subtract inequalities the same way that we subtract equations. So to get started, let us assume that both the inequalities are in fact equations. We can solve the resulting system,
 \begin{equation*}
   \begin{array}{rrrrrl}
     & 3x & + & 6y & = & 3.6 \\
-    & 2x & + & y & = & 1.5
+    & 2x & + & y & = & 1.5,
   \end{array}
 \end{equation*}
-to obtain \(x = 0.6\) and \(y = 0.3\). But for this solution \(x + y = 0.9\) which is less that 1, meaning that we're not investing all the available funds! Which raises the question: Is it possible to increase the yield further by not satisfying both of the above equalities and investing all the money instead? This question becomes even more apparent once we realize that the linear program \eqref{eq:bond-portfolio-lp-incomplete} is incomplete and the complete linear program that models the problem is as follows:
+to obtain \(x = 0.6\) and \(y = 0.3\).For this solution \(x + y = 0.9\) which is less that 1, meaning that we're not investing all the available funds.
+This seems less than ideal! Surely, we must invest all the funds to get maximum yield!!
+
+To complicate things further, notice that the linear program \eqref{eq:bond-portfolio-lp-incomplete} is incomplete and the complete linear program that models the problem is as follows:
 \begin{equation}
   \begin{array}{rrrrrl}
   \mbox{maximize:} & 4x & + & 3y \\
@@ -239,11 +208,25 @@ to obtain \(x = 0.6\) and \(y = 0.3\). But for this solution \(x + y = 0.9\) whi
   \end{array}
   \label{eq:bond-portfolio-lp}
 \end{equation}
-The solution \((x, y) = (0.6, 0.3)\) is obtained by changing the first two inequalities to equalities. But this choice is completely arbitrary! We could have switched some other set of inequalities to equalities and obtained a different solution. We'd then need to compare the solutions obtained in each of these cases and find the one that maximizes it. This is essentially the \emph{simplex method} which we'll study in more details in the next chapters. For this particular problem, we can use a graphing calculator to solve the problem.
+The solution \((x, y) = (0.6, 0.3)\) is obtained by changing the first two inequalities to equations. We could have switched some other set of inequalities to equations and solved for a different solution. We would then need to compare the yields for each of these solutions and find the one that maximizes it.
+
+However, now there is an additional issue that needs to be dealt with carefully. Solving these modified equations might produce a solution that does not satisfy the original constraints. For example, solving the system of equations
+\begin{equation*}
+  \begin{array}{rrrrrl}
+    & 2x & + & y & = & 1.5 \\
+    & x  &  &  & = & 0
+  \end{array}
+\end{equation*}
+gives us \((x, y) = (0, 1.5)\) which breaks the constraints \(3x + 6y \le 3.6\) and \(x + y \le 1\). So, not only do we need to compare the yields at these solutions but we also need to make sure that they satisfy all the original constraints.
+As you can imagine, this naive approach becomes unwieldy for large linear programs.
+It is not even clear that changing inequalities to equations is the right approach to solving such a problem.\footnote{That this is indeed the case is the content of the \emph{Fundamental Theorem of Linear Programming} (Theorem \ref{thm:fundamental-theorem-lp}).}
+For this particular problem, we can use a graphing calculator to solve the problem as there are only two variables.
+The following figure shows the region described by the various constraints in the first quadrant (\(x \ge 0, y \ge 0\)).
 
 \includegraphics{Introduction-to-Optimization_files/figure-latex/fig-bond-portfolio-1.pdf}
 
-The feasible set is the quadrilateral formed by the overlap of all three constraint regions. The level sets of the objective function are straight lines of the form \(4x + 3y = c\). We can see that the largest value of \(c\) for which these level sets intersect the feasible region turns out to be \(c = 3.3\%\) for \((x, y) = (0.6, 0.3)\).
+The points within the quadrilateral formed by the overlap of all three constraint regions satisfy all the constraints. The level sets of the objective function are straight lines of the form \(4x + 3y = c\). We can see that the largest value of \(c\) for which these level sets intersect the feasible region is \(c = 3.3\%\) for \((x, y) = (0.6, 0.3)\).
+Our original solution was indeed correct! And it is not possible to invest more money and increase the yield!!
 
 \begin{exercise}
 What are some possible ways to relax the constraints in the above problem so that all the money can be invested? What is the improved annual yield?
@@ -270,15 +253,18 @@ The following exercises review some basic facts about inequalities:
 
 \end{exercise}
 
+There are two main families of efficient algorithms for solving linear programs: simplex method(s) (Chapter \ref{the-simplex-method}) and interior point methods (Chapter \ref{interior-point-methods}).
+The simplex method is a combinatorial algorithm that essentially performs the above analysis systematically.
+Interior point methods modify \href{https://en.wikipedia.org/wiki/Gradient_descent}{gradient descent} algorithms to search for an optimal solution within the feasible region. We'll analyze the simplex method in great detail and only briefly introduce a basic interior point method.
+
 \hypertarget{part-simplex-method}{%
 \part{Simplex Method}\label{part-simplex-method}}
 
 \hypertarget{standard-linear-program}{%
 \chapter{Standard Linear Program}\label{standard-linear-program}}
 
-Our first goal is to find a general method for solving linear programs.
-However, instead of solving linear programs in their full generality, we'll construct an algorithm for solving standard linear programs.
-We will see later that every linear program can be \emph{standardized} and hence it suffices to construct an algorithm for solving standard linear programs.
+We will describe the simplex method for solving a special kind of linear program called \emph{standard linear program}.
+We will see later that every linear program can be \emph{standardized} (Chapter \ref{standardization}) and hence this method is sufficient for solving any linear program.
 
 \begin{definition}
 A \textbf{standard linear program} is an optimization problem of the following form:
@@ -298,11 +284,11 @@ where \(c_i\), \(a_{ij}\), and \(b_j\) are real constants. The variables \(x_1, 
 \end{definition}
 
 \begin{example}
-Equation \eqref{eq:bond-portfolio-lp} is an example of a standard linear program with 2 decision variables, 3 constraints, and the feasible region being a quadrilateral.
+Equation \eqref{eq:bond-portfolio-lp} is an example of a standard linear program with 2 decision variables and 3 constraints. The feasible region is a quadrilateral with vertices \((0,0)\), \((0.75, 0)\), \((0.6, 0.3)\), and \((0, 0.6)\).
 \end{example}
 
 \begin{definition}
-For each constraint, we introduce a \textbf{slack variable} by subtracting the LHS from the RHS as follows.
+For each constraint of the standard linear program \eqref{eq:standard-lp}, we introduce a \textbf{slack variable} by subtracting the LHS from the RHS as follows.
 \begin{equation}
   \begin{array}{lrrrrrrrrr}
       w_1 & = & b_1 & - & a_{11} x_1 & - & \dots & - & a_{1n} x_n \\
@@ -333,22 +319,31 @@ In terms of these slack variables, the constraints can be rewritten as \(x, y, w
 \includegraphics{Introduction-to-Optimization_files/figure-latex/fig-bond-portfolio-slack-1.pdf}
 \end{example}
 
-To construct the simplex method, we need a few facts about the geometry of the feasible region.
-
 \begin{definition}
-\protect\hypertarget{def:degeneracy}{}\label{def:degeneracy}A \textbf{basic feasible solution} of the standard linear program \eqref{eq:standard-lp} is defined as a feasible solution at which at least \(n\) basic or decision variables equal 0. A BFS where exactly \(n\) basic or decision variables are 0 is called \textbf{non-degenerate}. A BFS where more than \(n\) basic or decision variables are 0 is called \textbf{degenerate}. At a non-degenerate BFS, the \(n\) variables that equal 0 are called \textbf{non-basic} and the remaining \(m\) variables are called \textbf{basic}.
+\protect\hypertarget{def:degeneracy}{}\label{def:degeneracy}A \textbf{basic feasible solution} (BFS) to the standard linear program \eqref{eq:standard-lp} is defined as a feasible solution at which at least \(n\) decision or slack variables are zero. A BFS where exactly \(n\) decision or slack variables are zero is called \textbf{non-degenerate}. A BFS where more than \(n\) basic or decision variables are 0 is called \textbf{degenerate}. At a non-degenerate BFS, the \(n\) variables that equal 0 are called \textbf{non-basic} and the remaining \(m\) variables are called \textbf{basic}.
 At a degenerate BFS, we choose some \(n\) vanishing variables to be non-basic and call the rest of the variables basic.
 \end{definition}
 
+The basic feasible solutions are precisely the solutions obtained by changing \(n\) or more inequalities to equations and solving the resulting simultaneous system of equations. As there are \(n\) variables, we need at least \(n\) linear equations in our system for the solution to be a single point. A degeneracy occurs when more than \(n\) equations have a single solution, for example, when three lines in \(\mathbb{R}^2\) or four planes in \(\mathbb{R}^3\) intersecting at a single point.
+It is useful to think of the non-degenerate basic feasible solutions as \emph{vertices} of the feasible region.
+The degenerate BFS do not have a nice geometric description.
+
+\begin{exercise}
+Show that if \(k < n\) then the solution set of a system of \(k\) linear equations in \(n\) variables cannot be a single point.
+\end{exercise}
+
 \begin{example}
-The feasible region for the linear program \eqref{eq:bond-portfolio-lp} has four non-degenerate basic feasible solutions: \((0,0)\), \((0.75, 0)\), \((0, 0.6)\), and \((0.6, 0.3)\) and the optimal solution is attained at the BFS \((0.6, 0.3)\). At the origin, the non-basic variables are \(x, y\) and the basic variables are \(w_1, w_2, w_3\). At the optimal solution, the non-basic variables are \(w_1, w_2\) and the basic variables are \(x, y, w_3\).
+The feasible region for the linear program \eqref{eq:bond-portfolio-lp} has four non-degenerate basic feasible solutions: \((0,0)\), \((0.75, 0)\), \((0.6, 0.3)\), and \((0, 0.6)\). and the optimal solution is attained at the BFS \((0.6, 0.3)\). At the origin, the non-basic variables are \(x, y\) and the basic variables are \(w_1, w_2, w_3\). At the optimal solution, the non-basic variables are \(w_1, w_2\) and the basic variables are \(x, y, w_3\). If we replace the constraint \(x + y \le 1\) with \(x + y \le 0.9\) then the BFS \((0.6, 0.3)\) becomes degenerate as here three (slack) variables \(w_1, w_2, w_3\) are zero.
+
+\includegraphics{Introduction-to-Optimization_files/figure-latex/fig-bond-portfolio-degenerate-1.pdf}
 \end{example}
 
-We will assume the following theorem without proof.
+It turns out that it is sufficient to search for optimal solutions within the set of basic feasible solutions, which is finite, as made precise by the following theorem.
 
 \begin{theorem}[Fundamental theorem of linear programming]
+\protect\hypertarget{thm:fundamental-theorem-lp}{}\label{thm:fundamental-theorem-lp}
 
-For a standard linear program, exactly on of the following holds:
+For a standard linear program, exactly one of the following holds:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -356,19 +351,24 @@ For a standard linear program, exactly on of the following holds:
 \item
   There is no feasible solution. In this case, we call the linear program \textbf{infeasible}.
 \item
-  The optimal value can grow arbitrary large on the feasible region. In this case, we call the linear program \textbf{unbounded}.
+  The objective value can grow arbitrary large on the feasible region. In this case, we call the linear program \textbf{unbounded}.
 \item
   There is an optimal solution. In this case, we can further say that then there is a basic feasible solution which is optimal.
 \end{enumerate}
 
 \end{theorem}
 
-The hardest step in the proof of the Fundamental theorem is showing that some basic feasible solution is optimal, if an optimal solution exists. One way to show this is by showing that the simplex method, which finds basic feasible solutions, always halts whenever an optimal solution exists. As we'll see in the following chapters, proving this is true in the case of degeneracies is beyond the scope of this class.
+We will assume this theorem without proof.
+The hardest step in the proof is showing that some basic feasible solution is optimal (if an optimal solution exists) when there are degenerate basic feasible solutions.
+
+\begin{exercise}
+Find an upper bound on the set of basic feasible solutions for a standard linear program with \(n\) decision variables and \(m\) equations.
+\end{exercise}
 
 \hypertarget{the-simplex-method}{%
 \chapter{The Simplex Method}\label{the-simplex-method}}
 
-The simplex method is an iterative process for finding the optimal solution of a standard linear program. It starts at some BFS and in each step moves to an adjacent BFS with a higher objective value. The following picture shows one possible run of the simplex method for solving the linear program \eqref{eq:bond-portfolio-lp}.
+The simplex method is an iterative process for finding an optimal basic feasible solution to a standard linear program. It starts at some BFS and in each step moves to an adjacent one with a higher objective value. The following picture shows one possible run of the simplex method for the linear program \eqref{eq:bond-portfolio-lp}.
 
 \begin{figure}
 \centering
@@ -376,26 +376,40 @@ The simplex method is an iterative process for finding the optimal solution of a
 \caption{\label{fig:sample-run}A possible run of the simplex algorithm.}
 \end{figure}
 
-In each step, one non-basic variable \textbf{enters} the set of basic variables and one basic variable \textbf{leaves} the set of basic variables. The table below explains how these sets are getting updated in the sample simplex algorithm run in Figure \ref{fig:sample-run}.
+In each step, one non-basic variable \textbf{enters} the set of basic variables and one basic variable \textbf{leaves} the set of basic variables. The table below explains how these sets are getting updated in the sample simplex method run in Figure \ref{fig:sample-run}.
 
-\begin{longtable}[]{@{}lllll@{}}
-\toprule
-& Leaving variable & Entering variable & Basic variables & Non-basic variables \\
-\midrule
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2000}}@{}}
+\toprule()
+\begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Leaving variable
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Entering variable
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Basic variables
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Non-basic variables
+\end{minipage} \\
+\midrule()
 \endhead
 Start & & & \(\{w_1, w_2, w_3\}\) & \(\{x, y\}\) \\
 Step 1 & \(w_2\) & \(x\) & \(\{w_1, x, w_3\}\) & \(\{w_2, y\}\) \\
 Step 2 & \(w_1\) & \(y\) & \(\{y, x, w_3\}\) & \(\{w_2, w_1\}\) \\
-\bottomrule
+\bottomrule()
 \end{longtable}
 
 \includegraphics{Introduction-to-Optimization_files/figure-latex/fig-bond-portfolio-entering-1.pdf}
 
-Using this terminology, our goal at each step is reduced to finding the entering and leaving variables.
+Using this terminology, our goal at each step is reduced to finding which variable enters and which variable leaves.
 To do this algebraically, we'll introduce the notion of dictionaries.
 
 \begin{definition}
-The \textbf{dictionary} at a basic feasible solution is a set of equations describing the objective function and the constraints in terms of the non-basic variables.
+The \textbf{dictionary} at a basic feasible solution is the set of equations describing the objective function and the constraints in terms of the non-basic variables.
 \end{definition}
 
 \begin{example}
@@ -439,22 +453,24 @@ We can repeat the above process and get the dictionary for the optimal solution:
 \begin{remark}
 From the dictionary, one can extract the set of basic variables and the set of non-basic variables by looking at the variables appearing on the LHS and RHS, respectively. Furthermore, by setting the non-basic variables to 0, we obtain the very useful fact that
 
-\begin{itemize}
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
   the values of the basic variables are simply the constants ``\(b_i\)'', and
 \item
   the value of the objective function is the constant ``\(c_0\)''.
-\end{itemize}
+\end{enumerate}
 
-For example, from the final dictionary above, we can immediately see that \(x = 0.6\), \(y = 0.3\), \(w_3 = 0.9\), and the objective value is \(3.3%
-\) (and \(w_1 = 0\) and \(w_2 = 0.3\)) at the optimal solution.
+For example, from the final dictionary above, we can immediately see that \(x = 0.6\), \(y = 0.3\), \(w_3 = 0.1\), and the objective value is \(3.3%
+\) (and non-basic variables \(w_1\) and \(w_2\) are both zero) at the optimal solution.
 \end{remark}
 
 \hypertarget{the-simplex-step}{%
 \section{The Simplex Step}\label{the-simplex-step}}
 
-Suppose we are at a BFS. Let \(\bar{w}_1, \dots, \bar{w}_m\) be the basic variables, \(\bar{x}_1, \dots, \bar{x}_n\) be the non-basic variables. Let \(\bar{c}_j\), \(\bar{b}_i\), and \(\bar{a}_{ij}\) be the constants appearing in the dictionary at the BFS so that the dictionary is as follows:
+Suppose we are at a BFS.
+Let \(\bar{w}_1, \dots, \bar{w}_m\) be the basic variables, \(\bar{x}_1, \dots, \bar{x}_n\) be the non-basic variables, \(\bar{c}_j\), \(\bar{b}_i\), and \(\bar{a}_{ij}\) be the constants appearing in the dictionary at the BFS so that the dictionary is as follows:
 \begin{equation}
   \begin{array}{rrrrrrrrrr}
   \mbox{objective} & = & \bar{c}_0 & + & \bar{c}_1\bar{x}_1 & + & \dots & + & \bar{c}_n\bar{x}_n \\
@@ -465,57 +481,65 @@ Suppose we are at a BFS. Let \(\bar{w}_1, \dots, \bar{w}_m\) be the basic variab
   \end{array} 
   \label{eq:standard-dictionary}
 \end{equation}
-The first step is to choose the \emph{direction of the simplex step}.
-Algebraically, this is done by choosing the entering variable.
-We want to move to an adjacent BFS with a higher objective value. The current objective function is
+
+\hypertarget{entering-variable}{%
+\subsection{Entering variable}\label{entering-variable}}
+
+We want to move to an adjacent BFS with a higher objective value.
+The current objective function is
 \begin{align*}
   \bar{c}_0  +  \bar{c}_1\bar{x}_1  +  \dots  +  \bar{c}_n\bar{x}_n.
 \end{align*}
-and the current objective value is \(\bar{c}_0\) as all the non-basic variables \(\bar{x}_j\) are equal 0.
-We can move away from the current BFS by increasing one of the non-basic variables \(\bar{x}_j\) from 0 to a positive value. The objective value will increase if \(\bar{c}_j > 0\). This then is the criterion for choosing the entering variable.
+and the current objective value is \(\bar{c}_0\) as all the non-basic variables \(\bar{x}_j\) are zero.
+We can move away from the current BFS by increasing one of the non-basic variables \(\bar{x}_j\) from zero to a positive value. The objective value will increase precisely when \(\bar{c}_j > 0\). This then is the criterion for choosing the entering variable. We can think of this as choosing the \emph{direction} of the simplex step.
 
 \begin{proposition}[Entering variable]
 \protect\hypertarget{prp:entering-variable}{}\label{prp:entering-variable}A non-basic variable \(\bar{x}_j\) can be entering if \(\bar{c}_j > 0\).
 \end{proposition}
 
 \begin{example}
-In the dictionary \eqref{eq:example-dictionary-1}, the objective function is \(4x + 3y\). Hence, both \(x\) and \(y\) can be chosen as the entering variables. Geometrically, we can see that there are two different paths going from the origin to the optimal solution. In the dictionary \eqref{eq:example-dictionary-2}, the objective function is \(3 + (-2)w_2 + y\) and only \(y\) can be the entering variable. In dictionary \eqref{eq:example-dictionary-3}, the objective function is \(3.3 + (-5/3)w_2 + (-2/9)w_1\) and there cannot be any entering variable.
+In the dictionary \eqref{eq:example-dictionary-1}, the objective function is \(4x + 3y\). Hence, both \(x\) and \(y\) can be chosen as entering variables. We can see that there are two different paths along the boundary of the feasible region from the origin to the optimal solution. In the dictionary \eqref{eq:example-dictionary-2}, the objective function is \(3 + (-2)w_2 + y\) and only \(y\) can be the entering variable. In dictionary \eqref{eq:example-dictionary-3}, the objective function is \(3.3 + (-5/3)w_2 + (-2/9)w_1\) and no variable can enter.
 \end{example}
 
-Suppose \(\bar{x}_j\) is the chosen entering variable.
+\hypertarget{leaving-variable}{%
+\subsection{Leaving Variable}\label{leaving-variable}}
+
+Suppose we choose \(\bar{x}_j\) as our entering variable.
 This determines the direction of the simplex step.
 We next need to figure out the amount by which to increase \(\bar{x}_j\) without leaving the feasible region.
-The basic variables are related to \(\bar{x}_j\) by the following relations
+The basic variable \(\bar{w}_i\) is related to \(\bar{x}_j\) by the following relation
 \begin{align*}
   \bar{w}_i = \bar{b}_i - \bar{a}_{ij} \bar{x}_j - \sum \limits_{k = 1, k \neq j}^{n}  \bar{a}_{ik} \bar{x}_k.
 \end{align*}
-The summation quantity stays at 0.
-As \(x_j\) increases \(w_i\) will decrease exactly when \(a_{ij} > 0\).
-Because we want all the variables to be non-negative, we must always have \(w_i = b_i - a_{ij} x_j \ge 0\).
-This condition must hold true for all such \(w_i\). Hence, we get the following criterion for choosing the leaving variable.
+As we increase (only) \(\bar{x}_j\), the quantity within the summation remains zero.
+If \(a_{ij} > 0\), then as we increase \(\bar{x}_j\) the basic variable \(\bar{w}_j\) will decrease.
+Because we want all the variables to be non-negative, we must always have \(\bar{w}_i = \bar{b}_i - \bar{a}_{ij} \bar{x}_j \ge 0\).
+This condition must hold true for all such \(\bar{w}_i\).
+Hence, we get the following criterion for choosing the leaving variable.
 
 \begin{proposition}[Leaving variable]
-\protect\hypertarget{prp:leaving-variable}{}\label{prp:leaving-variable}Suppose \(\bar{x}_j\) is the entering variable. A basic variable \(\bar{w}_i\) can be chosen to be the leaving variable if
+\protect\hypertarget{prp:leaving-variable}{}\label{prp:leaving-variable}Suppose \(\bar{x}_j\) is the entering variable.
+The basic variable \(\bar{w}_i\) can be chosen to be the leaving variable if
 \begin{align*}
-  i = {\arg \min} _{a_{ij} > 0} \dfrac{b_i}{a_{ij}}.
+  i = {\arg \min} _{\bar{a}_{ij} > 0} \dfrac{\bar{b}_i}{\bar{a}_{ij}}.
 \end{align*}
 \end{proposition}
 
-In this case, after the simplex step \(w_i\) decreases to \(0\), \(x_j\) increases to \(\min_{a_{ij} > 0} {b_i}/{a_{ij}}\), and the objective value increases by \(\bar{c}_j \min_{a_{ij} > 0} {b_i}/{a_{ij}}\).
+If we choose \(\bar{w}_i\) to be leaving then after the simplex step, \(\bar{w}_i\) decreases to \(0\), \(\bar{x}_j\) increases to \(\min_{\bar{a}_{ij} > 0} {\bar{b}_i}/{\bar{a}_{ij}}\), and the objective value increases by \(\bar{c}_j \min_{\bar{a}_{ij} > 0} {\bar{b}_i}/{\bar{a}_{ij}}\).
 
 \begin{example}
 
-In the dictionary \eqref{eq:example-dictionary-1}, if we choose \(x\) to be our entering variable then we need to get the following ratios to compare
+In the dictionary \eqref{eq:example-dictionary-1}, if we choose \(x\) to be our entering variable then we need to compare the following ratios:
 
 \begin{longtable}[]{@{}cccc@{}}
-\toprule
+\toprule()
 \(i\) & \(\bar{a}_{ij}\) & \(\bar{b}_i\) & \(\bar{b}_i/\bar{a}_{ij}\) \\
-\midrule
+\midrule()
 \endhead
 1 & 3 & 3.6 & 1.2 \\
 2 & 2 & 1.5 & 0.75 \\
 3 & 1 & 1 & 1 \\
-\bottomrule
+\bottomrule()
 \end{longtable}
 
 \end{example}
@@ -525,7 +549,7 @@ We can see that the smallest ratio is obtained for \(w_2\). Hence, it is the onl
 \hypertarget{tableau-notation}{%
 \section{Tableau Notation}\label{tableau-notation}}
 
-When manipulating linear systems, one can forget the variables and simply perform manipulations on the coefficients using matrices.
+When manipulating a linear system of equations, one can forget the variables and perform manipulations on the coefficients using matrices.
 The same is true for linear programs.
 We start by rewriting the constraints in the dictionary with all the variables on the LHS and all the constants on the RHS:
 \begin{equation}
@@ -537,7 +561,7 @@ We start by rewriting the constraints in the dictionary with all the variables o
   \end{array} 
   \label{eq:standard-tableau}
 \end{equation}
-This can then be encoded using the following augmented matrix:
+This can be encoded using the following augmented matrix:
 \begin{equation*}
   \begin{array}{rrrrrrrrrrr|r}
       \bar{a}_{11}  & & \dots & & \bar{a}_{1n}  & 1 & & & & & &\bar{b}_1\\
@@ -546,7 +570,7 @@ This can then be encoded using the following augmented matrix:
       \bar{a}_{m1}  & & \dots & & \bar{a}_{mn}  & & & & & & 1 &\bar{b}_m\\
   \end{array}
 \end{equation*}
-We add back the objective function, but because of a quirk of algebra we need to add the objective function coefficients as follows.
+We add back the objective function, but because of a quirk of algebra we need to add the objective function coefficients as follows:
 \begin{equation*}
  \begin{array}{rrrrrrrrrrr|r}
       \bar{a}_{11}  & & \dots & & \bar{a}_{1n}  & 1 & & & & & &\bar{b}_1\\
@@ -557,8 +581,7 @@ We add back the objective function, but because of a quirk of algebra we need to
   \end{array} 
 \end{equation*}
 The columns in this augmented matrix correspond to the variables \(\bar{x}_j\) and \(\bar{w}_i\). The columns with the \emph{pivots} correspond to the basic variables.
-
-If \(\bar{x}_j\) is the entering variable and \(\bar{w}_i\) is the leaving variable, then we simply perform elementary row operations and turn the entry \(\bar{a}_{ij}\) into a pivot for its column. Hence, this step is also called the \textbf{pivot step}.
+If \(\bar{x}_j\) is the entering variable and \(\bar{w}_i\) is the leaving variable, then \emph{we perform elementary row operations and turn the entry \(\bar{a}_{ij}\) into a pivot for its column} to obtain the tableau at the next BFS. Hence, the simplex step is also called the \textbf{pivot step}.
 
 \begin{example}
 The tableau corresponding to the dictionary \eqref{eq:example-dictionary-1} is as follows:
@@ -585,16 +608,18 @@ which corresponds to the dictionary \eqref{eq:example-dictionary-2}.
 \hypertarget{initialization}{%
 \chapter{Initialization}\label{initialization}}
 
-We now know how to move from a BFS to an adjacent one with a higher objective value.
-We can start the simplex method at the origin if the origin is a BFS. However, this is not always the case.
+So far, we've seen how to move from one basic feasible solution to an adjacent one with a higher objective value.
+To have a complete algorithm for solving standard linear programs, we still need a method that finds some BFS.
+If we're lucky, the origin is a basic feasible solution and we can start our simplex method here.
+However, this is not always the case. The following proposition follows easily from definitions.
 
 \begin{proposition}
 The origin is a basic feasible solution of the standard linear program \eqref{eq:standard-lp} if and only if \(b_i \ge 0\) for all \(1 \le i \le m.\)
 \end{proposition}
 
-When the origin is not a BFS, we need a process to find some vertex of the feasible region.
-This is called the \textbf{Initialization Phase} or \textbf{Phase I} of the simplex method.
-To do this we need to create an auxiliary linear program.
+When the origin is not a BFS, we need a process to find one.
+This is called the \textbf{Initialization Phase} or \textbf{Phase I}.
+We will do this by creating an auxiliary linear program.
 
 \hypertarget{auxiliary-linear-program}{%
 \section{Auxiliary Linear Program}\label{auxiliary-linear-program}}
@@ -615,13 +640,14 @@ The \textbf{auxiliary linear program} of the standard linear program \eqref{eq:s
       & & & a_{21} x_1 & + & \dots & + & a_{2n} x_n & - &x_0 & \leq & b_2 \\
       & & & & & \vdots &  \\
       & & & a_{m1} x_1 & + & \dots & + & a_{mn} x_n & - &x_0 & \leq & b_m \\
-      & & & x_1, & x_2, & \dots &, & x_n & , & x_0 & \geq & 0
+      & & & x_1, & x_2, & \dots &, & x_n & , & x_0 & \geq & 0.
   \end{array} 
   \label{eq:auxiliary-lp}
 \end{equation}
 \end{definition}
 
-To understand the auxiliary linear program, it is better to write it in the following non-standard form:
+We're introducing a new variable \(-x_0\), adding \(-x_0\) to each of the constraint LHS, and changing the objective function to \(-x_0\).
+To understand the auxiliary linear program, we rewrite it in the following non-standard form:
 \begin{equation*}
   \begin{array}{lrrrrrrrrrrrrr}
     \mbox{minimize: } & & & & & & & & & & & x_0 & \\
@@ -633,7 +659,7 @@ To understand the auxiliary linear program, it is better to write it in the foll
       & & & x_1, & x_2, & \dots &, & x_n & , & x_0 & \geq & 0
   \end{array} 
 \end{equation*}
-We can interpret \(x_0\) as a relaxation of the constraints. The auxiliary linear program is then asking - \emph{what is the smallest constraint relaxation necessary to make our linear program feasible?}. The primary linear program should feasible if and only if no relaxation is necessary. This is indeed the case.
+We can interpret \(x_0\) as a relaxation of the constraints. Solving the auxiliary linear program is equivalent to asking - ``what is the smallest constraint relaxation necessary to make the primary linear program feasible?''. The primary linear program is feasible if and only if no relaxation is necessary. The following exercises make this more precise.
 
 \begin{exercise}
 Show that the auxiliary linear program \eqref{eq:auxiliary-lp} is always feasible by explicitly constructing a feasible solution.
@@ -643,23 +669,23 @@ Show that the auxiliary linear program \eqref{eq:auxiliary-lp} is always feasibl
 Show that the objective values of the auxiliary linear program \eqref{eq:auxiliary-lp} are bounded from above by 0. Using the \href{https://en.wikipedia.org/wiki/Extreme_value_theorem}{extreme value theorem}, conclude that \eqref{eq:auxiliary-lp} always has an optimal solution.
 \end{exercise}
 
-Finally, we get the following theorem (proof left as an exercise) which provides an explicit connection between the optimal solution of the auxiliary linear program and the feasible region of the standard linear program
+Finally, the following theorem (proof left as an exercise) establishes an explicit connection between optimal solutions of the auxiliary linear program and feasible solutions of the standard linear program.
 
 \begin{theorem}
-\protect\hypertarget{thm:auxiliary-lp}{}\label{thm:auxiliary-lp}Suppose \((k_1, k_2, \dots, k_n, k_0)\) is an optimal solution of the auxiliary linear program \eqref{eq:auxiliary-lp}. Then, the standard linear program \eqref{eq:standard-lp} is feasible if and only if \(k_0 = 0\). In this case, \((k_1, k_2, \dots, k_n)\) is a basic feasible solution of \eqref{eq:standard-lp}.
+\protect\hypertarget{thm:auxiliary-lp}{}\label{thm:auxiliary-lp}Suppose \(x_i = k_i\) for \(0 \le i \le m\) is an optimal solution of the auxiliary linear program \eqref{eq:auxiliary-lp}. Then, the standard linear program \eqref{eq:standard-lp} is feasible if and only if \(k_0 = 0\). In this case, \(x_i = k_i\) for \(0 \le i \le m\) is a basic feasible solution of \eqref{eq:standard-lp}.
 \end{theorem}
 
-So, our problem is not reduced to determining the optimal solution of the auxiliary linear program.
-Note that the origin is not in the feasible region, so we cannot start applying the simplex steps.
-The following exercise provides us a way to find a BFS of the auxiliary linear program.
+Our problem is now reduced to determining the optimal solution of the auxiliary linear program, which we'll do using the simplex method itself!
+However, even for the auxiliary linear program the origin is not necessarily in the feasible region so we cannot use the simplex steps to find an optimal solution.
+But, in this case, there is a trick to make all the \(b_i \ge 0\) by performing a single elementary row operation as described in the following exercises.
 
 \begin{exercise}
 Suppose some \(b_i\) is negative.
 Without any loss of generality, assume that \(b_1\) is the smallest among all the \(b_i\) (i.e.~the most negative).
-Show that after the pivot step in tableau about the column corresponding to \(x_0\) and the row corresponding to \(w_1\), all the \(b_i\)'s become positive.
+Show that after the pivot step in tableau for the auxiliary linear program \eqref{eq:auxiliary-lp} about the column corresponding to \(x_0\) and the row corresponding to \(w_1\), all the \(b_i\)'s become positive.
 \end{exercise}
 
-To summarize, if the origin is not a vertex of the feasible region, then the method of solving the standard linear program \eqref{eq:standard-lp}, starting with \textbf{Phase I}, is as follows:
+To summarize: If the origin is not a vertex of the feasible region, then the method of solving the standard linear program \eqref{eq:standard-lp}, starting with \textbf{Phase I}, is as follows:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -670,7 +696,7 @@ To summarize, if the origin is not a vertex of the feasible region, then the met
   Perform a pivot operation about the entry in the column corresponding to the variable \(x_0\) and the row corresponding to the \emph{most negative \(b_i\)}. This results in a dictionary where all the \(b_i\)'s are now non-negative.
 \item
   Solve the auxiliary linear program by repeatedly performing pivot steps.
-  Suppose \((k_1, k_2, \dots, k_n, k_0)\) is an optimal solution of the auxiliary linear program.
+  Suppose \(x_i = k_i\) for \(0 \le i \le m\) is an optimal solution of the auxiliary linear program.
 
   \begin{enumerate}
   \def\labelenumii{\arabic{enumii}.}
@@ -678,14 +704,49 @@ To summarize, if the origin is not a vertex of the feasible region, then the met
   \item
     If \(k_0 \neq 0\), then we halt as the primary linear program is not feasible.
   \item
-    If \(k_0 = 0\), then we proceed to \textbf{Phase II}. We start solving the original linear program starting at the BFS \((k_1, \dots, k_n)\) by repeatedly performing pivot steps.
+    If \(k_0 = 0\), then we proceed to \textbf{Phase II}. We solve the original linear program starting at the BFS \(x_i = k_i\) for \(1 \le i \le n\) by repeatedly performing pivot steps.
   \end{enumerate}
 \end{enumerate}
+
+\begin{exercise}
+
+This exercise provides a geometric intuition behind the auxiliary linear program.
+For each of the following standard linear programs,
+
+\begin{equation*}
+  \begin{array}{lrllll}
+  \mbox{maximize:} & x \\
+  \mbox{subject to:} 
+  & -x & \le & -1 \\
+  & x & \ge & 0
+  \end{array}
+\end{equation*}
+
+\begin{equation*}
+  \begin{array}{lrllll}
+  \mbox{maximize:} & x \\
+  \mbox{subject to:} 
+  & x & \le & -1 \\
+  & x & \ge & 0
+  \end{array}
+\end{equation*}
+
+\begin{itemize}
+\tightlist
+\item
+  Form the auxiliary linear program. Use \(y\) as the auxiliary variable.
+\item
+  Draw the feasible region of the auxiliary linear program and label the constraints using slack variables.
+\item
+  Solve the auxiliary linear program using geometry.
+\end{itemize}
+
+\end{exercise}
 
 \hypertarget{combined-tableau}{%
 \section{Combined tableau}\label{combined-tableau}}
 
-In the above algorithm, at the end of Phase I, we need to calculate the dictionary at the \$BFS \((k_1, \dots, k_n)\) when starting Phase II. We can avoid this recalculation by instead manipulating a \emph{combined tableau} which contains information about both the auxiliary linear program and the primary linear program.
+At the end of Phase I, we need to calculate the dictionary at the basic feasible solution \(x_i = k_i\) for \(1 \le i \le n\). We can avoid this recalculation by manipulating a \emph{combined tableau} which contains information about both the auxiliary and the primary linear programs.
 
 \begin{definition}
 The combined tableau is defined as follows:
@@ -695,13 +756,15 @@ The combined tableau is defined as follows:
       a_{21}  & & \dots & & a_{2n}  & & & 1 & & & & -1 &b_2\\
       & & & & & \vdots & & & & & & \vdots & \vdots \\
       a_{m1}  & & \dots & & a_{mn}  & & & & & & 1 & -1 &b_m\\ \hline
-      c_1  & & \dots & & c_{n}  & 0 & & 0 & \dots & & 0 & 0 & 0\\ \hline
+      c_1  & & \dots & & c_{n}  & 0 & & 0 & \dots & & 0 & 0 & -c_0\\ \hline
       0  & & \dots & & 0  & 0 & & 0 & \dots & & 0 & -1 & 0
   \end{array} 
 \end{equation*}
 \end{definition}
 
-The second last row of the tableau corresponds to the objective function of the primary linear program and the last row of the tableau corresponds to the objective of the auxiliary linear program. We use the combined tableau to first perform Phase I and then neglect the auxiliary objective and the variable \(x_0\) and proceed on to Phase II using the same tableau.
+The second to last row of the tableau corresponds to the objective function of the primary linear program and the last row corresponds to the objective of the auxiliary linear program. The second to last column corresponds to the variable \(x_0\).
+
+We use the combined tableau to first perform Phase I and then delete the auxiliary objective and the variable \(x_0\) and proceed on to Phase II using the rest of the tableau.
 
 \begin{example}
 Consider the following linear program:
@@ -715,7 +778,7 @@ Consider the following linear program:
     & x & , & y & \ge & 0.
   \end{array}
 \end{equation*}
-Because \((0,0)\) is not feasible, we need to start with the initialization phase. We form the combined tableau:
+As \(b_2\) and \(b_3\) are negative, \((0,0)\) is not feasible and we need to start with Phase I. We form the combined tableau:
 \begin{equation*}
   \begin{array}{rrrrrr|r}
     1 & 2 & 1 & 0 & 0 & -1 & 6 \\
@@ -763,7 +826,8 @@ Continuing with the simplex method we get the following final tableau
     0 & 0 & -1 & 0 & -1 & -4 
   \end{array}
 \end{equation*}
-The final non-basic variables are \(w_1\) and \(w_3\), the basic variables are \(x\), \(y\), \(w_2\) with values \(2\), \(2\), \(1\), respectively, and the optimal objective value is \(4\).
+The final non-basic variables are \(w_1\) and \(w_3\), the basic variables are \(x\), \(y\), \(w_2\) with values \(2\), \(2\), \(1\), respectively, and the optimal objective value is \(4\). The following figure shows the starting and ending basic feasible solutions for Phase II.
+\includegraphics{Introduction-to-Optimization_files/figure-latex/fig-auxiliary-lp-1.pdf}
 \end{example}
 
 \hypertarget{cycling}{%
@@ -1106,9 +1170,9 @@ Because the dual of the dual is the primal, we do not need to analyze the third 
 The follow table describes the modifications needed for forming the dual of a general linear program.
 
 \begin{longtable}[]{@{}cc@{}}
-\toprule
+\toprule()
 Primal & Dual \\
-\midrule
+\midrule()
 \endhead
 \(a_{i1} x_1 + \dots + a_{in} x_n \le b_i\) & \(y_i \ge 0\) \\
 \(a_{i1} x_1 + \dots + a_{in} x_n \ge b_i\) & \(y_i \le 0\) \\
@@ -1116,7 +1180,7 @@ Primal & Dual \\
 \(x_j \ge 0\) & \(a_{1j}y_1 + \dots + a_{mj} y_m \ge c_j\) \\
 \(x_j \le 0\) & \(a_{1j}y_1 + \dots + a_{mj} y_m \le c_j\) \\
 \(x_j\) is free & \(a_{1j}y_1 + \dots + a_{mj} y_m = c_j\) \\
-\bottomrule
+\bottomrule()
 \end{longtable}
 
 \hypertarget{weak-and-strong-duality}{%
@@ -1907,6 +1971,7 @@ Exactly one of the following systems has a solution:
   y^T b & < 0.
 \label{eq:farkas-eq2}
 \end{align}
+
 \end{theorem}
 
 \begin{proof}
@@ -2132,8 +2197,8 @@ must have a solution.
 But now, if \(x\) is any primal-feasible solution then so is \(x - \alpha z\) for any positive constant \(\alpha\) and the objective value of the primal at \(x - \alpha z\) can be made arbitrarily large by increasing \(\alpha\) thereby contradicting the fact that primal has an optimal solution (and hence is bounded).
 \end{proof}
 
-\hypertarget{interior-point-method}{%
-\chapter{Interior Point Method}\label{interior-point-method}}
+\hypertarget{interior-point-methods}{%
+\chapter{Interior Point Methods}\label{interior-point-methods}}
 
 Throughout this chapter we will let \(f\) denote a twice differentiable function from \(\mathbb{R}^n\) to \(\mathbb{R}\).
 
@@ -2167,8 +2232,8 @@ There are several issues with this technique:
 
 Unfortunately, there is no easy way to resolve these issues. In practice, either we need some additional information about the function and its gradient or we proceed by trial and error to find step sizes that work. Even then there is no guarantee that the algorithm will converge to an absolute minima and not a local minima, if at all. In spite of these issues, because of its simplicity, ease of implementation, and good convergence properties in practice, Gradient Descent is a very popular algorithm for solving unconstrained optimization problems.
 
-\hypertarget{interior-point-method-1}{%
-\section{Interior Point Method}\label{interior-point-method-1}}
+\hypertarget{interior-point-method}{%
+\section{Interior Point Method}\label{interior-point-method}}
 
 Gradient descent can be modified to solve constrained optimization problems by introducing barrier functions.
 Consider the following problem:

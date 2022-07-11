@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 5 Cycling | Introduction to Optimization</title>
   <meta name="description" content="Chapter 5 Cycling | Introduction to Optimization." />
-  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 5 Cycling | Introduction to Optimization" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Apurva Nakade" />
 
 
-<meta name="date" content="2022-06-30" />
+<meta name="date" content="2022-07-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -186,23 +186,23 @@ We will not be able to perform the pivot steps if no entering or leaving variabl
 <p>If no entering variable is found, then the geometry tells us that there is no direction in which the objective value can be increased i.e. we’re at a local maxima.
 But because the objective function is a linear function this local maxima is also an absolute maxima and <strong>provides an optimal solution to our linear program</strong>. Algebraically, this happens when none of the <span class="math inline">\(\bar{c}_i\)</span> are positive.</p>
 <div class="proposition">
-<p><span id="prp:unlabeled-div-23" class="proposition"><strong>Proposition 5.1  </strong></span>If none of the objective coefficients <span class="math inline">\(\bar{c}_i\)</span> are positive in the current dictionary, then the current BFS is optimal.</p>
+<p><span id="prp:unlabeled-div-24" class="proposition"><strong>Proposition 5.1  </strong></span>If none of the objective coefficients <span class="math inline">\(\bar{c}_i\)</span> are positive in the current dictionary, then the current BFS is optimal.</p>
 </div>
 <p>If no leaving variable is found, then the geometry tells us that we can keep increasing the entering variable indefinitely without leaving the feasible region. Such a linear program is called <strong>unbounded</strong>.
 An unbounded linear program has no optimal solution as the objective value can be made arbitrary large without leaving the feasible region. Algebraically, this happens when none of the <span class="math inline">\(\bar{a}_{ij}\)</span> are positive.</p>
 <div class="proposition">
-<p><span id="prp:unlabeled-div-24" class="proposition"><strong>Proposition 5.2  </strong></span>Suppose <span class="math inline">\(\bar{x}_j\)</span> is the entering variable. If none of the constants <span class="math inline">\(\bar{a}_{ij}\)</span> are positive in the current dictionary, then the linear program is unbounded.</p>
+<p><span id="prp:unlabeled-div-25" class="proposition"><strong>Proposition 5.2  </strong></span>Suppose <span class="math inline">\(\bar{x}_j\)</span> is the entering variable. If none of the constants <span class="math inline">\(\bar{a}_{ij}\)</span> are positive in the current dictionary, then the linear program is unbounded.</p>
 </div>
 <p>Another point of failure is in the initialization phase. We’ve already seen that if the initialization phase fails then there is no feasible solution. We restate the result here for completion.</p>
 <div class="proposition">
-<p><span id="prp:unlabeled-div-25" class="proposition"><strong>Proposition 5.3  </strong></span>If some <span class="math inline">\(b_i\)</span> is negative, and the initialization phase fails then the linear program is infeasible.</p>
+<p><span id="prp:unlabeled-div-26" class="proposition"><strong>Proposition 5.3  </strong></span>If some <span class="math inline">\(b_i\)</span> is negative, and the initialization phase fails then the linear program is infeasible.</p>
 </div>
 <p>Unfortunately, the above results are not sufficient to guarantee that the simplex method will always find a solution if one exists. It is possible for the simplex method to get stuck in a loop. This is called <strong>cycling</strong>.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-26" class="exercise"><strong>Exercise 5.1  </strong></span>Give an example showing that the variable that enters in one pivot step can become leave in the next.</p>
+<p><span id="exr:unlabeled-div-27" class="exercise"><strong>Exercise 5.1  </strong></span>Give an example showing that the variable that enters in one pivot step can become leave in the next.</p>
 </div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-27" class="exercise"><strong>Exercise 5.2  </strong></span>Show that the variable that leaves in one pivot step cannot enter in the next.</p>
+<p><span id="exr:unlabeled-div-28" class="exercise"><strong>Exercise 5.2  </strong></span>Show that the variable that leaves in one pivot step cannot enter in the next.</p>
 </div>
 <div id="degeneracy" class="section level2 hasAnchor" number="5.1">
 <h2><span class="header-section-number">5.1</span> Degeneracy<a href="cycling.html#degeneracy" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -218,10 +218,10 @@ Hence, the only case when cycling <em>can</em> occur is when <span class="math i
 But <span class="math inline">\(\bar{b}_i\)</span> is the value of the basic variable <span class="math inline">\(\bar{w}_i\)</span>.
 Having more than <span class="math inline">\(n\)</span> variables vanishing at a BFS is precisely the definition of degeneracy <a href="standard-linear-program.html#def:degeneracy">2.3</a>.</p>
 <div class="proposition">
-<p><span id="prp:unlabeled-div-28" class="proposition"><strong>Proposition 5.4  </strong></span>The simplex method can cycle if there some degenerate BFS.</p>
+<p><span id="prp:unlabeled-div-29" class="proposition"><strong>Proposition 5.4  </strong></span>The simplex method can cycle if there some degenerate BFS.</p>
 </div>
 <div class="example">
-<p><span id="exm:unlabeled-div-29" class="example"><strong>Example 5.1  </strong></span>The following slight modification of Example <a href="introduction.html#eq:bond-portfolio-lp">(1.2)</a> is a degenerate linear program:
+<p><span id="exm:unlabeled-div-30" class="example"><strong>Example 5.1  </strong></span>The following slight modification of Example <a href="introduction.html#eq:bond-portfolio-lp">(1.2)</a> is a degenerate linear program:
 <span class="math display">\[\begin{equation*}
   \begin{array}{rrrrrl}
   \mbox{maximize:} &amp; 4x &amp; + &amp; 3y \\
@@ -268,12 +268,12 @@ The following is a valid sequence of simplex steps:</p>
 The simplest such way is called Bland’s rule.
 <strong>Bland’s rule</strong> says that if there are multiple candidates for the entering/variable then we choose the one with the smallest index. (We assume that the decision variables have a smaller index than the slack variables.)</p>
 <div class="theorem">
-<p><span id="thm:unlabeled-div-30" class="theorem"><strong>Theorem 5.1  (Bland's rule) </strong></span>The simplex method always terminates provided that both the
+<p><span id="thm:unlabeled-div-31" class="theorem"><strong>Theorem 5.1  (Bland's rule) </strong></span>The simplex method always terminates provided that both the
 entering and the leaving variable are chosen according to Bland’s rule.</p>
 </div>
 <p>The proof of this theorem is too complicated for this course. With this modification, for both Phase I and Phase II of the simplex method, we now have a complete algorithm for solving linear programs.</p>
 <div class="example">
-<p><span id="exm:unlabeled-div-31" class="example"><strong>Example 5.3  </strong></span>In Example <a href="cycling.html#exm:cycling">5.2</a>, the <em>sixth simplex step</em> violates Bland’s rule. Both <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_4\)</span> can be leaving variables and we choose <span class="math inline">\(x_4\)</span> whereas Bland’s rule requires us to choose <span class="math inline">\(x_1\)</span>.</p>
+<p><span id="exm:unlabeled-div-32" class="example"><strong>Example 5.3  </strong></span>In Example <a href="cycling.html#exm:cycling">5.2</a>, the <em>sixth simplex step</em> violates Bland’s rule. Both <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_4\)</span> can be leaving variables and we choose <span class="math inline">\(x_4\)</span> whereas Bland’s rule requires us to choose <span class="math inline">\(x_1\)</span>.</p>
 </div>
 
 </div>

@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 11 Separation Theorems | Introduction to Optimization</title>
   <meta name="description" content="Chapter 11 Separation Theorems | Introduction to Optimization." />
-  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 11 Separation Theorems | Introduction to Optimization" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Apurva Nakade" />
 
 
-<meta name="date" content="2022-06-30" />
+<meta name="date" content="2022-07-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -201,7 +201,7 @@ Exactly one of the following systems has a solution:
 2. $y^T A \ge 0$, $y^T b < 0.$ --></p>
 </div>
 <div class="proof">
-<p><span id="unlabeled-div-63" class="proof"><em>Proof</em>. </span>We’ll prove Farkas’ lemma using strong duality. Consider the following linear program:
+<p><span id="unlabeled-div-64" class="proof"><em>Proof</em>. </span>We’ll prove Farkas’ lemma using strong duality. Consider the following linear program:
 <span class="math display" id="eq:farkas-primal">\[\begin{equation}
   \begin{array}{llll}
     \mbox{maximize: } &amp; 0 \\
@@ -231,19 +231,19 @@ The optimal solution to the linear program <a href="separation-theorems.html#eq:
 <h2><span class="header-section-number">11.2</span> Separating Hyperplane Theorem<a href="separation-theorems.html#separating-hyperplane-theorem" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <!-- Let $\{v_1, \dots, v_n\}$ be a set of vectors in $\mathbb{R}^m$.  -->
 <div class="definition">
-<p><span id="def:unlabeled-div-64" class="definition"><strong>Definition 11.1  </strong></span>The <strong>convex cone</strong> of a finite set of vectors in <span class="math inline">\(\mathbb{R}^m\)</span> is the set of positive linear combinations of vectors in the set.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>
+<p><span id="def:unlabeled-div-65" class="definition"><strong>Definition 11.1  </strong></span>The <strong>convex cone</strong> of a finite set of vectors in <span class="math inline">\(\mathbb{R}^m\)</span> is the set of positive linear combinations of vectors in the set.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>
 <span class="math display">\[\begin{align*}
   C_+(v_1, \dots, v_n) &amp; := \{c_1 v_1 + \dots + c_n v_n \mid c_i \ge 0 \}.
 \end{align*}\]</span></p>
 </div>
 <div class="definition">
-<p><span id="def:unlabeled-div-65" class="definition"><strong>Definition 11.2  </strong></span>A <strong>hyperplane</strong> in <span class="math inline">\(\mathbb{R}^m\)</span> is the set of solutions to a single linear equation.
+<p><span id="def:unlabeled-div-66" class="definition"><strong>Definition 11.2  </strong></span>A <strong>hyperplane</strong> in <span class="math inline">\(\mathbb{R}^m\)</span> is the set of solutions to a single linear equation.
 The complement of a hyperplane in <span class="math inline">\(\mathbb{R}^n\)</span> consists of two connected components.
 The closures of these components are called <strong>half-spaces</strong>.</p>
 </div>
 <p>If the equation of the hyperplane is given by <span class="math inline">\(b^T y = b_0\)</span>, where <span class="math inline">\(b\)</span> is a vector in <span class="math inline">\(\mathbb{R}^m\)</span> and <span class="math inline">\(b_0 \in \mathbb{R}\)</span>, then the corresponding two half-spaces are described by <span class="math inline">\(b^T y \le b_0\)</span> and <span class="math inline">\(b^T y \ge b_0\)</span>.</p>
 <div class="definition">
-<p><span id="def:unlabeled-div-66" class="definition"><strong>Definition 11.3  </strong></span>We say that a hyperplane <span class="math inline">\(H\)</span> <strong>separates</strong> two subsets <span class="math inline">\(S_1\)</span> and <span class="math inline">\(S_2\)</span> of <span class="math inline">\(\mathbb{R}^m\)</span> if <span class="math inline">\(S_1\)</span> and <span class="math inline">\(S_2\)</span> do not intersect <span class="math inline">\(H\)</span> and belong to the two different half-spaces of <span class="math inline">\(H\)</span>.</p>
+<p><span id="def:unlabeled-div-67" class="definition"><strong>Definition 11.3  </strong></span>We say that a hyperplane <span class="math inline">\(H\)</span> <strong>separates</strong> two subsets <span class="math inline">\(S_1\)</span> and <span class="math inline">\(S_2\)</span> of <span class="math inline">\(\mathbb{R}^m\)</span> if <span class="math inline">\(S_1\)</span> and <span class="math inline">\(S_2\)</span> do not intersect <span class="math inline">\(H\)</span> and belong to the two different half-spaces of <span class="math inline">\(H\)</span>.</p>
 </div>
 <p>Using convex cones and separating hyperplanes, we can reinterpret <a href="separation-theorems.html#thm:farkas-lemma">11.1</a> as follows.</p>
 <div class="theorem">
@@ -257,7 +257,7 @@ The closures of these components are called <strong>half-spaces</strong>.</p>
 The statement of Farkas’ lemma <a href="separation-theorems.html#thm:farkas-geometry">11.2</a> can be generalized to arbitrary convex sets using metric topology.
 For now, we’ll generalize it to convex polyhedra.</p>
 <div class="definition">
-<p><span id="def:unlabeled-div-67" class="definition"><strong>Definition 11.4  </strong></span>Intersection of finitely many half-spaces is called a <strong>convex polyhedron</strong>.</p>
+<p><span id="def:unlabeled-div-68" class="definition"><strong>Definition 11.4  </strong></span>Intersection of finitely many half-spaces is called a <strong>convex polyhedron</strong>.</p>
 </div>
 <p>So, a convex polyhedron is the set of solutions to a system of linear inequalities <span class="math inline">\(A x \le b\)</span>.
 But this set is precisely the feasible region of a linear program!
@@ -275,7 +275,7 @@ Exactly one of the following systems has a solution:</p>
 </ol>
 </div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-68" class="exercise"><strong>Exercise 11.2  </strong></span>Let <span class="math inline">\(P_1\)</span> be the convex polyhedron defined by <span class="math inline">\(A_1 x \le b_1\)</span> and let <span class="math inline">\(P_2\)</span> be the convex polyhedron defined by <span class="math inline">\(A_2 x \le b_2\)</span> where <span class="math inline">\(A_1\)</span>, <span class="math inline">\(A_2\)</span>, <span class="math inline">\(b_1\)</span>, and <span class="math inline">\(b_2\)</span> have sizes <span class="math inline">\(m_1 \times n\)</span>, <span class="math inline">\(m_2 \times n\)</span>, <span class="math inline">\(m_1\)</span>, and <span class="math inline">\(m_2\)</span>, respectively. Suppose the system
+<p><span id="exr:unlabeled-div-69" class="exercise"><strong>Exercise 11.2  </strong></span>Let <span class="math inline">\(P_1\)</span> be the convex polyhedron defined by <span class="math inline">\(A_1 x \le b_1\)</span> and let <span class="math inline">\(P_2\)</span> be the convex polyhedron defined by <span class="math inline">\(A_2 x \le b_2\)</span> where <span class="math inline">\(A_1\)</span>, <span class="math inline">\(A_2\)</span>, <span class="math inline">\(b_1\)</span>, and <span class="math inline">\(b_2\)</span> have sizes <span class="math inline">\(m_1 \times n\)</span>, <span class="math inline">\(m_2 \times n\)</span>, <span class="math inline">\(m_1\)</span>, and <span class="math inline">\(m_2\)</span>, respectively. Suppose the system
 <span class="math display" id="eq:eq1">\[\begin{equation}
   \begin{bmatrix} A_1 \\ A_2 \end{bmatrix}
   x
@@ -297,7 +297,7 @@ does not have a solution.</p>
 <h2><span class="header-section-number">11.3</span> Equivalence with Strong Duality<a href="separation-theorems.html#equivalence-with-strong-duality" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>It is possible to prove Strong Duality using Farkas’ lemma, which itself can be proven using metric topology. So, Strong Duality, Farkas’ lemma, and Separating Hyperplane Theorem should all be thought of as equivalent to each other. We provide below a proof of Strong Duality (Theorem <a href="weak-and-strong-duality.html#thm:strong-duality">8.2</a>) using Farkas’ lemma.</p>
 <div class="proof">
-<p><span id="unlabeled-div-69" class="proof"><em>Proof</em>. </span>Consider the system of equations</p>
+<p><span id="unlabeled-div-70" class="proof"><em>Proof</em>. </span>Consider the system of equations</p>
 <p><span class="math display" id="eq:strong-using-farkas">\[\begin{equation}
 \begin{split}
 Ax &amp; \le b \\
