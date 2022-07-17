@@ -23,7 +23,7 @@
 <meta name="author" content="Apurva Nakade" />
 
 
-<meta name="date" content="2022-07-11" />
+<meta name="date" content="2022-07-17" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -109,10 +109,9 @@ div.csl-indent {
 <li class="chapter" data-level="4.1" data-path="initialization.html"><a href="initialization.html#auxiliary-linear-program"><i class="fa fa-check"></i><b>4.1</b> Auxiliary Linear Program</a></li>
 <li class="chapter" data-level="4.2" data-path="initialization.html"><a href="initialization.html#combined-tableau"><i class="fa fa-check"></i><b>4.2</b> Combined tableau</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="cycling.html"><a href="cycling.html"><i class="fa fa-check"></i><b>5</b> Cycling</a>
+<li class="chapter" data-level="5" data-path="halting-conditions.html"><a href="halting-conditions.html"><i class="fa fa-check"></i><b>5</b> Halting Conditions</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="cycling.html"><a href="cycling.html#degeneracy"><i class="fa fa-check"></i><b>5.1</b> Degeneracy</a></li>
-<li class="chapter" data-level="5.2" data-path="cycling.html"><a href="cycling.html#blands-rule"><i class="fa fa-check"></i><b>5.2</b> Bland’s Rule</a></li>
+<li class="chapter" data-level="5.2" data-path="halting-conditions.html"><a href="halting-conditions.html#blands-rule"><i class="fa fa-check"></i><b>5.2</b> Bland’s Rule</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="standardization.html"><a href="standardization.html"><i class="fa fa-check"></i><b>6</b> Standardization</a>
 <ul>
@@ -203,7 +202,7 @@ The standard linear program <a href="standard-linear-program.html#eq:standard-lp
 \end{array}
 \end{equation*}\]</span></p>
 <div class="definition">
-<p><span id="def:unlabeled-div-38" class="definition"><strong>Definition 7.1  </strong></span>The <strong>dual</strong> of this linear program is defined as the following linear program:
+<p><span id="def:unlabeled-div-34" class="definition"><strong>Definition 7.1  </strong></span>The <strong>dual</strong> of this linear program is defined as the following linear program:
 <span class="math display" id="eq:standard-dual-lp">\[\begin{equation}
   \begin{array}{lrll}
     \mbox{minimize: } &amp; c_0 + b^T y \\
@@ -217,14 +216,14 @@ where <span class="math inline">\(y = \begin{bmatrix} y_1 \\ y_2 \\ \vdots \\ y_
 </div>
 <p>The original linear program is called the <strong>primal</strong>. The dual decision variables correspond to the constraints of the original linear program. By explicitly computation, we can easily prove that the following theorem.</p>
 <div class="theorem">
-<p><span id="thm:unlabeled-div-39" class="theorem"><strong>Theorem 7.1  </strong></span>The the dual of the (standardized) dual is equivalent to the primal.</p>
+<p><span id="thm:unlabeled-div-35" class="theorem"><strong>Theorem 7.1  </strong></span>The the dual of the (standardized) dual is equivalent to the primal.</p>
 </div>
 <p>Hence, we think of linear programs as occurring in <strong>primal-dual pairs</strong>.
 Every linear program has a dual and it is itself the dual of the dual.
 The dual decision variables correspond to the constraints of the original linear program and the primal decision variables correspond to the constraints of the dual.
 The meaning of the dual decision variables will become clear when we study shadow prices.</p>
 <div class="example">
-<p><span id="exm:unlabeled-div-40" class="example"><strong>Example 7.1  </strong></span>The dual of <a href="introduction.html#eq:bond-portfolio-lp">(1.2)</a> is:
+<p><span id="exm:unlabeled-div-36" class="example"><strong>Example 7.1  </strong></span>The dual of <a href="introduction.html#eq:bond-portfolio-lp">(1.2)</a> is:
 <span class="math display" id="eq:bond-portfolio-dual">\[\begin{equation}
 \begin{array}{lrrrrrrrrrr}
   \mbox{minimize: }

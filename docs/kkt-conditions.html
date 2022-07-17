@@ -23,7 +23,7 @@
 <meta name="author" content="Apurva Nakade" />
 
 
-<meta name="date" content="2022-07-11" />
+<meta name="date" content="2022-07-17" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -109,10 +109,9 @@ div.csl-indent {
 <li class="chapter" data-level="4.1" data-path="initialization.html"><a href="initialization.html#auxiliary-linear-program"><i class="fa fa-check"></i><b>4.1</b> Auxiliary Linear Program</a></li>
 <li class="chapter" data-level="4.2" data-path="initialization.html"><a href="initialization.html#combined-tableau"><i class="fa fa-check"></i><b>4.2</b> Combined tableau</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="cycling.html"><a href="cycling.html"><i class="fa fa-check"></i><b>5</b> Cycling</a>
+<li class="chapter" data-level="5" data-path="halting-conditions.html"><a href="halting-conditions.html"><i class="fa fa-check"></i><b>5</b> Halting Conditions</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="cycling.html"><a href="cycling.html#degeneracy"><i class="fa fa-check"></i><b>5.1</b> Degeneracy</a></li>
-<li class="chapter" data-level="5.2" data-path="cycling.html"><a href="cycling.html#blands-rule"><i class="fa fa-check"></i><b>5.2</b> Bland’s Rule</a></li>
+<li class="chapter" data-level="5.2" data-path="halting-conditions.html"><a href="halting-conditions.html#blands-rule"><i class="fa fa-check"></i><b>5.2</b> Bland’s Rule</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="standardization.html"><a href="standardization.html"><i class="fa fa-check"></i><b>6</b> Standardization</a>
 <ul>
@@ -236,7 +235,7 @@ Then under certain regularity conditions, the following conditions are satisfied
 </div>
 <p>The conditions for necessity, sufficiency and the regularity conditions are quite non-trivial and are beyond the scope of this course.</p>
 <div class="example">
-<p><span id="exm:unlabeled-div-72" class="example"><strong>Example 13.1  </strong></span>Consider Example <a href="interior-point-methods.html#exm:ip-kkt">12.1</a> again. The KKT conditions for this example are
+<p><span id="exm:unlabeled-div-68" class="example"><strong>Example 13.1  </strong></span>Consider Example <a href="interior-point-methods.html#exm:ip-kkt">12.1</a> again. The KKT conditions for this example are
 <span class="math display">\[\begin{align*}
   2(x + 1) &amp;= \lambda \\
   \lambda x &amp;= 0 \\
@@ -245,7 +244,7 @@ Then under certain regularity conditions, the following conditions are satisfied
 These need to be satisfied in addition to the original constraint <span class="math inline">\(x \ge 0\)</span>. The only solution to this system is <span class="math inline">\(x = 0\)</span>, which is indeed the optimal solution.</p>
 </div>
 <div class="example">
-<p><span id="exm:unlabeled-div-73" class="example"><strong>Example 13.2  </strong></span>Consider the linear program
+<p><span id="exm:unlabeled-div-69" class="example"><strong>Example 13.2  </strong></span>Consider the linear program
 <span class="math display">\[\begin{align*}
   \mbox{minimize: } &amp; c^T x \\
   \mbox{subject to: } &amp; Ax \ge b
@@ -260,7 +259,7 @@ This is precisely the dual of the linear programming problem and <em>complementa
 Thus the KKT conditions recover duality in the linear programming sense.</p>
 </div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-74" class="exercise"><strong>Exercise 13.1  </strong></span>Find the KKT conditions for the standard linear program
+<p><span id="exr:unlabeled-div-70" class="exercise"><strong>Exercise 13.1  </strong></span>Find the KKT conditions for the standard linear program
 <span class="math display">\[\begin{align*}
   \mbox{maximize: } &amp; c^T x \\
   \mbox{subject to: } &amp; Ax \le b \\

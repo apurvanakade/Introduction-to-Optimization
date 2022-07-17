@@ -23,7 +23,7 @@
 <meta name="author" content="Apurva Nakade" />
 
 
-<meta name="date" content="2022-07-11" />
+<meta name="date" content="2022-07-17" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -109,10 +109,9 @@ div.csl-indent {
 <li class="chapter" data-level="4.1" data-path="initialization.html"><a href="initialization.html#auxiliary-linear-program"><i class="fa fa-check"></i><b>4.1</b> Auxiliary Linear Program</a></li>
 <li class="chapter" data-level="4.2" data-path="initialization.html"><a href="initialization.html#combined-tableau"><i class="fa fa-check"></i><b>4.2</b> Combined tableau</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="cycling.html"><a href="cycling.html"><i class="fa fa-check"></i><b>5</b> Cycling</a>
+<li class="chapter" data-level="5" data-path="halting-conditions.html"><a href="halting-conditions.html"><i class="fa fa-check"></i><b>5</b> Halting Conditions</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="cycling.html"><a href="cycling.html#degeneracy"><i class="fa fa-check"></i><b>5.1</b> Degeneracy</a></li>
-<li class="chapter" data-level="5.2" data-path="cycling.html"><a href="cycling.html#blands-rule"><i class="fa fa-check"></i><b>5.2</b> Bland’s Rule</a></li>
+<li class="chapter" data-level="5.2" data-path="halting-conditions.html"><a href="halting-conditions.html#blands-rule"><i class="fa fa-check"></i><b>5.2</b> Bland’s Rule</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="standardization.html"><a href="standardization.html"><i class="fa fa-check"></i><b>6</b> Standardization</a>
 <ul>
@@ -189,7 +188,7 @@ We say that a vector <span class="math inline">\(x = \begin{bmatrix} x_1 \\ \vdo
 <p><span id="thm:weak-duality" class="theorem"><strong>Theorem 8.1  (Weak duality) </strong></span>Suppose <span class="math inline">\(x\)</span> is primal feasible and <span class="math inline">\(y\)</span> is dual feasible. Then the primal objective value at <span class="math inline">\(x\)</span> is less than or equal to the dual objective value at <span class="math inline">\(y\)</span>.</p>
 </div>
 <div class="proof">
-<p><span id="unlabeled-div-41" class="proof"><em>Proof</em>. </span>The proof relies on analyzing the term <span class="math inline">\(y^T A x\)</span> and follows by looking at the following sequence of inequalities:
+<p><span id="unlabeled-div-37" class="proof"><em>Proof</em>. </span>The proof relies on analyzing the term <span class="math inline">\(y^T A x\)</span> and follows by looking at the following sequence of inequalities:
 <span class="math display">\[\begin{align*}
 b^T y
   &amp; = y^T b \\
@@ -202,13 +201,13 @@ b^T y
 </div>
 <p>We get several immediate corollaries from weak duality.</p>
 <div class="corollary">
-<p><span id="cor:unlabeled-div-42" class="corollary"><strong>Corollary 8.1  </strong></span>If the primal is unbounded, then the dual is infeasible.</p>
+<p><span id="cor:unlabeled-div-38" class="corollary"><strong>Corollary 8.1  </strong></span>If the primal is unbounded, then the dual is infeasible.</p>
 </div>
 <div class="corollary">
-<p><span id="cor:unlabeled-div-43" class="corollary"><strong>Corollary 8.2  </strong></span>If the dual is unbounded, then the primal is infeasible.</p>
+<p><span id="cor:unlabeled-div-39" class="corollary"><strong>Corollary 8.2  </strong></span>If the dual is unbounded, then the primal is infeasible.</p>
 </div>
 <div class="corollary">
-<p><span id="cor:unlabeled-div-44" class="corollary"><strong>Corollary 8.3  </strong></span>If both the primal and dual have optimal solutions, then the optimal value of the primal is less than or equal to the optimal value of the dual.</p>
+<p><span id="cor:unlabeled-div-40" class="corollary"><strong>Corollary 8.3  </strong></span>If both the primal and dual have optimal solutions, then the optimal value of the primal is less than or equal to the optimal value of the dual.</p>
 </div>
 <p>We cannot say anything about the dual in the case when the primal is infeasible. Similarly, we cannot conclude anything about the existence of an optimal value of the dual in the case when the primal has an optimal solution.</p>
 </div>
@@ -240,7 +239,7 @@ If we pivot the first tableau about the <span class="math inline">\(i^{th}\)</sp
 <p><span id="lem:optimality" class="lemma"><strong>Lemma 8.2  </strong></span>If the tableau <a href="weak-and-strong-duality.html#eq:tableau-primal">(8.1)</a> corresponds to an optimal solution of the primal then the tableau <a href="weak-and-strong-duality.html#eq:tableau-dual">(8.2)</a> corresponds to an optimal solution of the dual.</p>
 </div>
 <div class="proof">
-<p><span id="unlabeled-div-45" class="proof"><em>Proof</em>. </span>The tableau <a href="weak-and-strong-duality.html#eq:tableau-primal">(8.1)</a> corresponds to an optimal solution of the primal precisely when</p>
+<p><span id="unlabeled-div-41" class="proof"><em>Proof</em>. </span>The tableau <a href="weak-and-strong-duality.html#eq:tableau-primal">(8.1)</a> corresponds to an optimal solution of the primal precisely when</p>
 <ol style="list-style-type: decimal">
 <li>(primal optimality) <span class="math inline">\(c^T \le 0\)</span> as in this case no entering variable can be found for the primal, and</li>
 <li>(primal feasibility) <span class="math inline">\(b \ge 0\)</span>.</li>
@@ -256,7 +255,7 @@ If we pivot the first tableau about the <span class="math inline">\(i^{th}\)</sp
 <p><span id="thm:strong-duality" class="theorem"><strong>Theorem 8.2  (Strong duality) </strong></span>If the primal has an optimal solution then so does the dual. Moreover, they have the same optimal values.</p>
 </div>
 <div class="proof">
-<p><span id="unlabeled-div-46" class="proof"><em>Proof</em>. </span>At the optimal solution for the primal, we have a set of basic and non-basic variables. We can perform a sequence of pivot operations to get this tableau from the initial tableau. We then perform the corresponding pivots on the dual tableau. By Lemma <a href="weak-and-strong-duality.html#lem:pivot">8.1</a> the resulting tableau will be dual to the primal tableau at the optimal solution. By Lemma <a href="weak-and-strong-duality.html#lem:optimality">8.2</a> the dual is also optimal and has the same objective value.</p>
+<p><span id="unlabeled-div-42" class="proof"><em>Proof</em>. </span>At the optimal solution for the primal, we have a set of basic and non-basic variables. We can perform a sequence of pivot operations to get this tableau from the initial tableau. We then perform the corresponding pivots on the dual tableau. By Lemma <a href="weak-and-strong-duality.html#lem:pivot">8.1</a> the resulting tableau will be dual to the primal tableau at the optimal solution. By Lemma <a href="weak-and-strong-duality.html#lem:optimality">8.2</a> the dual is also optimal and has the same objective value.</p>
 </div>
 <p>We can use the two duality theorems to come up with a fast way to verify optimality.</p>
 <div class="theorem">
@@ -266,7 +265,7 @@ If we pivot the first tableau about the <span class="math inline">\(i^{th}\)</sp
 3. <span class="math inline">\(c^T x = b^T y\)</span> i.e. the primal objective value at <span class="math inline">\(x\)</span> is equal to the dual objective value at <span class="math inline">\(y\)</span>.</p>
 </div>
 <div class="proof">
-<p><span id="unlabeled-div-47" class="proof"><em>Proof</em>. </span><strong>( <span class="math inline">\(\Rightarrow\)</span> )</strong></p>
+<p><span id="unlabeled-div-43" class="proof"><em>Proof</em>. </span><strong>( <span class="math inline">\(\Rightarrow\)</span> )</strong></p>
 <p>If <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are optimal solutions, then they are feasible by definition. By strong duality (Theorem <a href="weak-and-strong-duality.html#thm:strong-duality">8.2</a>) they must the same objective value.</p>
 <p><strong>( <span class="math inline">\(\Leftarrow\)</span> )</strong></p>
 <p>If <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are feasible solutions then by weak duality (Theorem <a href="weak-and-strong-duality.html#thm:weak-duality">8.1</a>) the dual objective values provide an upper bound on the primal objective value. Because this upper bound is attained at <span class="math inline">\(x\)</span>, <span class="math inline">\(x\)</span> must be an optimal solution of the primal. Similarly, for <span class="math inline">\(y\)</span>.</p>
@@ -290,7 +289,7 @@ We use this convention for <span class="math inline">\(z\)</span> as then at a d
 </ol>
 </div>
 <div class="proof">
-<p><span id="unlabeled-div-48" class="proof"><em>Proof</em>. </span>The proof is in two steps. We first show a weaker statement about the vanishing of two scalars and then show that the vanishing of these scalars implies complementary slackness.</p>
+<p><span id="unlabeled-div-44" class="proof"><em>Proof</em>. </span>The proof is in two steps. We first show a weaker statement about the vanishing of two scalars and then show that the vanishing of these scalars implies complementary slackness.</p>
 <p><strong>Claim:</strong> <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are optimal solutions if and only if <span class="math inline">\(x^T z = 0\)</span> and <span class="math inline">\(y^T w = 0\)</span>.</p>
 <p>We start by rewriting the slack variable:
 <span class="math display">\[\begin{align*}
@@ -319,7 +318,7 @@ The only way the two can be simultaneously true is if <span class="math inline">
 <p>This follows from the fact that at a feasible solution <span class="math inline">\(x, y, w, z \ge 0\)</span>.</p>
 </div>
 <div class="remark">
-<p><span id="unlabeled-div-49" class="remark"><em>Remark</em>. </span>Complementary slackness even holds for dual of general linear programs. The definition of slack variables as above
+<p><span id="unlabeled-div-45" class="remark"><em>Remark</em>. </span>Complementary slackness even holds for dual of general linear programs. The definition of slack variables as above
 <span class="math display">\[\begin{align*}
   w &amp;= b - A x \\
   z &amp;= -c + A^T y.
@@ -331,7 +330,7 @@ At a non-degenerate BFS, the basic variables are non-zero.
 By complementary slackness, the corresponding dual variables must be 0.
 This gives us a system of <span class="math inline">\(m\)</span> variables in <span class="math inline">\(m\)</span> equations which can be solved to find the dual optimal solution.</p>
 <div class="example">
-<p><span id="exm:unlabeled-div-50" class="example"><strong>Example 8.1  </strong></span>Consider the linear program <a href="introduction.html#eq:bond-portfolio-lp">(1.2)</a> whose dual is <a href="dual-linear-program.html#eq:bond-portfolio-dual">(7.2)</a>. At the optimal solution <span class="math inline">\(x_1 = 0.6\)</span>, <span class="math inline">\(x_2 = 0.3\)</span>, <span class="math inline">\(w_1 = 0\)</span>, <span class="math inline">\(w_2 = 0\)</span>, and <span class="math inline">\(w_3 = 0.1\)</span>.
+<p><span id="exm:unlabeled-div-46" class="example"><strong>Example 8.1  </strong></span>Consider the linear program <a href="introduction.html#eq:bond-portfolio-lp">(1.2)</a> whose dual is <a href="dual-linear-program.html#eq:bond-portfolio-dual">(7.2)</a>. At the optimal solution <span class="math inline">\(x_1 = 0.6\)</span>, <span class="math inline">\(x_2 = 0.3\)</span>, <span class="math inline">\(w_1 = 0\)</span>, <span class="math inline">\(w_2 = 0\)</span>, and <span class="math inline">\(w_3 = 0.1\)</span>.
 By complementary slackness, we must have <span class="math inline">\(z_1 = 0\)</span>, <span class="math inline">\(z_2 = 0\)</span>, and <span class="math inline">\(y_3 = 0\)</span> at the dual optimal solution.
 Plugging these in <a href="introduction.html#eq:bond-portfolio-lp">(1.2)</a>, we get a system of equations
 <span class="math display">\[\begin{align*}
@@ -345,7 +344,7 @@ One can check that this is indeed dual optimal by comparing the dual objective a
 \end{align*}\]</span></p>
 </div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-51" class="exercise"><strong>Exercise 8.1  </strong></span>We can use complementary slackness and certificate of optimality to show that the optimal solution of a standard linear program can never be attained in the interior of the feasible region.</p>
+<p><span id="exr:unlabeled-div-47" class="exercise"><strong>Exercise 8.1  </strong></span>We can use complementary slackness and certificate of optimality to show that the optimal solution of a standard linear program can never be attained in the interior of the feasible region.</p>
 <p>Consider the standard linear program <a href="standard-linear-program.html#eq:standard-lp">(2.1)</a> and assume that <span class="math inline">\(b \ge 0\)</span> and <span class="math inline">\(c \neq \vec{0}\)</span>.
 Let <span class="math inline">\(x^*\)</span> be a point in the .
 Suppose <span class="math inline">\(x^*\)</span> is an optimal solution to the primal. By strong duality, we know that a dual-optimal solution <span class="math inline">\(y^*\)</span> exists. We’ll show that this leads to a contradiction.</p>
