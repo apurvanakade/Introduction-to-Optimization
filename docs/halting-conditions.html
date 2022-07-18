@@ -111,6 +111,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="5" data-path="halting-conditions.html"><a href="halting-conditions.html"><i class="fa fa-check"></i><b>5</b> Halting Conditions</a>
 <ul>
+<li class="chapter" data-level="5.1" data-path="halting-conditions.html"><a href="halting-conditions.html#degeneracy"><i class="fa fa-check"></i><b>5.1</b> Degeneracy</a></li>
 <li class="chapter" data-level="5.2" data-path="halting-conditions.html"><a href="halting-conditions.html#blands-rule"><i class="fa fa-check"></i><b>5.2</b> Bland’s Rule</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="standardization.html"><a href="standardization.html"><i class="fa fa-check"></i><b>6</b> Standardization</a>
@@ -118,9 +119,9 @@ div.csl-indent {
 <li class="chapter" data-level="6.1" data-path="standardization.html"><a href="standardization.html#equivalence-of-linear-programs"><i class="fa fa-check"></i><b>6.1</b> Equivalence of Linear Programs</a></li>
 </ul></li>
 <li class="part"><span><b>II Duality Theory</b></span></li>
-<li class="chapter" data-level="7" data-path="dual-linear-program.html"><a href="dual-linear-program.html"><i class="fa fa-check"></i><b>7</b> Dual Linear Program</a>
+<li class="chapter" data-level="7" data-path="dual-linear-programs.html"><a href="dual-linear-programs.html"><i class="fa fa-check"></i><b>7</b> Dual Linear Programs</a>
 <ul>
-<li class="chapter" data-level="7.1" data-path="dual-linear-program.html"><a href="dual-linear-program.html#general-linear-program"><i class="fa fa-check"></i><b>7.1</b> General Linear Program</a></li>
+<li class="chapter" data-level="7.1" data-path="dual-linear-programs.html"><a href="dual-linear-programs.html#general-linear-programs"><i class="fa fa-check"></i><b>7.1</b> General Linear Programs</a></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="weak-and-strong-duality.html"><a href="weak-and-strong-duality.html"><i class="fa fa-check"></i><b>8</b> Weak and Strong Duality</a>
 <ul>
@@ -181,9 +182,9 @@ div.csl-indent {
 <h1><span class="header-section-number">Chapter 5</span> Halting Conditions<a href="halting-conditions.html#halting-conditions" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>We know how to start the simplex method and how to perform the pivot steps. We’ll next analyze the
 halting conditions for the simplex method.</p>
-<p>There are three different “process” that can fail in a simplex method run:</p>
+<p>There are three different places a simplex method can fail:</p>
 <ol style="list-style-type: decimal">
-<li><p><em>The Phase I returns no feasible solution.</em></p>
+<li><p><em>Phase I returns no feasible solution.</em></p>
 <p>In this case, the linear program is infeasible. This happens precisely when <strong>the optimal
 solution to the auxiliary linear program has <span class="math inline">\(k_0 \neq 0\)</span>.</strong></p></li>
 <li><p><em>We cannot find an entering variable.</em></p>
@@ -195,16 +196,16 @@ solution to our linear program. None of the variables enter precisely when <stro
 <li><p><em>We cannot find a leaving variable.</em></p>
 <p>This means that we can keep on increasing the entering variable, and hence the objective value,
 indefinitely without ever leaving the feasible region. None of the variables can leave precisely
-when <strong>none of the <span class="math inline">\(\bar{a}_{ij}\)</span> are positive.</strong></p></li>
+when <strong>none of the <span class="math inline">\(\bar{a}_{ij}\)</span> are positive</strong> where <span class="math inline">\(\bar{w}_i\)</span> is entering.</p></li>
 </ol>
 <p>Note that these three halting conditions correspond to the three types of standard linear programs
 as seen in the Fundamental theorem of linear programming (Theorem
 <a href="standard-linear-program.html#thm:fundamental-theorem-lp">2.1</a>).</p>
-<table>
+<table style="width:100%;">
 <colgroup>
-<col width="32%" />
-<col width="37%" />
-<col width="29%" />
+<col width="20%" />
+<col width="58%" />
+<col width="21%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -215,19 +216,19 @@ as seen in the Fundamental theorem of linear programming (Theorem
 </thead>
 <tbody>
 <tr class="odd">
-<td>At the end of Phase I</td>
-<td><span class="math inline">\(k_0 \neq 0\)</span></td>
-<td>infeasible</td>
+<td>End of Phase I</td>
+<td>No feasible solution: <span class="math inline">\(k_0 \neq 0\)</span></td>
+<td>Infeasible</td>
 </tr>
 <tr class="even">
-<td>After a simplex step</td>
-<td>all <span class="math inline">\(\bar{c}_i \le 0\)</span></td>
-<td>optimal solution</td>
+<td>After a pivot step</td>
+<td>No entering variable: <span class="math inline">\(\forall i, \bar{c}_i \le 0\)</span></td>
+<td>Optimal solution</td>
 </tr>
 <tr class="odd">
-<td>After a simplex step</td>
-<td>all <span class="math inline">\(\bar{a}_{ij} \le 0\)</span></td>
-<td>unbounded</td>
+<td>After a pivot step</td>
+<td>No leaving variable: <span class="math inline">\(\forall j, \bar{a}_{ij} \le 0\)</span></td>
+<td>Unbounded</td>
 </tr>
 </tbody>
 </table>
@@ -236,8 +237,8 @@ as seen in the Fundamental theorem of linear programming (Theorem
 <a href="https://en.wikipedia.org/wiki/Convex_set">convex sets</a>.) Let <span class="math inline">\(S\)</span> be a convex set in <span class="math inline">\(\mathbb{R}^n\)</span>
 and let <span class="math inline">\(f : \mathbb{R}^n \to \mathbb{R}\)</span> be a linear function. Show that if <span class="math inline">\(p \in S\)</span> is a local
 maxima of <span class="math inline">\(f\)</span> over <span class="math inline">\(S\)</span> then it is also a global maxima. Find a counterexample to this statement if
-<span class="math inline">\(S\)</span> is non-convex. :
-::</p>
+<span class="math inline">\(S\)</span> is non-convex.</p>
+</div>
 <div class="remark">
 <p><span id="unlabeled-div-24" class="remark"><em>Remark</em>. </span>The notion of “unboundedness” for linear programs is more restrictive than the
 geometric notion of <a href="https://en.wikipedia.org/wiki/Bounded_set">unboundedness</a>. It is possible to
@@ -253,13 +254,12 @@ unbounded. The above example shows that the converse is not always true.</p>
 <p>Unfortunately, the above results are insufficient to guarantee that the simplex method will always
 find a solution, if one exists. It is possible for the simplex method to get stuck in a loop. This
 is called <strong>cycling</strong>.</p>
-</div>
-</div>
-<p>{.exercise} Give an example showing that the variable that enters in one pivot step can become
-leave in the next.
-:::</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-25" class="exercise"><strong>Exercise 5.2  </strong></span>Show that the variable that leaves in one pivot step cannot enter in the next.</p>
+<p><span id="exr:unlabeled-div-25" class="exercise"><strong>Exercise 5.2  </strong></span>Give an example showing that the variable that enters in one pivot step can become
+leave in the next.</p>
+</div>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-26" class="exercise"><strong>Exercise 5.3  </strong></span>Show that the variable that leaves in one pivot step cannot enter in the next.</p>
 </div>
 <p>We saw in Section <a href="the-simplex-method.html#the-simplex-step">3.1</a> that after a pivot step the entering and leaving variables
 get updated as follows: <span class="math display">\[\begin{align*} \bar{x}_j &amp; \mapsto \bar{b}_i/\bar{a}_{ij} \\
@@ -271,17 +271,19 @@ that the objective value never decreases after a simplex step. If <span class="m
 value will increase in this pivot step (and never decrease afterwards) and so we will never return
 back to this BFS.</p>
 <div class="proposition">
-<p><span id="prp:unlabeled-div-26" class="proposition"><strong>Proposition 5.1  </strong></span>Suppose <span class="math inline">\(\bar{w}_i\)</span> is the leaving variable. If <span class="math inline">\(\bar{b}_i &gt; 0\)</span>, the simplex
+<p><span id="prp:unlabeled-div-27" class="proposition"><strong>Proposition 5.1  </strong></span>Suppose <span class="math inline">\(\bar{w}_i\)</span> is the leaving variable. If <span class="math inline">\(\bar{b}_i &gt; 0\)</span>, the simplex
 method will never return to this basic feasible solution.</p>
 </div>
 <p>Hence, the only case when cycling <em>can</em> occur is when <span class="math inline">\(\bar{b}_i = 0\)</span>. As mentioned above,
 <span class="math inline">\(\bar{b}_i\)</span> is the value of the basic variable <span class="math inline">\(\bar{w}_i\)</span>. Having more than <span class="math inline">\(n\)</span> variables vanishing
 at a BFS is precisely the definition of degeneracy (Definition <a href="standard-linear-program.html#def:degeneracy">2.3</a>).</p>
 <div class="proposition">
-<p><span id="prp:unlabeled-div-27" class="proposition"><strong>Proposition 5.2  </strong></span>The simplex method can cycle only if there some degenerate BFS. :::</p>
+<p><span id="prp:unlabeled-div-28" class="proposition"><strong>Proposition 5.2  </strong></span>The simplex method can cycle only if there some degenerate BFS.</p>
+</div>
 <p>Note that this is not an “if and only if” statement. Even if there is some degeneracy, there is no
 certainty that the simplex method will always visit a degenerate vertex twice.</p>
-<p>::: {.example #cycling} Consider the following degenerate linear program: <span class="math display">\[\begin{equation*}
+<div class="example">
+<p><span id="exm:cycling" class="example"><strong>Example 5.1  </strong></span>Consider the following degenerate linear program: <span class="math display">\[\begin{equation*}
 \begin{array}{rrrrrrrrrl} \mbox{maximize:} &amp; x_1 &amp; - &amp; 2x_2 &amp; &amp; &amp; - &amp; 2x_4 \\
   \mbox{subject to:} &amp; 0.5 x_1 &amp; - &amp; 3.5x_2 &amp; - &amp; 2x_3 &amp; + &amp; 4 x_4 &amp; \le &amp; 0 \\
     &amp; 0.5 x_1 &amp; - &amp; x_2 &amp; - &amp; 0.5 x_3 &amp; + &amp; 0.5 x_4 &amp; \le &amp; 0 \\
@@ -297,6 +299,7 @@ certainty that the simplex method will always visit a degenerate vertex twice.</
 <li><span class="math inline">\(w_2\)</span> enters and <span class="math inline">\(x_4\)</span> leaves.</li>
 </ol>
 <p>At the end of the <span class="math inline">\(6^{th}\)</span> simplex step, we end up looping back to the origin.</p>
+</div>
 </div>
 <div id="blands-rule" class="section level2 hasAnchor" number="5.2">
 <h2><span class="header-section-number">5.2</span> Bland’s Rule<a href="halting-conditions.html#blands-rule" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -314,18 +317,17 @@ variables.) One can show that simplex method always terminates if Bland’s rule
 chosen according to Bland’s rule.</p>
 </div>
 <div class="example">
-<p><span id="exm:unlabeled-div-28" class="example"><strong>Example 5.1  </strong></span>In Example <a href="#exm:cycling"><strong>??</strong></a>, the <em>sixth simplex step</em> violates Bland’s rule. Both
+<p><span id="exm:unlabeled-div-29" class="example"><strong>Example 5.2  </strong></span>In Example <a href="halting-conditions.html#exm:cycling">5.1</a>, the <em>sixth simplex step</em> violates Bland’s rule. Both
 <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_4\)</span> can be leaving variables and we choose <span class="math inline">\(x_4\)</span> whereas Bland’s rule requires us to
 choose <span class="math inline">\(x_1\)</span>.</p>
 </div>
-<p>The proof of Theorem <a href="halting-conditions.html#thm:blands-rule">5.1</a> is beyond the scope of this class. Using Bland’s rule,<br />
-for both Phase I and Phase II of the simplex method, we now have a complete algorithm for solving
+<p>The proof of Theorem <a href="halting-conditions.html#thm:blands-rule">5.1</a> is beyond the scope of this class. Using Bland’s rule
+for both phases of the simplex method, we now have a complete algorithm for solving
 linear programs. In fact, Theorem <a href="halting-conditions.html#thm:blands-rule">5.1</a> provides an algorithmic proof of the
-Fundamental theorem of linear programming. The simplex method must halt and one of the three halting
-conditions mentioned at the start of this chapter must occur. The three halting conditions
-correspond to the three types of linear programs in the Fundamental theorem of linear programming.
-That every linear program is one of these three types is precisely the statement of the Fundamental
-theorem.</p>
+Fundamental theorem of linear programming (Theorem <a href="standard-linear-program.html#thm:fundamental-theorem-lp">2.1</a>). By Theorem
+<a href="halting-conditions.html#thm:blands-rule">5.1</a>, the simplex method must halt and one of the three halting conditions
+mentioned at the start of this chapter must occur as there are no other halting conditions. But this
+is precisely the statement of the Fundamental theorem.</p>
 
 </div>
 </div>

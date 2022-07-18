@@ -2,9 +2,9 @@
 We know how to start the simplex method and how to perform the pivot steps. We'll next analyze the
 halting conditions for the simplex method. 
 
-There are three different "process" that can fail in a simplex method run: 
+There are three different places a simplex method can fail: 
 
-1. *The Phase I returns no feasible solution.* 
+1. *Phase I returns no feasible solution.* 
     
     In this case, the linear program is infeasible. This happens precisely when **the optimal
     solution to the auxiliary linear program has $k_0 \neq 0$.**
@@ -21,17 +21,17 @@ There are three different "process" that can fail in a simplex method run:
 
     This means that we can keep on increasing the entering variable, and hence the objective value,
     indefinitely without ever leaving the feasible region. None of the variables can leave precisely
-    when **none of the $\bar{a}_{ij}$ are positive.** 
+    when **none of the $\bar{a}_{ij}$ are positive** where $\bar{w}_i$ is entering. 
 
 Note that these three halting conditions correspond to the three types of standard linear programs
 as seen in the Fundamental theorem of linear programming (Theorem
 \@ref(thm:fundamental-theorem-lp)).
 
-|                       | Halting condition        | Linear program type |
-| --------------------- | ------------------------ | ------------------- |
-| At the end of Phase I | $k_0 \neq 0$             | infeasible          |
-| After a simplex step  | all $\bar{c}_i \le 0$    | optimal solution    |
-| After a simplex step  | all $\bar{a}_{ij} \le 0$ | unbounded           |
+|                    | Halting condition                                    | Linear program type |
+| ------------------ | ---------------------------------------------------- | ------------------- |
+| End of Phase I     | No feasible solution: $k_0 \neq 0$                   | Infeasible          |
+| After a pivot step | No entering variable: $\forall i, \bar{c}_i \le 0$   | Optimal solution    |
+| After a pivot step | No leaving variable: $\forall j, \bar{a}_{ij} \le 0$ | Unbounded           |
 
 
 ::: {.exercise #local-to-global} 
@@ -39,8 +39,8 @@ as seen in the Fundamental theorem of linear programming (Theorem
 [convex sets](https://en.wikipedia.org/wiki/Convex_set).) Let $S$ be a convex set in $\mathbb{R}^n$
 and let $f : \mathbb{R}^n \to \mathbb{R}$ be a linear function. Show that if $p \in S$ is a local
 maxima of $f$ over $S$ then it is also a global maxima. Find a counterexample to this statement if
-$S$ is non-convex. :
-::
+$S$ is non-convex. 
+:::
 
 ::: {.remark} 
 The notion of "unboundedness" for linear programs is more restrictive than the
@@ -61,8 +61,8 @@ Unfortunately, the above results are insufficient to guarantee that the simplex 
 find a solution, if one exists. It is possible for the simplex method to get stuck in a loop. This
 is called **cycling**.
 
-::: 
-{.exercise} Give an example showing that the variable that enters in one pivot step can become
+::: {.exercise} 
+Give an example showing that the variable that enters in one pivot step can become
 leave in the next. 
 :::
 
@@ -90,12 +90,14 @@ $\bar{b}_i$ is the value of the basic variable $\bar{w}_i$. Having more than $n$
 at a BFS is precisely the definition of degeneracy (Definition \@ref(def:degeneracy)).
 
 ::: {.proposition} 
-The simplex method can cycle only if there some degenerate BFS. :::
+The simplex method can cycle only if there some degenerate BFS. 
+:::
 
 Note that this is not an "if and only if" statement. Even if there is some degeneracy, there is no
 certainty that the simplex method will always visit a degenerate vertex twice. 
 
-::: {.example #cycling} Consider the following degenerate linear program: \begin{equation*}
+::: {.example #cycling} 
+Consider the following degenerate linear program: \begin{equation*}
 \begin{array}{rrrrrrrrrl} \mbox{maximize:} & x_1 & - & 2x_2 & & & - & 2x_4 \\
   \mbox{subject to:} & 0.5 x_1 & - & 3.5x_2 & - & 2x_3 & + & 4 x_4 & \le & 0 \\
     & 0.5 x_1 & - & x_2 & - & 0.5 x_3 & + & 0.5 x_4 & \le & 0 \\
@@ -137,11 +139,10 @@ $x_1$ and $x_4$ can be leaving variables and we choose $x_4$ whereas Bland's rul
 choose $x_1$. 
 :::
 
-The proof of Theorem \@ref(thm:blands-rule) is beyond the scope of this class. Using Bland's rule,  
-for both Phase I and Phase II of the simplex method, we now have a complete algorithm for solving 
+The proof of Theorem \@ref(thm:blands-rule) is beyond the scope of this class. Using Bland's rule
+for both phases of the simplex method, we now have a complete algorithm for solving 
 linear programs. In fact, Theorem \@ref(thm:blands-rule) provides an algorithmic proof of the 
-Fundamental theorem of linear programming. The simplex method must halt and one of the three halting 
-conditions mentioned at the start of this chapter must occur. The three halting conditions 
-correspond to the three types of linear programs in the Fundamental theorem of linear programming.
-That every linear program is one of these three types is precisely the statement of the Fundamental
-theorem.
+Fundamental theorem of linear programming (Theorem \@ref(thm:fundamental-theorem-lp)). By Theorem
+\@ref(thm:blands-rule), the simplex method must halt and one of the three halting conditions
+mentioned at the start of this chapter must occur as there are no other halting conditions. But this
+is precisely the statement of the Fundamental theorem.

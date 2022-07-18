@@ -111,6 +111,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="5" data-path="halting-conditions.html"><a href="halting-conditions.html"><i class="fa fa-check"></i><b>5</b> Halting Conditions</a>
 <ul>
+<li class="chapter" data-level="5.1" data-path="halting-conditions.html"><a href="halting-conditions.html#degeneracy"><i class="fa fa-check"></i><b>5.1</b> Degeneracy</a></li>
 <li class="chapter" data-level="5.2" data-path="halting-conditions.html"><a href="halting-conditions.html#blands-rule"><i class="fa fa-check"></i><b>5.2</b> Bland’s Rule</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="standardization.html"><a href="standardization.html"><i class="fa fa-check"></i><b>6</b> Standardization</a>
@@ -179,9 +180,15 @@ div.csl-indent {
             <section class="normal" id="section-">
 <div id="dual-linear-program" class="section level1 hasAnchor" number="7">
 <h1><span class="header-section-number">Chapter 7</span> Dual Linear Program<a href="dual-linear-program.html#dual-linear-program" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>So far we’ve constructed a method for solving linear programs.
-Our next goal is to understand the dependence of the solution on the various constants in the program.
-We will do this using duality theory.</p>
+<p>We’ll now transition from solving linear programs to studying their solution space using duality
+theory. We’ll show that for every linear program there exists a dual linear program whose optimal
+objective value is closely related to the optimal objective value of the original linear program.
+Duality theory is hard to motivate and only makes sense in retrospect. The main theorems - weak duality,
+strong duality, and complementary slackness - generalize to non-linear programs to various degrees
+and provide means of analyzing complicated optimization problems for which no algorithms exist. Even
+for the case of linear programing, where we have a complete algorithm for finding an optimal solution,
+duality theory is useful for analyzing the sensitivity of the optimal solution to various
+perturbations of the linear program.</p>
 <p>We start by introducing the matrix notation. We’ll let <span class="math inline">\(x\)</span> denote the vector of decision variables, <span class="math inline">\(b\)</span> the vector of upper bounds, <span class="math inline">\(c\)</span> the vector of objective coefficients, and <span class="math inline">\(A\)</span> the matrix of constraints in the standard linear program <a href="standard-linear-program.html#eq:standard-lp">(2.1)</a>.
 <span class="math display">\[\begin{align*}
   x = \begin{bmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{bmatrix}, \quad
@@ -202,7 +209,7 @@ The standard linear program <a href="standard-linear-program.html#eq:standard-lp
 \end{array}
 \end{equation*}\]</span></p>
 <div class="definition">
-<p><span id="def:unlabeled-div-34" class="definition"><strong>Definition 7.1  </strong></span>The <strong>dual</strong> of this linear program is defined as the following linear program:
+<p><span id="def:unlabeled-div-37" class="definition"><strong>Definition 7.1  </strong></span>The <strong>dual</strong> of this linear program is defined as the following linear program:
 <span class="math display" id="eq:standard-dual-lp">\[\begin{equation}
   \begin{array}{lrll}
     \mbox{minimize: } &amp; c_0 + b^T y \\
@@ -212,18 +219,25 @@ The standard linear program <a href="standard-linear-program.html#eq:standard-lp
   \end{array}
   \tag{7.1}
 \end{equation}\]</span>
-where <span class="math inline">\(y = \begin{bmatrix} y_1 \\ y_2 \\ \vdots \\ y_m \end{bmatrix}\)</span> is the vector of <strong>dual decision variables</strong>.</p>
+where <span class="math inline">\(y = \begin{bmatrix} y_1 \\ y_2 \\ \vdots \\ y_m \end{bmatrix}\)</span> is the vector of <strong>dual
+decision variables</strong>. The original linear program is called the <strong>primal</strong>.</p>
 </div>
-<p>The original linear program is called the <strong>primal</strong>. The dual decision variables correspond to the constraints of the original linear program. By explicitly computation, we can easily prove that the following theorem.</p>
+<p>We think of the dual decision variables as corresponding to the constraints of the primal and the
+primal decision variables as corresponding to the constraints of the dual. This interpretation will
+be made precise by the concept of <a href="sensitivity-analysis.html#shadow-prices">shadow prices</a>.</p>
+<p>By explicitly computation, we can easily prove that the following theorem.</p>
 <div class="theorem">
-<p><span id="thm:unlabeled-div-35" class="theorem"><strong>Theorem 7.1  </strong></span>The the dual of the (standardized) dual is equivalent to the primal.</p>
+<p><span id="thm:unlabeled-div-38" class="theorem"><strong>Theorem 7.1  </strong></span>The the dual of the (standardized) dual is equivalent to the primal.</p>
+</div>
+<div class="proof">
+<p><span id="unlabeled-div-39" class="proof"><em>Proof</em>. </span>Left as an exercise.</p>
 </div>
 <p>Hence, we think of linear programs as occurring in <strong>primal-dual pairs</strong>.
 Every linear program has a dual and it is itself the dual of the dual.
 The dual decision variables correspond to the constraints of the original linear program and the primal decision variables correspond to the constraints of the dual.
 The meaning of the dual decision variables will become clear when we study shadow prices.</p>
 <div class="example">
-<p><span id="exm:unlabeled-div-36" class="example"><strong>Example 7.1  </strong></span>The dual of <a href="introduction.html#eq:bond-portfolio-lp">(1.2)</a> is:
+<p><span id="exm:unlabeled-div-40" class="example"><strong>Example 7.1  </strong></span>The dual of <a href="introduction.html#eq:bond-portfolio-lp">(1.2)</a> is:
 <span class="math display" id="eq:bond-portfolio-dual">\[\begin{equation}
 \begin{array}{lrrrrrrrrrr}
   \mbox{minimize: }
