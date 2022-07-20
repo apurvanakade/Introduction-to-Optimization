@@ -7,8 +7,10 @@ Suppose that the data set consists of the points $(x_i, y_i)$ with $i = 1, 2, ..
 We want to find a function $f : \mathbb{R}^m \to \mathbb{R}$ such that $f(x_{i}) \approx y_{i}$.
 In linear regression, we suppose that the function $f$ is of the form $$f(x) = \beta^T x + \beta_0,$$ where $\beta$ is a vector in $\mathbb{R}^m$ and $\beta_0$ is a constant. 
 Our goal is to estimate $\beta$ and $\beta_0$. 
-There is of course, no reason that there is a linear relation between the inputs $x_i$ and the outputs $y_i$. 
-So our is simply to find the *best* estimate.
+There is of course, no reason that there is a linear relation between the inputs $x_i$ and the
+outputs $y_i$. 
+<!-- FIXME: Rephrase -->
+So our goal is to find the *best* such linear approximation.
 We can define the error in estimation to be the vector $\varepsilon$ whose components are 
 \begin{align*}
   \varepsilon_i = \lvert y_i - f(x_i) \rvert.
@@ -45,4 +47,7 @@ However, it is equivalent to the following linear program:
       & y_i - (\beta^T x_i + \beta_0) & > & -\varepsilon_i.
   \end{array}
 \end{equation*}
-Here the decision variables are $\beta$ (which is a vector in $\mathbb{R}^m$), $\beta_0$, and $\varepsilon_i$ for $1 \le i \le N$.
+Here the decision variables are $\beta$ (which is a vector in $\mathbb{R}^m$), $\beta_0$, and
+$\varepsilon_i$ for $1 \le i \le N$.
+
+<!-- TODO: Add an example with graphs. -->

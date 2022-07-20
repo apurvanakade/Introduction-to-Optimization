@@ -23,7 +23,7 @@
 <meta name="author" content="Apurva Nakade" />
 
 
-<meta name="date" content="2022-07-17" />
+<meta name="date" content="2022-07-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -127,14 +127,17 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="8.1" data-path="weak-and-strong-duality.html"><a href="weak-and-strong-duality.html#weak-duality"><i class="fa fa-check"></i><b>8.1</b> Weak Duality</a></li>
 <li class="chapter" data-level="8.2" data-path="weak-and-strong-duality.html"><a href="weak-and-strong-duality.html#strong-duality"><i class="fa fa-check"></i><b>8.2</b> Strong Duality</a></li>
-<li class="chapter" data-level="8.3" data-path="weak-and-strong-duality.html"><a href="weak-and-strong-duality.html#complimentary-slackness"><i class="fa fa-check"></i><b>8.3</b> Complimentary slackness</a></li>
+<li class="chapter" data-level="8.3" data-path="weak-and-strong-duality.html"><a href="weak-and-strong-duality.html#certificate-of-optimality"><i class="fa fa-check"></i><b>8.3</b> Certificate of Optimality</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="weak-and-strong-duality.html"><a href="weak-and-strong-duality.html#complimentary-slackness"><i class="fa fa-check"></i><b>8.3.1</b> Complimentary slackness</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="sensitivity-analysis.html"><a href="sensitivity-analysis.html"><i class="fa fa-check"></i><b>9</b> Sensitivity Analysis</a>
 <ul>
 <li class="chapter" data-level="9.1" data-path="sensitivity-analysis.html"><a href="sensitivity-analysis.html#dictionaries-revisited"><i class="fa fa-check"></i><b>9.1</b> Dictionaries Revisited</a></li>
 <li class="chapter" data-level="9.2" data-path="sensitivity-analysis.html"><a href="sensitivity-analysis.html#range-of-optimality---constraints"><i class="fa fa-check"></i><b>9.2</b> Range of Optimality - Constraints</a></li>
 <li class="chapter" data-level="9.3" data-path="sensitivity-analysis.html"><a href="sensitivity-analysis.html#shadow-prices"><i class="fa fa-check"></i><b>9.3</b> Shadow Prices</a></li>
-<li class="chapter" data-level="9.4" data-path="sensitivity-analysis.html"><a href="sensitivity-analysis.html#sensitivity-analysis---objective"><i class="fa fa-check"></i><b>9.4</b> Sensitivity analysis - Objective</a></li>
+<li class="chapter" data-level="9.4" data-path="sensitivity-analysis.html"><a href="sensitivity-analysis.html#range-of-optimality---objective"><i class="fa fa-check"></i><b>9.4</b> Range of Optimality - Objective</a></li>
 </ul></li>
 <li class="part"><span><b>III Non-Linear Programming</b></span></li>
 <li class="chapter" data-level="10" data-path="convex-programming.html"><a href="convex-programming.html"><i class="fa fa-check"></i><b>10</b> Convex Programming</a></li>
@@ -220,7 +223,7 @@ We can apply GD to this problem and find a critical point for <span class="math 
 </ol>
 <p>Gradient descent algorithm only <em>sees</em> the objective function and does not <em>know</em> about the constraints. So, we modify the objective function to include the constraints using barrier functions.</p>
 <div class="definition">
-<p><span id="def:unlabeled-div-71" class="definition"><strong>Definition 12.1  </strong></span>A <strong>barrier function</strong> is a differentiable function <span class="math inline">\(b\)</span> from <span class="math inline">\((0, \infty)\)</span> to <span class="math inline">\(\mathbb{R}\)</span> that has the property <span class="math inline">\(\lim \limits_{x \to 0^+} f(x) = \infty\)</span>.</p>
+<p><span id="def:unlabeled-div-77" class="definition"><strong>Definition 12.1  </strong></span>A <strong>barrier function</strong> is a differentiable function <span class="math inline">\(b\)</span> from <span class="math inline">\((0, \infty)\)</span> to <span class="math inline">\(\mathbb{R}\)</span> that has the property <span class="math inline">\(\lim \limits_{x \to 0^+} f(x) = \infty\)</span>.</p>
 </div>
 <p>We’ll use the barrier function <span class="math inline">\(-\ln x\)</span>. Using a small positive parameter <span class="math inline">\(\mu\)</span>, we create a new objective function:
 <span class="math display">\[\begin{align*}

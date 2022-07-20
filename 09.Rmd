@@ -1,19 +1,41 @@
 # Sensitivity Analysis
 
-Linear programs are used to model real world problems. Such models are at best approximate and at worst inaccurate. As such, it is important to understand the *sensitivity* of our solution to changes in the model. This is broadly called *sensitivity analysis*. We will focus on understanding the dependence of the optimal objective value of the standard linear program \@ref(eq:standard-lp) on the constants $b_i$ and $c_j$.
+Linear programs are used to model real world problems. Such models are at best approximate and at
+worst inaccurate. Even when the models are accurate, the parameters in the model often change with
+time. As such, it is important to understand the *sensitivity* of our solution to changes in the
+model. This is called *sensitivity analysis*. We will focus on understanding the dependence of the
+optimal objective value of the standard linear program \@ref(eq:standard-lp) on the constants $b_i$
+and $c_j$.^[This is not to say that the sensitivity of the optimal objective value to the constants
+$a_{ij}$ is less important. Rather, such an analysis is beyond the scope of this class.]
 
-*Throughout this chapter, we'll assume that our linear programs have an optimal solution.*
+*Throughout this chapter, we'll assume that our linear programs have an optimal solution and fix an
+optimal solution for the primal and the corresponding dual solution for the dual.*
 
 ## Dictionaries Revisited
 
-We will start by finding a succinct way to describe the dictionary at the optimal solution. Recall that the decision and slack variables are related to each other by the Equation \@ref(eq:standard-tableau) which can be written as:
+We will start by finding a succinct way to describe the dictionary at the optimal solution. Recall
+that the decision and slack variables are related to each other by the Equation
+\@ref(eq:standard-tableau) which can be written as:
 \begin{equation}
   \begin{bmatrix} A & I_m \end{bmatrix}
     \begin{bmatrix} x \\ w \end{bmatrix}
       = b.
   (\#eq:dictionary-matrix)
 \end{equation}
-Let $\widehat{A} := \begin{bmatrix} A & I_m \end{bmatrix}$. We'll decompose $\widehat{A}$ using the basic and non-basic variables. Then let $\mathcal{B}$ be the matrix formed by combining the columns of $\widehat{A}$ corresponding to the basic variables at the optimal BFS and let $\mathcal{N}$ be the matrix formed by combining the columns of $\widehat{A}$ corresponding to the non-basic variables at the optimal BFS. Let $x_{\mathcal{B}}$ be the vector of basic variables and $x_{\mathcal{N}}$ be the vector of non-basic variables. 
+Let $\widehat{A} := \begin{bmatrix} A & I_m \end{bmatrix}$. We'll decompose $\widehat{A}$ using the
+basic and non-basic variables. 
+
+Suppose we are at an optimal basic feasible solution. Let $\mathcal{B}$ be the matrix formed by
+combining the columns of $\widehat{A}$ corresponding to the basic variables at the optimal BFS and
+let $\mathcal{N}$ be the matrix formed by combining the columns of $\widehat{A}$ corresponding to
+the non-basic variables. Let $x_{\mathcal{B}}$ be the vector of basic variables and
+$x_{\mathcal{N}}$ be the vector of non-basic variables.
+
+::: {.remark}
+The matrices $\mathcal{B}$ and $\mathcal{N}$ are sub-matrices of the "initial" matrix $\widehat{A}$
+and not the tableau at the basic feasible solution. We're using the basic feasible solution to
+decide which columns are basic and which are non-basic for the "inital" matrix $\widehat{A}$.
+:::
 
 By rearranging the columns of $\widehat{A}$ if necessary, we can rewrite \@ref(eq:dictionary-matrix) as 
 \begin{align*}
@@ -28,12 +50,23 @@ By rearranging the columns of $\widehat{A}$ if necessary, we can rewrite \@ref(e
   &&
     \mathcal{B} x_{\mathcal{B}} &= b -  \mathcal{N} x_{\mathcal{N}}.
 \end{align*}
-When we execute the simplex method, the matrix $\mathcal{B}$ gets reduced to an $n \times n$ matrix with $n$ pivots. Hence, it is invertible.
+When we execute the simplex method, the matrix $\mathcal{B}$ gets reduced to an $n \times n$ matrix
+with $n$ pivots. Hence, it must be invertible allowing us to further simplify as follows. 
 \begin{equation}
   \implies x_{\mathcal{B}} = \mathcal{B}^{-1} b - \mathcal{B}^{-1} \mathcal{N} x_{\mathcal{N}}.
   (\#eq:basic-non-basic-matrix)
 \end{equation}
-This is nothing but the dictionary at the optimal BFS.
+This is nothing but the dictionary at the optimal BFS!
+
+::: {.lemma #basic-values}
+Using the above notation, $\mathcal{B}^{-1}b$ is the value of the basic variables at the optimal solution.
+:::
+
+::: {.proof}
+At a basic feasible solution, the non-basic variables $x_{\mathcal{N}}$ equal 0. Plugging in
+$x_{\mathcal{N}} = \vec{0}$ in Equation \@ref(eq:basic-non-basic-matrix) gives us the desired
+result.
+:::
 
 ::: {.example #basic-non-basic-matrix} 
 
@@ -109,26 +142,27 @@ Using Equation \@ref(eq:basic-non-basic-matrix) the dictionary at the optimal so
 This is precisely the dictionary \@ref(eq:example-dictionary-3) at the optimal solution.
 :::
 
-Because we set the non-basic variables $x_{\mathcal{N}}$ to 0 at any vertex, and in particular, at the the optimal solution, using the Equation \@ref(eq:basic-non-basic-matrix) we get the following useful result:
-
-::: {.lemma #basic-values}
-Using the above notation, $\mathcal{B}^{-1}b$ is the value of the basic variables $x^*_{\mathcal{B}}$ at the optimal solution.
-:::
 
 
 ## Range of Optimality - Constraints
 
 We want to analyze the change in the optimal solution as we change the constraint upper bounds $b_i$. 
-It is likely that by changing $b_i$ we change the optimal solution. 
-However, in a good model, this change should not be abrupt. 
-This can be achieved by requiring the set of basic and non-basic variables to remain unchanged. 
-In this case, the equation \@ref(eq:basic-non-basic-matrix) will still be the equation describing the dictionary at the optimal solution and the change in $b_i$ will result in a differentiable (in fact, linear) change in $x_{\mathcal{B}}$.
+It is likely that by changing $b_i$ we change the optimal solution. However, in a good model, this
+change should not be abrupt.  This can be achieved by requiring **the set of basic and non-basic
+variables to remain unchanged**. In this case, the equation \@ref(eq:basic-non-basic-matrix) will
+still be the equation describing the dictionary at the optimal solution and the change in $b_i$ will
+result in a differentiable (in fact, linear) change in $x_{\mathcal{B}}$. 
 
 ::: {.example}
-Suppose we vary $b_3 = 1$ in Example \@ref(eq:bond-portfolio-lp). One can check that at the optimal solution $w_1$ and $w_2$ are non-basic as long as $b_3 > 0.9$. Thus we can say that out model is a good model as long as the error in $b_3$ is less than $0.1$.
+Suppose we vary $b_3 = 1$ in Example \@ref(eq:bond-portfolio-lp). One can check that at the optimal
+solution $w_1$ and $w_2$ are non-basic as long as $b_3 > 0.9$. Thus we can say that out model is a
+good model as long as the error in $b_3$ is less than $0.1$. 
 :::
 
-Suppose we change $b_i$ to $b_i + \delta$, where $\delta$ is a real number, and leave all the other constants unchanged. This is equivalent to changing $b$ to $b + \delta e_i$ where $e_i$ is the $i^{th}$ standard basis vector of $\mathbb{R}^m$. This changes equation \@ref(eq:basic-non-basic-matrix) to 
+Suppose we change $b_i$ to $b_i + \delta$, where $\delta$ is a real number, and leave all the other
+constants unchanged. This is equivalent to changing $b$ to $b + \delta e_i$ where $e_i$ is the
+$i^{th}$ standard basis vector of $\mathbb{R}^m$. This changes equation
+\@ref(eq:basic-non-basic-matrix) to  
 \begin{align*}
   x_{\mathcal{B}} 
     &= \mathcal{B}^{-1} b + \delta \mathcal{B}^{-1} e_i - \mathcal{B}^{-1} \mathcal{N} x_{\mathcal{N}} \\
@@ -136,22 +170,30 @@ Suppose we change $b_i$ to $b_i + \delta$, where $\delta$ is a real number, and 
 \end{align*}
 where $(\mathcal{B}^{-1})_{\_i}$ denotes the $i^{th}$ column of $\mathcal{B}^{-1}$.
 
-Note that the coefficients of $x_{\mathcal{N}}$ remain unchanged. So, for this dictionary to stay optimal we only need the constants to remain non-negative i.e.
+Note that the coefficients of $x_{\mathcal{N}}$ remain unchanged. So, for this dictionary to stay
+optimal we only need the constants to remain non-negative i.e.
 \begin{equation}
   \mathcal{B}^{-1} b + \delta (\mathcal{B}^{-1})_{\_i} \ge 0.
   (\#eq:range-of-optimality)
 \end{equation}
 
 ::: {.proposition}
-The **range of optimality** for $b_i$ is the interval $[b_i + \delta_-, b_i + \delta_+]$ such that $\mathcal{B}^{-1} b + \delta (\mathcal{B}^{-1})_{\_i} \ge 0$ for all $\delta \in [\delta_-, \delta_+]$.
+The **range of optimality** for $b_i$ is the interval $[b_i + \delta_-, b_i + \delta_+]$ such that
+$\mathcal{B}^{-1} b + \delta (\mathcal{B}^{-1})_{\_i} \ge 0$ for all $\delta \in [\delta_-, \delta_+]$.
 :::
 
-In practice, Equation \@ref(eq:range-of-optimality) gives us $m$ inequalities which need to be simultaneously satisfied. These give us candidate values for $\delta$ some of which are positive and some of which are negative. We then choose $\delta_+$ to be the smallest positive value and $\delta_-$ to be the largest negative value. If $\delta_+$ does not exist the upper bound is $\infty$ and if $\delta_-$ does not exist the lower bound is $-\infty$. If either $\delta_+$ or $\delta_-$ is 0 then the linear program is degenerate. In this case, our program is very sensitive to perturbations in $b_i$.
+In practice, Equation \@ref(eq:range-of-optimality) gives us $m$ inequalities which need to be
+simultaneously satisfied. These give us candidate values for $\delta$ some of which are positive and
+some of which are negative. We then choose $\delta_+$ to be **the smallest positive value** and
+$\delta_-$ to be the **largest negative value**. If $\delta_+$ does not exist then the upper bound
+is $\infty$ and if $\delta_-$ does not exist then the lower bound is $-\infty$. If either $\delta_+$
+or $\delta_-$ is 0 then the linear program is degenerate. In this case, our program is very
+sensitive to perturbations in $b_i$.
 
 ::: {.example}
-Let us find the range of optimality for $b_1 = 3.6$, $b_2=1.5$, and $b_3 = 1$ in \@ref(eq:bond-portfolio-lp) using our calculations in Example \@ref(exm:basic-non-basic-matrix).
-
-We know that 
+Let us find the range of optimality for $b_1 = 3.6$, $b_2=1.5$, and $b_3 = 1$ in
+\@ref(eq:bond-portfolio-lp) using our calculations in Example \@ref(exm:basic-non-basic-matrix). We
+know that 
 \begin{align*}
   \mathcal{B}^{-1} = 
     \begin{bmatrix}
@@ -160,7 +202,6 @@ We know that
     -1/9 & -1/3 & 1
     \end{bmatrix}.
 \end{align*}
-
 Using $i = 1$ and Lemma \@ref(lem:basic-values) in Equation \@ref(eq:range-of-optimality) we get
 \begin{align*}
   \begin{bmatrix} 0.6 \\ 0.3 \\ 0.1 \end{bmatrix} 
@@ -169,7 +210,7 @@ Using $i = 1$ and Lemma \@ref(lem:basic-values) in Equation \@ref(eq:range-of-op
     -1/9 \\ 
     2/9 \\
     -1/9
-  \end{bmatrix} > 0
+  \end{bmatrix} \ge 0
 \end{align*}
 which gives us the inequalities 
 \begin{align*}
@@ -189,7 +230,7 @@ Using $i = 2$ and Lemma \@ref(lem:basic-values) in Equation \@ref(eq:range-of-op
     2/3 \\ 
     -1/3 \\
     -1/3
-  \end{bmatrix} > 0
+  \end{bmatrix} \ge 0
 \end{align*}
 which gives us the inequalities 
 \begin{align*}
@@ -209,7 +250,7 @@ Using $i = 3$ and Lemma \@ref(lem:basic-values) in Equation \@ref(eq:range-of-op
     0 \\ 
     0 \\
     1
-  \end{bmatrix} > 0
+  \end{bmatrix} \ge 0
 \end{align*}
 which gives us $\delta \ge -0.1$ and so the range of optimality for $b_3$ is $[1 - 0.1, \infty) = [0.9, \infty)$.
 
@@ -223,24 +264,26 @@ source("graphs/upper-bound-b1.R", local = knitr::knit_global())
 ```
 :::
 
-
-
-
 ## Shadow Prices
 
-Assume now that neither of $\delta_+$ or $\delta_-$ is zero. We can use Lemma \@ref(lem:basic-values) to find the rate of change of the optimal solution with respect to $b_i$. Call the objective function $\mathbb{O} = c^{T} x$. We think of $\mathbb{O}$ as being a function of $b_i$, $c_j$, and $a_{ij}.$ Using Lemma \@ref(lem:basic-values) we get
+For this section, assume that neither of $\delta_+$ or $\delta_-$ is zero. We can use Lemma
+\@ref(lem:basic-values) to find the rate of change of the optimal solution with respect to $b_i$.
+Call the objective function $\mathbb{O} = c^{T} x$. We think of $\mathbb{O}$ as being a function of
+$b_i$, $c_j$, and $a_{ij}.$ Using Lemma \@ref(lem:basic-values) we get 
+\begin{align*}
+  \dfrac{\partial x_{\mathcal{N}}}{\partial b_i} 
+    &= 0
+\end{align*}
+as the non-basic variables remain 0 when we perturb $b_i$ within the range of optimality, and
 \begin{align*}
   \dfrac{\partial x_{\mathcal{B}_j}}{\partial b_i} 
     &= j^{th} \mbox{ row of } \dfrac{\partial \mathcal{B}^{-1}b}{\partial b_i} \\
     &= (\mathcal{B}^{-1})_{ji} \\
 \end{align*}
-where $x_{\mathcal{B}_j}$ denotes the $j^{th}$ basic variable at the optimal solution. And 
-\begin{align*}
-  \dfrac{\partial x_{\mathcal{N}}}{\partial b_i} 
-    &= 0
-\end{align*}
-as the non-basic variables remain 0 when we perturb $b_i$ within the range of optimality.
-Using these we can find the rate of change of the optimal solution $\mathbb{O}$ with respect to $b_i$. We first start by re-indexing the variables and objective coefficients using the basic and non-basic variables. 
+where $x_{\mathcal{B}_j}$ denotes the $j^{th}$ basic variable at the optimal solution. Using these
+equations we can find the rate of change of the optimal solution $\mathbb{O}$ with respect to $b_i$.
+We start by re-indexing the variables and objective coefficients using the basic and non-basic
+variables. 
 \begin{align*}
   \mathbb{O} 
     &= c^T x \\
@@ -254,14 +297,19 @@ By strong duality, we know that the primal objective value equals the dual objec
 \begin{align*}
  \mathbb{O} &= b_1 y_1 + \cdots + b_m y_m 
 \end{align*}
-So, $\partial \mathbb{O}/\partial b_i = y_i$. Because of this result, $y_i$ is also called the **shadow price** or the **marginal cost** of the $i^{th}$ constraint.
-Using the rate of change calculation above, we get \begin{align*}
-  y_i = c^T_{\mathcal{B}} (\mathcal{B}^{-1})_{\_i}.
-\end{align*}
-We can combine all the above coordinates into a single vector to get the following result.
+So, $\partial \mathbb{O}/\partial b_i = y_i$. Because of this result, $y_i$ is also called the
+**shadow price** or the **marginal cost** of the $i^{th}$ constraint. This is an extremely important
+interpretation of (non-degenerate) dual optimal solutions. This is why duality theory naturally
+arises in the study of linear programs.
 
 ::: {.theorem #dual-solution}
 For a non-degenerate linear program, the dual optimal solution is given by $(\mathcal{B}^{-1})^Tc_{\mathcal{B}}$.
+:::
+
+::: {.proof}
+Using the rate of change calculation above, we get $y_i = c^T_{\mathcal{B}}
+(\mathcal{B}^{-1})_{\_i}$. We then combine all the coordinates into a vector to get the desired
+result.
 :::
 
 This theorem provides yet another method of finding the dual optimal solution without having to solve the dual linear program. 
@@ -300,59 +348,77 @@ which equals the optimal objective value of the primal. One can check that this 
 :::
 
 
-## Sensitivity analysis - Objective
+## Range of Optimality - Objective
 
-We can ask the same questions about the change in the objective coefficients - how far can we change the objective coefficient $c_j$ without changing the set of basic and non-basic variables at the optimal solution. Note that in this case we are not changing the constraints and therefore the feasible region. So, this is the same as asking - how far can we change the objective coefficient $c_j$ without changing the optimal solution.
+We repeat the same analysis for the objective coefficients - how far can we change the objective
+coefficient $c_j$ without changing the set of basic and non-basic variables at the optimal solution?
+In this case, we are not changing the constraints and therefore the feasible region remains
+unchanged and not changing the set of basic and non-basic variables implies that the optimal solution (and
+not just the optimal objective value) also remains unchanged. So, this question is the same as
+asking - how far can we change the objective coefficient $c_j$ without changing the optimal
+solution?
 
-We can redo the entire analysis for the objective coefficients from scratch. However, we can also notice that performing sensitivity analysis on the objective coefficients of the primal is the same as performing sensitivity analysis on the constraints of the dual.
+We can redo the entire analysis for the objective coefficients from scratch. However, duality theory
+provides a faster way to do this as performing sensitivity analysis on the objective coefficients of
+the primal is the same as performing sensitivity analysis on the constraints of the dual.
 Consider the standardized dual 
 \begin{equation*}
   \begin{array}{lrll}
     \mbox{maximize: } & -c_0 -b^T y \\
     \mbox{subject to: } 
       & -A^T y & \leq & -c \\
-      & y & \geq & 0,
+      & y & \geq & 0.
   \end{array}
 \end{equation*}
 Using Equation \@ref(eq:range-of-optimality) for this dictionary we get the range of optimality for $-c_j$ to be
 \begin{equation}
   (-\mathcal{B}_d)^{-1} (-c) + \delta (-\mathcal{B}_d^{-1})_{\_j} \ge 0.
 \end{equation}
-where $-\mathcal{B}_d$ is formed by combining the dual-basic columns of $\begin{bmatrix} -A^T & I_n\end{bmatrix}$ and so $\mathcal{B}_d$ is formed by combining the dual-basic columns of $\begin{bmatrix} A^T & -I_n\end{bmatrix}$. This simplifies to 
+where $-\mathcal{B}_d$ is formed by combining the dual-basic columns of $\begin{bmatrix} -A^T &
+I_n\end{bmatrix}$ and so $\mathcal{B}_d$ is formed by combining the dual-basic columns of
+$\begin{bmatrix} A^T & -I_n\end{bmatrix}$. This simplifies to 
 \begin{equation}
   \mathcal{B}_d^{-1} c - \delta (\mathcal{B}_d^{-1})_{\_j} \ge 0.
 \end{equation}
-Note that this is the range of optimality for $-c_j$. To get the range of optimality for $c_j$ we need to replace $\delta$ by $-\delta$ to get 
+Note that this is the range of optimality for $-c_j$. To get the range of optimality for $c_j$ we
+need to replace $\delta$ with $-\delta$ to get 
 \begin{equation}
   \mathcal{B}_d^{-1} c + \delta (\mathcal{B}_d^{-1})_{\_j} \ge 0.
 \end{equation}
 
-Finally, by Lemma \@ref(lem:basic-values), $\mathcal{B}_d^{-1} c$ is the vector of values of the dual basic variables. Hence we get, 
+Finally, by Lemma \@ref(lem:basic-values), $\mathcal{B}_d^{-1} c$ is the vector of values of the
+dual basic variables. Hence we get, 
 
 ::: {.proposition}
-The **range of optimality** for $c_j$ is the interval $[c_j + \delta_-, c_j + \delta_+]$ such that $y_{\mathcal{B}}^* + \delta (\mathcal{B}_d^{-1})_{\_j} \ge 0$ for all $\delta \in [\delta_-, \delta_+]$. 
+The **range of optimality** for $c_j$ is the interval $[c_j + \delta_-, c_j + \delta_+]$ such that $y_{\mathcal{B}} + \delta (\mathcal{B}_d^{-1})_{\_j} \ge 0$ for all $\delta \in [\delta_-, \delta_+]$. 
 :::
 
-By a happy accident all the negative signs have cancelled out and the equation for finding the range of optimality for the objective coefficients is exactly the same as the one for finding the range of optimality for the constraints.
+By a happy accident all the negative signs have cancelled out and the equation for finding the range
+of optimality for the objective coefficients has the same form as the one for finding the range of
+optimality for the constraints! 
 
 ::: {.theorem #range-of-optimality}
 
-The range of optimality for the constraints and the objective functions can be computed using the following formulae:
+At an optimal BFS, the range of optimality for the constraints and the objective functions can be
+computed using the following formulae:
 
 **Range of optimality for $b_i$:**
 \begin{equation}
-  x_{\mathcal{B}}^* + \delta (\mathcal{B}^{-1})_{\_i} \ge 0.
+  x_{\mathcal{B}} + \delta (\mathcal{B}^{-1})_{\_i} \ge 0,
 \end{equation}
-where $\mathcal{B}$ is formed by combining the primal-basic columns of $\begin{bmatrix} A & I_m \end{bmatrix}$, and 
 
 **Range of optimality for $c_j$:**
 \begin{equation}
-  y_{\mathcal{B}}^* + \delta (\mathcal{B}_d^{-1})_{\_j} \ge 0.
+  y_{\mathcal{B}} + \delta (\mathcal{B}_d^{-1})_{\_j} \ge 0,
 \end{equation}
-where $\mathcal{B}_d$ is formed by combining the dual-basic columns of $\begin{bmatrix} A^T & -I_n \end{bmatrix}$. 
+
+where $\mathcal{B}$ is formed by combining the primal-basic columns of $\begin{bmatrix} A & I_m
+\end{bmatrix}$, $x_{\mathcal{B}}$ is the value of the primal basic variables, $\mathcal{B}_d$ is 
+formed by combining the dual-basic columns of $\begin{bmatrix} A^T & -I_n \end{bmatrix}$, and
+$y_{\mathcal{B}}$ is the value of the dual basic variables. 
 :::
 
-Finally, to find $\mathcal{B}_d$ we note that by Complementary Slackness (Theorem \@ref(thm:complementary-slackness)), if the linear program is non-degenerate then the dual basic variables correspond to the primal non-basic variables (as the dual basic variables must be non-zero). This statement is true even for degenerate linear programs but in this case the proof is more subtle and requires the use of Strong duality (Theorem \@ref(thm:strong-duality)).
+Finally, to find $\mathcal{B}_d$ we note that by complementary slackness (Theorem \@ref(thm:complementary-slackness)), if the linear program is non-degenerate then the dual basic variables correspond to the primal non-basic variables (as the dual basic variables must be non-zero).^[This statement is true even for degenerate linear programs but in this case the proof is more subtle and requires the use of strong duality (Theorem \@ref(thm:strong-duality)).]
 
 
 ::: {.example}
@@ -363,7 +429,8 @@ Consider the linear program \@ref(eq:bond-portfolio-lp) again. At the optimal so
   \mathcal{B}_d^{-1} &= \begin{bmatrix} -1/9 & 2/9 \\ 2/3 & -1/3 \end{bmatrix}.
 \end{align*}
 
-From Example \@ref(exm:dual-solution) we know that $y_1 = 2/9$ and $y_2 = 5/3$ at the dual optimal solution. Using these, we can now find the range of optimality for the objective coefficients.
+From Example \@ref(exm:dual-solution), we know that $y_1 = 2/9$ and $y_2 = 5/3$ at the dual optimal
+solution. Using these, we can now find the range of optimality for the objective coefficients. 
 
 To find the range of optimality for $c_1 = 4$ we solve 
 \begin{align*}

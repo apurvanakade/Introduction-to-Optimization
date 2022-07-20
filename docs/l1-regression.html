@@ -23,7 +23,7 @@
 <meta name="author" content="Apurva Nakade" />
 
 
-<meta name="date" content="2022-07-17" />
+<meta name="date" content="2022-07-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -127,14 +127,17 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="8.1" data-path="weak-and-strong-duality.html"><a href="weak-and-strong-duality.html#weak-duality"><i class="fa fa-check"></i><b>8.1</b> Weak Duality</a></li>
 <li class="chapter" data-level="8.2" data-path="weak-and-strong-duality.html"><a href="weak-and-strong-duality.html#strong-duality"><i class="fa fa-check"></i><b>8.2</b> Strong Duality</a></li>
-<li class="chapter" data-level="8.3" data-path="weak-and-strong-duality.html"><a href="weak-and-strong-duality.html#complimentary-slackness"><i class="fa fa-check"></i><b>8.3</b> Complimentary slackness</a></li>
+<li class="chapter" data-level="8.3" data-path="weak-and-strong-duality.html"><a href="weak-and-strong-duality.html#certificate-of-optimality"><i class="fa fa-check"></i><b>8.3</b> Certificate of Optimality</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="weak-and-strong-duality.html"><a href="weak-and-strong-duality.html#complimentary-slackness"><i class="fa fa-check"></i><b>8.3.1</b> Complimentary slackness</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="sensitivity-analysis.html"><a href="sensitivity-analysis.html"><i class="fa fa-check"></i><b>9</b> Sensitivity Analysis</a>
 <ul>
 <li class="chapter" data-level="9.1" data-path="sensitivity-analysis.html"><a href="sensitivity-analysis.html#dictionaries-revisited"><i class="fa fa-check"></i><b>9.1</b> Dictionaries Revisited</a></li>
 <li class="chapter" data-level="9.2" data-path="sensitivity-analysis.html"><a href="sensitivity-analysis.html#range-of-optimality---constraints"><i class="fa fa-check"></i><b>9.2</b> Range of Optimality - Constraints</a></li>
 <li class="chapter" data-level="9.3" data-path="sensitivity-analysis.html"><a href="sensitivity-analysis.html#shadow-prices"><i class="fa fa-check"></i><b>9.3</b> Shadow Prices</a></li>
-<li class="chapter" data-level="9.4" data-path="sensitivity-analysis.html"><a href="sensitivity-analysis.html#sensitivity-analysis---objective"><i class="fa fa-check"></i><b>9.4</b> Sensitivity analysis - Objective</a></li>
+<li class="chapter" data-level="9.4" data-path="sensitivity-analysis.html"><a href="sensitivity-analysis.html#range-of-optimality---objective"><i class="fa fa-check"></i><b>9.4</b> Range of Optimality - Objective</a></li>
 </ul></li>
 <li class="part"><span><b>III Non-Linear Programming</b></span></li>
 <li class="chapter" data-level="10" data-path="convex-programming.html"><a href="convex-programming.html"><i class="fa fa-check"></i><b>10</b> Convex Programming</a></li>
@@ -185,8 +188,10 @@ Suppose that the data set consists of the points <span class="math inline">\((x_
 We want to find a function <span class="math inline">\(f : \mathbb{R}^m \to \mathbb{R}\)</span> such that <span class="math inline">\(f(x_{i}) \approx y_{i}\)</span>.
 In linear regression, we suppose that the function <span class="math inline">\(f\)</span> is of the form <span class="math display">\[f(x) = \beta^T x + \beta_0,\]</span> where <span class="math inline">\(\beta\)</span> is a vector in <span class="math inline">\(\mathbb{R}^m\)</span> and <span class="math inline">\(\beta_0\)</span> is a constant.
 Our goal is to estimate <span class="math inline">\(\beta\)</span> and <span class="math inline">\(\beta_0\)</span>.
-There is of course, no reason that there is a linear relation between the inputs <span class="math inline">\(x_i\)</span> and the outputs <span class="math inline">\(y_i\)</span>.
-So our is simply to find the <em>best</em> estimate.
+There is of course, no reason that there is a linear relation between the inputs <span class="math inline">\(x_i\)</span> and the
+outputs <span class="math inline">\(y_i\)</span>.
+<!-- FIXME: Rephrase -->
+So our goal is to find the <em>best</em> such linear approximation.
 We can define the error in estimation to be the vector <span class="math inline">\(\varepsilon\)</span> whose components are
 <span class="math display">\[\begin{align*}
   \varepsilon_i = \lvert y_i - f(x_i) \rvert.
@@ -221,7 +226,9 @@ However, it is equivalent to the following linear program:
       &amp; y_i - (\beta^T x_i + \beta_0) &amp; &gt; &amp; -\varepsilon_i.
   \end{array}
 \end{equation*}\]</span>
-Here the decision variables are <span class="math inline">\(\beta\)</span> (which is a vector in <span class="math inline">\(\mathbb{R}^m\)</span>), <span class="math inline">\(\beta_0\)</span>, and <span class="math inline">\(\varepsilon_i\)</span> for <span class="math inline">\(1 \le i \le N\)</span>.</p>
+Here the decision variables are <span class="math inline">\(\beta\)</span> (which is a vector in <span class="math inline">\(\mathbb{R}^m\)</span>), <span class="math inline">\(\beta_0\)</span>, and
+<span class="math inline">\(\varepsilon_i\)</span> for <span class="math inline">\(1 \le i \le N\)</span>.</p>
+<!-- TODO: Add an example with graphs. -->
 
 </div>
             </section>
