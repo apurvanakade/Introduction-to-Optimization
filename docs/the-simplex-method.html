@@ -23,7 +23,7 @@
 <meta name="author" content="Apurva Nakade" />
 
 
-<meta name="date" content="2022-07-20" />
+<meta name="date" content="2022-08-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -236,7 +236,7 @@ Figure 3.1: A possible run of the simplex algorithm.
 <p>Using this terminology, our goal at each step is reduced to finding which variable enters and which variable leaves.
 To do this algebraically, we’ll introduce the notion of dictionaries.</p>
 <div class="definition">
-<p><span id="def:unlabeled-div-10" class="definition"><strong>Definition 3.1  </strong></span>The <strong>dictionary</strong> at a basic feasible solution is the set of equations describing the objective function and the constraints in terms of the non-basic variables.</p>
+<p><span id="def:unlabeled-div-9" class="definition"><strong>Definition 3.1  </strong></span>The <strong>dictionary</strong> at a basic feasible solution is the set of equations describing the objective function and the constraints in terms of the non-basic variables.</p>
 </div>
 <div class="example">
 <p><span id="exm:dictionaries" class="example"><strong>Example 3.1  </strong></span>Consider <a href="introduction.html#eq:bond-portfolio-lp">(1.2)</a> again. At the origin, the non-basic variables are <span class="math inline">\(x, y\)</span> and hence the initial dictionary is:
@@ -276,7 +276,7 @@ We can repeat the above process and get the dictionary for the optimal solution:
 \end{equation}\]</span></p>
 </div>
 <div class="remark">
-<p><span id="unlabeled-div-11" class="remark"><em>Remark</em>. </span>From the dictionary, one can extract the set of basic variables and the set of non-basic variables by looking at the variables appearing on the LHS and RHS, respectively. Furthermore, by setting the non-basic variables to 0, we obtain the very useful fact that</p>
+<p><span id="unlabeled-div-10" class="remark"><em>Remark</em>. </span>From the dictionary, one can extract the set of basic variables and the set of non-basic variables by looking at the variables appearing on the LHS and RHS, respectively. Furthermore, by setting the non-basic variables to 0, we obtain the very useful fact that</p>
 <ol style="list-style-type: decimal">
 <li>the values of the basic variables are simply the constants “<span class="math inline">\(b_i\)</span>”, and</li>
 <li>the value of the objective function is the constant “<span class="math inline">\(c_0\)</span>”.</li>
@@ -310,7 +310,7 @@ We can move away from the current BFS by increasing one of the non-basic variabl
 <p><span id="prp:entering-variable" class="proposition"><strong>Proposition 3.1  (Entering variable) </strong></span>A non-basic variable <span class="math inline">\(\bar{x}_j\)</span> can be entering if <span class="math inline">\(\bar{c}_j &gt; 0\)</span>.</p>
 </div>
 <div class="example">
-<p><span id="exm:unlabeled-div-12" class="example"><strong>Example 3.2  </strong></span>In the dictionary <a href="the-simplex-method.html#eq:example-dictionary-1">(3.1)</a>, the objective function is <span class="math inline">\(4x + 3y\)</span>. Hence, both <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> can be chosen as entering variables. We can see that there are two different paths along the boundary of the feasible region from the origin to the optimal solution. In the dictionary <a href="the-simplex-method.html#eq:example-dictionary-2">(3.2)</a>, the objective function is <span class="math inline">\(3 + (-2)w_2 + y\)</span> and only <span class="math inline">\(y\)</span> can be the entering variable. In dictionary <a href="the-simplex-method.html#eq:example-dictionary-3">(3.3)</a>, the objective function is <span class="math inline">\(3.3 + (-5/3)w_2 + (-2/9)w_1\)</span> and no variable can enter.</p>
+<p><span id="exm:unlabeled-div-11" class="example"><strong>Example 3.2  </strong></span>In the dictionary <a href="the-simplex-method.html#eq:example-dictionary-1">(3.1)</a>, the objective function is <span class="math inline">\(4x + 3y\)</span>. Hence, both <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> can be chosen as entering variables. We can see that there are two different paths along the boundary of the feasible region from the origin to the optimal solution. In the dictionary <a href="the-simplex-method.html#eq:example-dictionary-2">(3.2)</a>, the objective function is <span class="math inline">\(3 + (-2)w_2 + y\)</span> and only <span class="math inline">\(y\)</span> can be the entering variable. In dictionary <a href="the-simplex-method.html#eq:example-dictionary-3">(3.3)</a>, the objective function is <span class="math inline">\(3.3 + (-5/3)w_2 + (-2/9)w_1\)</span> and no variable can enter.</p>
 </div>
 </div>
 <div id="leaving-variable" class="section level3 hasAnchor" number="3.1.2">
@@ -336,7 +336,7 @@ The basic variable <span class="math inline">\(\bar{w}_i\)</span> can be chosen 
 </div>
 <p>If we choose <span class="math inline">\(\bar{w}_i\)</span> to be leaving then after the simplex step, <span class="math inline">\(\bar{w}_i\)</span> decreases to <span class="math inline">\(0\)</span>, <span class="math inline">\(\bar{x}_j\)</span> increases to <span class="math inline">\(\min_{\bar{a}_{ij} &gt; 0} {\bar{b}_i}/{\bar{a}_{ij}}\)</span>, and the objective value increases by <span class="math inline">\(\bar{c}_j \min_{\bar{a}_{ij} &gt; 0} {\bar{b}_i}/{\bar{a}_{ij}}\)</span>.</p>
 <div class="example">
-<p><span id="exm:unlabeled-div-13" class="example"><strong>Example 3.3  </strong></span>In the dictionary <a href="the-simplex-method.html#eq:example-dictionary-1">(3.1)</a>, if we choose <span class="math inline">\(x\)</span> to be our entering variable then we need to compare the following ratios:</p>
+<p><span id="exm:unlabeled-div-12" class="example"><strong>Example 3.3  </strong></span>In the dictionary <a href="the-simplex-method.html#eq:example-dictionary-1">(3.1)</a>, if we choose <span class="math inline">\(x\)</span> to be our entering variable then we need to compare the following ratios:</p>
 <table>
 <thead>
 <tr class="header">
@@ -407,7 +407,7 @@ We add back the objective function, but because of a quirk of algebra we need to
 The columns in this augmented matrix correspond to the variables <span class="math inline">\(\bar{x}_j\)</span> and <span class="math inline">\(\bar{w}_i\)</span>. The columns with the <em>pivots</em> correspond to the basic variables.
 If <span class="math inline">\(\bar{x}_j\)</span> is the entering variable and <span class="math inline">\(\bar{w}_i\)</span> is the leaving variable, then <em>we perform elementary row operations and turn the entry <span class="math inline">\(\bar{a}_{ij}\)</span> into a pivot for its column</em> to obtain the tableau at the next BFS. Hence, the simplex step is also called the <strong>pivot step</strong>.</p>
 <div class="example">
-<p><span id="exm:unlabeled-div-14" class="example"><strong>Example 3.4  </strong></span>The tableau corresponding to the dictionary <a href="the-simplex-method.html#eq:example-dictionary-1">(3.1)</a> is as follows:
+<p><span id="exm:unlabeled-div-13" class="example"><strong>Example 3.4  </strong></span>The tableau corresponding to the dictionary <a href="the-simplex-method.html#eq:example-dictionary-1">(3.1)</a> is as follows:
 <span class="math display">\[\begin{equation*}
   \begin{array}{lllll|l}
     3 &amp; 6 &amp; 1 &amp; 0 &amp; 0 &amp; 3.6 \\

@@ -23,7 +23,7 @@
 <meta name="author" content="Apurva Nakade" />
 
 
-<meta name="date" content="2022-07-20" />
+<meta name="date" content="2022-08-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -185,7 +185,7 @@ div.csl-indent {
 <h1><span class="header-section-number">Chapter 6</span> Standardization<a href="standardization.html#standardization" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>We’ll next extend our simplex method to solve more general linear programs.</p>
 <div class="definition">
-<p><span id="def:unlabeled-div-30" class="definition"><strong>Definition 6.1  </strong></span>A <strong>general linear program</strong> is an optimization problem of the following form:
+<p><span id="def:unlabeled-div-29" class="definition"><strong>Definition 6.1  </strong></span>A <strong>general linear program</strong> is an optimization problem of the following form:
 <span class="math display" id="eq:intro-lp">\[\begin{equation}
   \begin{array}{llllllllllllll}
     \mbox{optimize: }
@@ -213,7 +213,7 @@ Changing the inequality <span class="math inline">\(&lt;\)</span> to <span class
 <h2><span class="header-section-number">6.1</span> Equivalence of Linear Programs<a href="standardization.html#equivalence-of-linear-programs" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Any linear program can be changed to a <em>maximization problem</em> as minimizing a function is the same as maximizing its negation. From now on, we’ll assume that the goal of our linear programs is to <em>maximize</em> the objective function.</p>
 <div class="definition">
-<p><span id="def:unlabeled-div-31" class="definition"><strong>Definition 6.2  </strong></span>Two (maximizing) linear programs, <span class="math inline">\(LP\)</span> and <span class="math inline">\(LP&#39;\)</span>, are said to be <strong>equivalent</strong> to each other if for any feasible solution <span class="math inline">\(x = (x_1, \dots, x_n)\)</span> to <span class="math inline">\(LP\)</span>, there exists a feasible solution <span class="math inline">\(x&#39; = (x&#39;_1, \dots, x&#39;_{n&#39;})\)</span> to <span class="math inline">\(LP&#39;\)</span> with the same objective value as <span class="math inline">\(x\)</span>, and for any feasible solution <span class="math inline">\(y&#39; = (y&#39;_1, \dots, y&#39;_n)\)</span> to <span class="math inline">\(LP&#39;\)</span>, there exists a feasible solution <span class="math inline">\(y = (y_1, \dots, y_{n})\)</span> to <span class="math inline">\(LP\)</span> with the same objective value as <span class="math inline">\(y&#39;\)</span>.</p>
+<p><span id="def:unlabeled-div-30" class="definition"><strong>Definition 6.2  </strong></span>Two (maximizing) linear programs, <span class="math inline">\(LP\)</span> and <span class="math inline">\(LP&#39;\)</span>, are said to be <strong>equivalent</strong> to each other if for any feasible solution <span class="math inline">\(x = (x_1, \dots, x_n)\)</span> to <span class="math inline">\(LP\)</span>, there exists a feasible solution <span class="math inline">\(x&#39; = (x&#39;_1, \dots, x&#39;_{n&#39;})\)</span> to <span class="math inline">\(LP&#39;\)</span> with the same objective value as <span class="math inline">\(x\)</span>, and for any feasible solution <span class="math inline">\(y&#39; = (y&#39;_1, \dots, y&#39;_n)\)</span> to <span class="math inline">\(LP&#39;\)</span>, there exists a feasible solution <span class="math inline">\(y = (y_1, \dots, y_{n})\)</span> to <span class="math inline">\(LP\)</span> with the same objective value as <span class="math inline">\(y&#39;\)</span>.</p>
 </div>
 <div class="remark">
 <p><span id="lp-equiv-definition" class="remark"><em>Remark</em>. </span> </p>
@@ -223,13 +223,13 @@ Changing the inequality <span class="math inline">\(&lt;\)</span> to <span class
 </ol>
 </div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-32" class="exercise"><strong>Exercise 6.1  </strong></span>Show that the equivalence of linear programs is an equivalence relation.</p>
+<p><span id="exr:unlabeled-div-31" class="exercise"><strong>Exercise 6.1  </strong></span>Show that the equivalence of linear programs is an equivalence relation.</p>
 </div>
 <div class="remark">
-<p><span id="unlabeled-div-33" class="remark"><em>Remark</em>. </span>Even though equivalence of linear programs only requires the existence of an abstract correspondence between the feasible sets of <span class="math inline">\(LP\)</span> and <span class="math inline">\(LP&#39;\)</span>, in practice, one constructs “objective value preserving” linear transformations <span class="math inline">\(T: \mathbb{R}^n \to \mathbb{R}^{n&#39;}\)</span> and <span class="math inline">\(S: \mathbb{R}^{n&#39;} \to \mathbb{R}^{n}\)</span> which map the feasible set of <span class="math inline">\(LP\)</span> to <span class="math inline">\(LP&#39;\)</span> and the feasible set of <span class="math inline">\(LP&#39;\)</span> to <span class="math inline">\(LP\)</span>, respectively. These linear transformations need not be inverses of each other, or even isomorphisms. They only need to preserve the objective values.</p>
+<p><span id="unlabeled-div-32" class="remark"><em>Remark</em>. </span>Even though equivalence of linear programs only requires the existence of an abstract correspondence between the feasible sets of <span class="math inline">\(LP\)</span> and <span class="math inline">\(LP&#39;\)</span>, in practice, one constructs “objective value preserving” linear transformations <span class="math inline">\(T: \mathbb{R}^n \to \mathbb{R}^{n&#39;}\)</span> and <span class="math inline">\(S: \mathbb{R}^{n&#39;} \to \mathbb{R}^{n}\)</span> which map the feasible set of <span class="math inline">\(LP\)</span> to <span class="math inline">\(LP&#39;\)</span> and the feasible set of <span class="math inline">\(LP&#39;\)</span> to <span class="math inline">\(LP\)</span>, respectively. These linear transformations need not be inverses of each other, or even isomorphisms. They only need to preserve the objective values.</p>
 </div>
 <div class="example">
-<p><span id="exm:unlabeled-div-34" class="example"><strong>Example 6.1  </strong></span>The following two linear programs are equivalent to each other
+<p><span id="exm:unlabeled-div-33" class="example"><strong>Example 6.1  </strong></span>The following two linear programs are equivalent to each other
 <span class="math display">\[\begin{align*}
 \begin{aligned}
   \mbox{maximize: } &amp;&amp; x + y &amp; \\
@@ -245,7 +245,7 @@ Changing the inequality <span class="math inline">\(&lt;\)</span> to <span class
 via the transformations <span class="math inline">\(T(x, y) = x + y\)</span> and <span class="math inline">\(S(z) = (z/2, z/2)\)</span>.</p>
 </div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-35" class="exercise"><strong>Exercise 6.2  </strong></span>Suppose <span class="math inline">\(LP\)</span> and <span class="math inline">\(LP&#39;\)</span> are equivalent linear programs. Show that if <span class="math inline">\(LP\)</span> is infeasible/ unbounded/
+<p><span id="exr:unlabeled-div-34" class="exercise"><strong>Exercise 6.2  </strong></span>Suppose <span class="math inline">\(LP\)</span> and <span class="math inline">\(LP&#39;\)</span> are equivalent linear programs. Show that if <span class="math inline">\(LP\)</span> is infeasible/ unbounded/
 has an optimal solution then so does the <span class="math inline">\(LP&#39;\)</span>. Furthermore, show that if <span class="math inline">\(LP\)</span> has an optimal
 solution with optimal objective value <span class="math inline">\(c\)</span> then so does <span class="math inline">\(LP&#39;\)</span>.</p>
 </div>
@@ -253,7 +253,7 @@ solution with optimal objective value <span class="math inline">\(c\)</span> the
 <p><span id="thm:lp-to-standard-form" class="theorem"><strong>Theorem 6.1  </strong></span>Every (maximizing) linear program is equivalent to a linear program in the standard form.</p>
 </div>
 <div class="proof">
-<p><span id="unlabeled-div-36" class="proof"><em>Proof</em>. </span>The proof is by providing an explicit standardization algorithm. Consider the linear program in <a href="standardization.html#eq:intro-lp">(6.1)</a>, where we’re assuming that the goal is to maximize the objective function. If it is in the standard form, then we’re done. If not, then there must be a finite number of <em>errors</em> of the following types:</p>
+<p><span id="unlabeled-div-35" class="proof"><em>Proof</em>. </span>The proof is by providing an explicit standardization algorithm. Consider the linear program in <a href="standardization.html#eq:intro-lp">(6.1)</a>, where we’re assuming that the goal is to maximize the objective function. If it is in the standard form, then we’re done. If not, then there must be a finite number of <em>errors</em> of the following types:</p>
 <ol style="list-style-type: decimal">
 <li>A linear constraint is a lower bound and has the form <span class="math display">\[a_{i1} x_1 + \dots + a_{in} x_n \geq b_i.\]</span></li>
 <li>A linear constraint is an equality and has the form <span class="math display">\[a_{i1} x_1 + \dots + a_{in} x_n = b_i.\]</span></li>

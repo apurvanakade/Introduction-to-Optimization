@@ -23,7 +23,7 @@
 <meta name="author" content="Apurva Nakade" />
 
 
-<meta name="date" content="2022-07-20" />
+<meta name="date" content="2022-08-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -186,7 +186,7 @@ div.csl-indent {
 <p>We will describe the simplex method for solving a special kind of linear program called <em>standard linear program</em>.
 We will see later that every linear program can be <em>standardized</em> (Chapter <a href="standardization.html#standardization">6</a>) and hence this method is sufficient for solving any linear program.</p>
 <div class="definition">
-<p><span id="def:unlabeled-div-3" class="definition"><strong>Definition 2.1  </strong></span>A <strong>standard linear program</strong> is an optimization problem of the following form:
+<p><span id="def:unlabeled-div-2" class="definition"><strong>Definition 2.1  </strong></span>A <strong>standard linear program</strong> is an optimization problem of the following form:
 <span class="math display" id="eq:standard-lp">\[\begin{equation}
   \begin{array}{lrrrrrrrrr}
     \mbox{maximize: } &amp; c_0 &amp; + &amp; c_1 x_1 &amp; + &amp; \dots &amp; + &amp; c_n x_n &amp; \\
@@ -202,10 +202,10 @@ We will see later that every linear program can be <em>standardized</em> (Chapte
 where <span class="math inline">\(c_i\)</span>, <span class="math inline">\(a_{ij}\)</span>, and <span class="math inline">\(b_j\)</span> are real constants. The variables <span class="math inline">\(x_1, \dots, x_n\)</span> are called <strong>decision variables</strong>. A tuple <span class="math inline">\((x_1, \dots, x_n)\)</span> that satisfy <em>all</em> the constraints is called a <strong>feasible solution</strong> and the set of all feasible solutions is called the <strong>feasible region</strong>.</p>
 </div>
 <div class="example">
-<p><span id="exm:unlabeled-div-4" class="example"><strong>Example 2.1  </strong></span>Equation <a href="introduction.html#eq:bond-portfolio-lp">(1.2)</a> is an example of a standard linear program with 2 decision variables and 3 constraints. The feasible region is a quadrilateral with vertices <span class="math inline">\((0,0)\)</span>, <span class="math inline">\((0.75, 0)\)</span>, <span class="math inline">\((0.6, 0.3)\)</span>, and <span class="math inline">\((0, 0.6)\)</span>.</p>
+<p><span id="exm:unlabeled-div-3" class="example"><strong>Example 2.1  </strong></span>Equation <a href="introduction.html#eq:bond-portfolio-lp">(1.2)</a> is an example of a standard linear program with 2 decision variables and 3 constraints. The feasible region is a quadrilateral with vertices <span class="math inline">\((0,0)\)</span>, <span class="math inline">\((0.75, 0)\)</span>, <span class="math inline">\((0.6, 0.3)\)</span>, and <span class="math inline">\((0, 0.6)\)</span>.</p>
 </div>
 <div class="definition">
-<p><span id="def:unlabeled-div-5" class="definition"><strong>Definition 2.2  </strong></span>For each constraint of the standard linear program <a href="standard-linear-program.html#eq:standard-lp">(2.1)</a>, we introduce a <strong>slack variable</strong> by subtracting the LHS from the RHS as follows.
+<p><span id="def:unlabeled-div-4" class="definition"><strong>Definition 2.2  </strong></span>For each constraint of the standard linear program <a href="standard-linear-program.html#eq:standard-lp">(2.1)</a>, we introduce a <strong>slack variable</strong> by subtracting the LHS from the RHS as follows.
 <span class="math display" id="eq:slack-variables-def">\[\begin{equation}
   \begin{array}{lrrrrrrrrr}
       w_1 &amp; = &amp; b_1 &amp; - &amp; a_{11} x_1 &amp; - &amp; \dots &amp; - &amp; a_{1n} x_n \\
@@ -221,7 +221,7 @@ where <span class="math inline">\(c_i\)</span>, <span class="math inline">\(a_{i
   w_1, \dots, w_m, x_1, \dots, x_n \geq 0.
 \end{equation*}\]</span></p>
 <div class="example">
-<p><span id="exm:unlabeled-div-6" class="example"><strong>Example 2.2  </strong></span>The slack variables for the linear program <a href="introduction.html#eq:bond-portfolio-lp">(1.2)</a> are as follows:
+<p><span id="exm:unlabeled-div-5" class="example"><strong>Example 2.2  </strong></span>The slack variables for the linear program <a href="introduction.html#eq:bond-portfolio-lp">(1.2)</a> are as follows:
 <span class="math display">\[\begin{equation*}
   \begin{array}{rlllllll}
   w_1 &amp; = &amp; 3.6 &amp; - &amp; 3x &amp; - &amp; 6y \\
@@ -236,14 +236,14 @@ In terms of these slack variables, the constraints can be rewritten as <span cla
 <p><span id="def:degeneracy" class="definition"><strong>Definition 2.3  </strong></span>A <strong>basic feasible solution</strong> (BFS) to the standard linear program <a href="standard-linear-program.html#eq:standard-lp">(2.1)</a> is defined as a feasible solution at which at least <span class="math inline">\(n\)</span> decision or slack variables are zero. A BFS where exactly <span class="math inline">\(n\)</span> decision or slack variables are zero is called <strong>non-degenerate</strong>. A BFS where more than <span class="math inline">\(n\)</span> basic or decision variables are 0 is called <strong>degenerate</strong>. At a non-degenerate BFS, the <span class="math inline">\(n\)</span> variables that equal 0 are called <strong>non-basic</strong> and the remaining <span class="math inline">\(m\)</span> variables are called <strong>basic</strong>.
 At a degenerate BFS, we choose some <span class="math inline">\(n\)</span> vanishing variables to be non-basic and call the rest of the variables basic.</p>
 </div>
-<p>The basic feasible solutions are precisely the solutions obtained by changing <span class="math inline">\(n\)</span> or more inequalities to equations and solving the resulting simultaneous system of equations. As there are <span class="math inline">\(n\)</span> variables, we need at least <span class="math inline">\(n\)</span> linear equations in our system for the solution to be a single point. A degeneracy occurs when more than <span class="math inline">\(n\)</span> equations have a single solution, for example, when three lines in <span class="math inline">\(\mathbb{R}^2\)</span> or four planes in <span class="math inline">\(\mathbb{R}^3\)</span> intersecting at a single point.
+<p>The basic feasible solutions are precisely the solutions obtained by changing <span class="math inline">\(n\)</span> or more inequalities to equalities and solving the resulting simultaneous system of equations. As there are <span class="math inline">\(n\)</span> variables, we need at least <span class="math inline">\(n\)</span> linear equations in our system for the solution to be a single point. A degeneracy occurs when more than <span class="math inline">\(n\)</span> equations have a single solution, for example, when three lines in <span class="math inline">\(\mathbb{R}^2\)</span> or four planes in <span class="math inline">\(\mathbb{R}^3\)</span> intersecting at a single point.
 It is useful to think of the non-degenerate basic feasible solutions as <em>vertices</em> of the feasible region.
 The degenerate BFS do not have a nice geometric description.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-7" class="exercise"><strong>Exercise 2.1  </strong></span>Show that if <span class="math inline">\(k &lt; n\)</span> then the solution set of a system of <span class="math inline">\(k\)</span> linear equations in <span class="math inline">\(n\)</span> variables cannot be a single point.</p>
+<p><span id="exr:unlabeled-div-6" class="exercise"><strong>Exercise 2.1  </strong></span>Show that if <span class="math inline">\(k &lt; n\)</span> then the solution set of a system of <span class="math inline">\(k\)</span> linear equations in <span class="math inline">\(n\)</span> variables cannot be a single point.</p>
 </div>
 <div class="example">
-<p><span id="exm:unlabeled-div-8" class="example"><strong>Example 2.3  </strong></span>The feasible region for the linear program <a href="introduction.html#eq:bond-portfolio-lp">(1.2)</a> has four non-degenerate basic feasible solutions: <span class="math inline">\((0,0)\)</span>, <span class="math inline">\((0.75, 0)\)</span>, <span class="math inline">\((0.6, 0.3)\)</span>, and <span class="math inline">\((0, 0.6)\)</span>. and the optimal solution is attained at the BFS <span class="math inline">\((0.6, 0.3)\)</span>. At the origin, the non-basic variables are <span class="math inline">\(x, y\)</span> and the basic variables are <span class="math inline">\(w_1, w_2, w_3\)</span>. At the optimal solution, the non-basic variables are <span class="math inline">\(w_1, w_2\)</span> and the basic variables are <span class="math inline">\(x, y, w_3\)</span>. If we replace the constraint <span class="math inline">\(x + y \le 1\)</span> with <span class="math inline">\(x + y \le 0.9\)</span> then the BFS <span class="math inline">\((0.6, 0.3)\)</span> becomes degenerate as here three (slack) variables <span class="math inline">\(w_1, w_2, w_3\)</span> are zero.</p>
+<p><span id="exm:unlabeled-div-7" class="example"><strong>Example 2.3  </strong></span>The feasible region for the linear program <a href="introduction.html#eq:bond-portfolio-lp">(1.2)</a> has four non-degenerate basic feasible solutions: <span class="math inline">\((0,0)\)</span>, <span class="math inline">\((0.75, 0)\)</span>, <span class="math inline">\((0.6, 0.3)\)</span>, and <span class="math inline">\((0, 0.6)\)</span>. and the optimal solution is attained at the BFS <span class="math inline">\((0.6, 0.3)\)</span>. At the origin, the non-basic variables are <span class="math inline">\(x, y\)</span> and the basic variables are <span class="math inline">\(w_1, w_2, w_3\)</span>. At the optimal solution, the non-basic variables are <span class="math inline">\(w_1, w_2\)</span> and the basic variables are <span class="math inline">\(x, y, w_3\)</span>. If we replace the constraint <span class="math inline">\(x + y \le 1\)</span> with <span class="math inline">\(x + y \le 0.9\)</span> then the BFS <span class="math inline">\((0.6, 0.3)\)</span> becomes degenerate as here three (slack) variables <span class="math inline">\(w_1, w_2, w_3\)</span> are zero.</p>
 <p><img src="Introduction-to-Optimization_files/figure-html/fig-bond-portfolio-degenerate-1.png" width="672" /></p>
 </div>
 <p>It turns out that it is sufficient to search for optimal solutions within the set of basic feasible solutions, which is finite, as made precise by the following theorem.</p>
@@ -258,7 +258,7 @@ The degenerate BFS do not have a nice geometric description.</p>
 <p>We will assume this theorem without proof.
 The hardest step in the proof is showing that some basic feasible solution is optimal (if an optimal solution exists) when there are degenerate basic feasible solutions.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-9" class="exercise"><strong>Exercise 2.2  </strong></span>Find an upper bound on the set of basic feasible solutions for a standard linear program with <span class="math inline">\(n\)</span> decision variables and <span class="math inline">\(m\)</span> equations.</p>
+<p><span id="exr:unlabeled-div-8" class="exercise"><strong>Exercise 2.2  </strong></span>Find an upper bound on the set of basic feasible solutions for a standard linear program with <span class="math inline">\(n\)</span> decision variables and <span class="math inline">\(m\)</span> equations.</p>
 </div>
 
 </div>

@@ -23,7 +23,7 @@
 <meta name="author" content="Apurva Nakade" />
 
 
-<meta name="date" content="2022-07-20" />
+<meta name="date" content="2022-08-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -210,7 +210,7 @@ let <span class="math inline">\(\mathcal{N}\)</span> be the matrix formed by com
 the non-basic variables. Let <span class="math inline">\(x_{\mathcal{B}}\)</span> be the vector of basic variables and
 <span class="math inline">\(x_{\mathcal{N}}\)</span> be the vector of non-basic variables.</p>
 <div class="remark">
-<p><span id="unlabeled-div-55" class="remark"><em>Remark</em>. </span>The matrices <span class="math inline">\(\mathcal{B}\)</span> and <span class="math inline">\(\mathcal{N}\)</span> are sub-matrices of the “initial” matrix <span class="math inline">\(\widehat{A}\)</span>
+<p><span id="unlabeled-div-54" class="remark"><em>Remark</em>. </span>The matrices <span class="math inline">\(\mathcal{B}\)</span> and <span class="math inline">\(\mathcal{N}\)</span> are sub-matrices of the “initial” matrix <span class="math inline">\(\widehat{A}\)</span>
 and not the tableau at the basic feasible solution. We’re using the basic feasible solution to
 decide which columns are basic and which are non-basic for the “inital” matrix <span class="math inline">\(\widehat{A}\)</span>.</p>
 </div>
@@ -238,7 +238,7 @@ This is nothing but the dictionary at the optimal BFS!</p>
 <p><span id="lem:basic-values" class="lemma"><strong>Lemma 9.1  </strong></span>Using the above notation, <span class="math inline">\(\mathcal{B}^{-1}b\)</span> is the value of the basic variables at the optimal solution.</p>
 </div>
 <div class="proof">
-<p><span id="unlabeled-div-56" class="proof"><em>Proof</em>. </span>At a basic feasible solution, the non-basic variables <span class="math inline">\(x_{\mathcal{N}}\)</span> equal 0. Plugging in
+<p><span id="unlabeled-div-55" class="proof"><em>Proof</em>. </span>At a basic feasible solution, the non-basic variables <span class="math inline">\(x_{\mathcal{N}}\)</span> equal 0. Plugging in
 <span class="math inline">\(x_{\mathcal{N}} = \vec{0}\)</span> in Equation <a href="sensitivity-analysis.html#eq:basic-non-basic-matrix">(9.2)</a> gives us the desired
 result.</p>
 </div>
@@ -324,7 +324,7 @@ variables to remain unchanged</strong>. In this case, the equation <a href="sens
 still be the equation describing the dictionary at the optimal solution and the change in <span class="math inline">\(b_i\)</span> will
 result in a differentiable (in fact, linear) change in <span class="math inline">\(x_{\mathcal{B}}\)</span>.</p>
 <div class="example">
-<p><span id="exm:unlabeled-div-57" class="example"><strong>Example 9.2  </strong></span>Suppose we vary <span class="math inline">\(b_3 = 1\)</span> in Example <a href="introduction.html#eq:bond-portfolio-lp">(1.2)</a>. One can check that at the optimal
+<p><span id="exm:unlabeled-div-56" class="example"><strong>Example 9.2  </strong></span>Suppose we vary <span class="math inline">\(b_3 = 1\)</span> in Example <a href="introduction.html#eq:bond-portfolio-lp">(1.2)</a>. One can check that at the optimal
 solution <span class="math inline">\(w_1\)</span> and <span class="math inline">\(w_2\)</span> are non-basic as long as <span class="math inline">\(b_3 &gt; 0.9\)</span>. Thus we can say that out model is a
 good model as long as the error in <span class="math inline">\(b_3\)</span> is less than <span class="math inline">\(0.1\)</span>.</p>
 </div>
@@ -345,7 +345,7 @@ optimal we only need the constants to remain non-negative i.e.
   \tag{9.3}
 \end{equation}\]</span></p>
 <div class="proposition">
-<p><span id="prp:unlabeled-div-58" class="proposition"><strong>Proposition 9.1  </strong></span>The <strong>range of optimality</strong> for <span class="math inline">\(b_i\)</span> is the interval <span class="math inline">\([b_i + \delta_-, b_i + \delta_+]\)</span> such that
+<p><span id="prp:unlabeled-div-57" class="proposition"><strong>Proposition 9.1  </strong></span>The <strong>range of optimality</strong> for <span class="math inline">\(b_i\)</span> is the interval <span class="math inline">\([b_i + \delta_-, b_i + \delta_+]\)</span> such that
 <span class="math inline">\(\mathcal{B}^{-1} b + \delta (\mathcal{B}^{-1})_{\_i} \ge 0\)</span> for all <span class="math inline">\(\delta \in [\delta_-, \delta_+]\)</span>.</p>
 </div>
 <p>In practice, Equation <a href="sensitivity-analysis.html#eq:range-of-optimality">(9.3)</a> gives us <span class="math inline">\(m\)</span> inequalities which need to be
@@ -356,7 +356,7 @@ is <span class="math inline">\(\infty\)</span> and if <span class="math inline">
 or <span class="math inline">\(\delta_-\)</span> is 0 then the linear program is degenerate. In this case, our program is very
 sensitive to perturbations in <span class="math inline">\(b_i\)</span>.</p>
 <div class="example">
-<p><span id="exm:unlabeled-div-59" class="example"><strong>Example 9.3  </strong></span>Let us find the range of optimality for <span class="math inline">\(b_1 = 3.6\)</span>, <span class="math inline">\(b_2=1.5\)</span>, and <span class="math inline">\(b_3 = 1\)</span> in
+<p><span id="exm:unlabeled-div-58" class="example"><strong>Example 9.3  </strong></span>Let us find the range of optimality for <span class="math inline">\(b_1 = 3.6\)</span>, <span class="math inline">\(b_2=1.5\)</span>, and <span class="math inline">\(b_3 = 1\)</span> in
 <a href="introduction.html#eq:bond-portfolio-lp">(1.2)</a> using our calculations in Example <a href="sensitivity-analysis.html#exm:basic-non-basic-matrix">9.1</a>. We
 know that
 <span class="math display">\[\begin{align*}
@@ -461,7 +461,7 @@ arises in the study of linear programs.</p>
 <p><span id="thm:dual-solution" class="theorem"><strong>Theorem 9.1  </strong></span>For a non-degenerate linear program, the dual optimal solution is given by <span class="math inline">\((\mathcal{B}^{-1})^Tc_{\mathcal{B}}\)</span>.</p>
 </div>
 <div class="proof">
-<p><span id="unlabeled-div-60" class="proof"><em>Proof</em>. </span>Using the rate of change calculation above, we get <span class="math inline">\(y_i = c^T_{\mathcal{B}} (\mathcal{B}^{-1})_{\_i}\)</span>. We then combine all the coordinates into a vector to get the desired
+<p><span id="unlabeled-div-59" class="proof"><em>Proof</em>. </span>Using the rate of change calculation above, we get <span class="math inline">\(y_i = c^T_{\mathcal{B}} (\mathcal{B}^{-1})_{\_i}\)</span>. We then combine all the coordinates into a vector to get the desired
 result.</p>
 </div>
 <p>This theorem provides yet another method of finding the dual optimal solution without having to solve the dual linear program.</p>
@@ -535,7 +535,7 @@ need to replace <span class="math inline">\(\delta\)</span> with <span class="ma
 <p>Finally, by Lemma <a href="sensitivity-analysis.html#lem:basic-values">9.1</a>, <span class="math inline">\(\mathcal{B}_d^{-1} c\)</span> is the vector of values of the
 dual basic variables. Hence we get,</p>
 <div class="proposition">
-<p><span id="prp:unlabeled-div-61" class="proposition"><strong>Proposition 9.2  </strong></span>The <strong>range of optimality</strong> for <span class="math inline">\(c_j\)</span> is the interval <span class="math inline">\([c_j + \delta_-, c_j + \delta_+]\)</span> such that <span class="math inline">\(y_{\mathcal{B}} + \delta (\mathcal{B}_d^{-1})_{\_j} \ge 0\)</span> for all <span class="math inline">\(\delta \in [\delta_-, \delta_+]\)</span>.</p>
+<p><span id="prp:unlabeled-div-60" class="proposition"><strong>Proposition 9.2  </strong></span>The <strong>range of optimality</strong> for <span class="math inline">\(c_j\)</span> is the interval <span class="math inline">\([c_j + \delta_-, c_j + \delta_+]\)</span> such that <span class="math inline">\(y_{\mathcal{B}} + \delta (\mathcal{B}_d^{-1})_{\_j} \ge 0\)</span> for all <span class="math inline">\(\delta \in [\delta_-, \delta_+]\)</span>.</p>
 </div>
 <p>By a happy accident all the negative signs have cancelled out and the equation for finding the range
 of optimality for the objective coefficients has the same form as the one for finding the range of
@@ -557,7 +557,7 @@ formed by combining the dual-basic columns of <span class="math inline">\(\begin
 </div>
 <p>Finally, to find <span class="math inline">\(\mathcal{B}_d\)</span> we note that by complementary slackness (Theorem <a href="weak-and-strong-duality.html#thm:complementary-slackness">8.4</a>), if the linear program is non-degenerate then the dual basic variables correspond to the primal non-basic variables (as the dual basic variables must be non-zero).<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a></p>
 <div class="example">
-<p><span id="exm:unlabeled-div-62" class="example"><strong>Example 9.5  </strong></span>Consider the linear program <a href="introduction.html#eq:bond-portfolio-lp">(1.2)</a> again. At the optimal solution, as <span class="math inline">\(w_1\)</span> and <span class="math inline">\(w_2\)</span> are non-basic, the corresponding dual variables (<span class="math inline">\(y_1\)</span> and <span class="math inline">\(y_2\)</span>) will be basic for the dual linear program <a href="dual-linear-programs.html#eq:bond-portfolio-dual">(7.2)</a>. This gives us
+<p><span id="exm:unlabeled-div-61" class="example"><strong>Example 9.5  </strong></span>Consider the linear program <a href="introduction.html#eq:bond-portfolio-lp">(1.2)</a> again. At the optimal solution, as <span class="math inline">\(w_1\)</span> and <span class="math inline">\(w_2\)</span> are non-basic, the corresponding dual variables (<span class="math inline">\(y_1\)</span> and <span class="math inline">\(y_2\)</span>) will be basic for the dual linear program <a href="dual-linear-programs.html#eq:bond-portfolio-dual">(7.2)</a>. This gives us
 <span class="math display">\[\begin{align*}
   \mathcal{B}_d &amp;= \begin{bmatrix} 3 &amp; 2 \\ 6 &amp; 1 \end{bmatrix} \\
   \implies

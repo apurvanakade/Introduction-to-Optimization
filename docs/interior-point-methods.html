@@ -23,7 +23,7 @@
 <meta name="author" content="Apurva Nakade" />
 
 
-<meta name="date" content="2022-07-20" />
+<meta name="date" content="2022-08-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -223,7 +223,7 @@ We can apply GD to this problem and find a critical point for <span class="math 
 </ol>
 <p>Gradient descent algorithm only <em>sees</em> the objective function and does not <em>know</em> about the constraints. So, we modify the objective function to include the constraints using barrier functions.</p>
 <div class="definition">
-<p><span id="def:unlabeled-div-77" class="definition"><strong>Definition 12.1  </strong></span>A <strong>barrier function</strong> is a differentiable function <span class="math inline">\(b\)</span> from <span class="math inline">\((0, \infty)\)</span> to <span class="math inline">\(\mathbb{R}\)</span> that has the property <span class="math inline">\(\lim \limits_{x \to 0^+} f(x) = \infty\)</span>.</p>
+<p><span id="def:unlabeled-div-76" class="definition"><strong>Definition 12.1  </strong></span>A <strong>barrier function</strong> is a differentiable function <span class="math inline">\(b\)</span> from <span class="math inline">\((0, \infty)\)</span> to <span class="math inline">\(\mathbb{R}\)</span> that has the property <span class="math inline">\(\lim \limits_{x \to 0^+} f(x) = \infty\)</span>.</p>
 </div>
 <p>We’ll use the barrier function <span class="math inline">\(-\ln x\)</span>. Using a small positive parameter <span class="math inline">\(\mu\)</span>, we create a new objective function:
 <span class="math display">\[\begin{align*}

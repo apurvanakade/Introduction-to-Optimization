@@ -67,7 +67,7 @@ A **basic feasible solution** (BFS) to the standard linear program \@ref(eq:stan
 At a degenerate BFS, we choose some $n$ vanishing variables to be non-basic and call the rest of the variables basic. 
 :::
 
-The basic feasible solutions are precisely the solutions obtained by changing $n$ or more inequalities to equations and solving the resulting simultaneous system of equations. As there are $n$ variables, we need at least $n$ linear equations in our system for the solution to be a single point. A degeneracy occurs when more than $n$ equations have a single solution, for example, when three lines in $\mathbb{R}^2$ or four planes in $\mathbb{R}^3$ intersecting at a single point.
+The basic feasible solutions are precisely the solutions obtained by changing $n$ or more inequalities to equalities and solving the resulting simultaneous system of equations. As there are $n$ variables, we need at least $n$ linear equations in our system for the solution to be a single point. A degeneracy occurs when more than $n$ equations have a single solution, for example, when three lines in $\mathbb{R}^2$ or four planes in $\mathbb{R}^3$ intersecting at a single point.
 It is useful to think of the non-degenerate basic feasible solutions as *vertices* of the feasible region.
 The degenerate BFS do not have a nice geometric description.
 

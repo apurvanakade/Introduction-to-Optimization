@@ -23,7 +23,7 @@
 <meta name="author" content="Apurva Nakade" />
 
 
-<meta name="date" content="2022-07-20" />
+<meta name="date" content="2022-08-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -188,16 +188,14 @@ div.csl-indent {
 \mbox{optimize: } &amp; f(x_1, \dots, x_n) \\
 \mbox{subject to: } &amp; (x_1, \dots, x_n) \in D.
 \end{align*}\]</span>
-These kinds questions arise in all quantitative disciplines from computer science and engineering to operations research and economics.
-As stated, this question is too broad.
-To make any meaningful analysis, we need to make several simplifying assumptions about <span class="math inline">\(f\)</span> and <span class="math inline">\(D\)</span>.</p>
-<p>To begin with, we’ll assume that the function <span class="math inline">\(f\)</span> is linear and the constraint set <span class="math inline">\(D\)</span> is described using linear inequalities. The study of this problem is called <em>Linear Programming</em>. Despite the simplicity of the linear programming setup, or perhaps because of it, LP is one of the most commonly used models for optimization problems. Let’s start with an example before getting into the precise definitions.</p>
+These kinds questions arise in all quantitative disciplines from computer science and engineering to operations research and economics.</p>
+<p>Stated so generally, this question is too broad. To perform any meaningful analysis, we need to make several simplifying assumptions about <span class="math inline">\(f\)</span> and <span class="math inline">\(D\)</span>. To begin with, we’ll assume that the function <span class="math inline">\(f\)</span> is linear and the constraint set <span class="math inline">\(D\)</span> is described using linear inequalities. The study of this kind of a problem is called <em>Linear Programming</em>. Despite the simplicity of the linear programming setup, or perhaps because of it, LP is one of the most commonly used models for optimization. Let us start with an example before getting into the precise definitions.</p>
 <div class="example">
 <p><span id="exm:bond-portfolio" class="example"><strong>Example 1.1  </strong></span>A bond portfolio manager has $100,000 to allocate to two different bonds; one corporate and one government bond.
-The corporate bond has a yield of 4%, a maturity of 3 years and an A rating from a rating agency that is translated into a numerical rating of 2 for computational purposes.
-In contrast, the government bond has a yield of 3%, a maturity of 6 years and rating of Aaa with the corresponding numerical rating of 1 (lower numerical ratings correspond to higher quality bonds). The portfolio manager would like to allocate her funds so that the average rating for the portfolio is no worse than Aa (numerical equivalent 1.5) and average maturity of the portfolio is at most 3.6 years.
+The corporate bond has annual yield of 4%, a maturity of 3 years and an A rating from a rating agency that is translated into a numerical rating of 2 for computational purposes.
+In contrast, the government bond has annual yield of 3%, a maturity of 6 years and rating of Aaa with the corresponding numerical rating of 1 (lower numerical ratings correspond to higher quality bonds). The portfolio manager would like to allocate her funds so that the average rating for the portfolio is no worse than Aa (numerical equivalent 1.5) and average maturity of the portfolio is at most 3.6 years.
 Any amount not invested in the two bonds will be kept in a cash account that is assumed to earn no interest for simplicity and does not contribute to the average rating or maturity computations.
-How should the manager allocate her funds between these two bonds to achieve her objective of maximizing the annual yield from this investment? <span class="citation">(<a href="#ref-optimization-methods-in-finance" role="doc-biblioref">Cornuéjols, Peña, and Tütüncü 2018</a>)</span></p>
+How should the manager allocate her funds between these two bonds to achieve her objective of maximizing the annual yield for the first year from this investment? <span class="citation">(<a href="#ref-optimization-methods-in-finance" role="doc-biblioref">Cornuéjols, Peña, and Tütüncü 2018</a>)</span></p>
 <table>
 <thead>
 <tr class="header">
@@ -212,7 +210,7 @@ How should the manager allocate her funds between these two bonds to achieve her
 <td>Yield</td>
 <td>4%</td>
 <td>3%</td>
-<td></td>
+<td>N/A</td>
 </tr>
 <tr class="even">
 <td>Maturity</td>
@@ -247,16 +245,15 @@ How should the manager allocate her funds between these two bonds to achieve her
   \end{array}
   \tag{1.1}
 \end{equation}\]</span>
-where <span class="math inline">\(x\)</span>, <span class="math inline">\(y\)</span> are the percentages of funds allocated to corporate and government bonds, respectively, and the objective function when multiplied by $100,000 gives us the net yield. This is an example of a <em>linear program</em>.
-Note that we cannot subtract inequalities the same way that we subtract equations. So to get started, let us assume that both the inequalities are in fact equations. We can solve the resulting system,
+where <span class="math inline">\(x\)</span>, <span class="math inline">\(y\)</span> are the percentages of funds allocated to corporate and government bonds, respectively, and the objective function when multiplied by $100,000 gives us the net annual yield. This is an example of a <em>linear program</em>.
+Recall that we cannot subtract inequalities the same way as we subtract equalities (Exercise <a href="introduction.html#exr:inequalities">1.2</a>). So, to get started, let us assume that both the inequalities are in fact equalities. We can solve the resulting system,
 <span class="math display">\[\begin{equation*}
   \begin{array}{rrrrrl}
     &amp; 3x &amp; + &amp; 6y &amp; = &amp; 3.6 \\
     &amp; 2x &amp; + &amp; y &amp; = &amp; 1.5,
   \end{array}
 \end{equation*}\]</span>
-to obtain <span class="math inline">\(x = 0.6\)</span> and <span class="math inline">\(y = 0.3\)</span>.For this solution <span class="math inline">\(x + y = 0.9\)</span> which is less that 1, meaning that we’re not investing all the available funds.
-This seems less than ideal! Surely, we must invest all the funds to get maximum yield!!</p>
+to obtain <span class="math inline">\(x = 0.6\)</span> and <span class="math inline">\(y = 0.3\)</span>. For this solution <span class="math inline">\(x + y = 0.9\)</span> which is less that 1, meaning that we’re not investing all the available funds. This seems less than ideal! Surely, we must invest all the funds to get maximum yield?</p>
 <p>To complicate things further, notice that the linear program <a href="introduction.html#eq:bond-portfolio-lp-incomplete">(1.1)</a> is incomplete and the complete linear program that models the problem is as follows:
 <span class="math display" id="eq:bond-portfolio-lp">\[\begin{equation}
   \begin{array}{rrrrrl}
@@ -270,7 +267,7 @@ This seems less than ideal! Surely, we must invest all the funds to get maximum 
   \end{array}
   \tag{1.2}
 \end{equation}\]</span>
-The solution <span class="math inline">\((x, y) = (0.6, 0.3)\)</span> is obtained by changing the first two inequalities to equations. We could have switched some other set of inequalities to equations and solved for a different solution. We would then need to compare the yields for each of these solutions and find the one that maximizes it.</p>
+The solution <span class="math inline">\((x, y) = (0.6, 0.3)\)</span> is obtained by changing the first two inequalities to equalities. We could have switched some other set of inequalities to equalities and solved for a different solution. We would then need to compare the yields for each of these solutions and find the one that maximizes it.</p>
 <p>However, now there is an additional issue that needs to be dealt with carefully. Solving these modified equations might produce a solution that does not satisfy the original constraints. For example, solving the system of equations
 <span class="math display">\[\begin{equation*}
   \begin{array}{rrrrrl}
@@ -280,7 +277,7 @@ The solution <span class="math inline">\((x, y) = (0.6, 0.3)\)</span> is obtaine
 \end{equation*}\]</span>
 gives us <span class="math inline">\((x, y) = (0, 1.5)\)</span> which breaks the constraints <span class="math inline">\(3x + 6y \le 3.6\)</span> and <span class="math inline">\(x + y \le 1\)</span>. So, not only do we need to compare the yields at these solutions but we also need to make sure that they satisfy all the original constraints.
 As you can imagine, this naive approach becomes unwieldy for large linear programs.
-It is not even clear that changing inequalities to equations is the right approach to solving such a problem.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>
+It is not even clear that changing inequalities to equalities is the right approach to solving such a problem.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>
 For this particular problem, we can use a graphing calculator to solve the problem as there are only two variables.
 The following figure shows the region described by the various constraints in the first quadrant (<span class="math inline">\(x \ge 0, y \ge 0\)</span>).</p>
 <p><img src="Introduction-to-Optimization_files/figure-html/fig-bond-portfolio-1.png" width="672" /></p>
@@ -290,7 +287,7 @@ Our original solution was indeed correct! And it is not possible to invest more 
 <p><span id="exr:unlabeled-div-1" class="exercise"><strong>Exercise 1.1  </strong></span>What are some possible ways to relax the constraints in the above problem so that all the money can be invested? What is the improved annual yield?</p>
 </div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-2" class="exercise"><strong>Exercise 1.2  </strong></span>The following exercises review some basic facts about inequalities:</p>
+<p><span id="exr:inequalities" class="exercise"><strong>Exercise 1.2  </strong></span>The following exercises review some basic facts about inequalities:</p>
 <ol style="list-style-type: decimal">
 <li>Find constants <span class="math inline">\(a, b, c, d\)</span> such that <span class="math inline">\(a &lt; b\)</span>, <span class="math inline">\(c &lt; d\)</span>, <span class="math inline">\(a - c &lt; b - d\)</span>, and <span class="math inline">\(ac &lt; bd\)</span>.</li>
 <li>Find constants <span class="math inline">\(a, b, c, d\)</span> such that <span class="math inline">\(a &lt; b\)</span>, <span class="math inline">\(c &lt; d\)</span>, <span class="math inline">\(a - c &lt; b - d\)</span>, and <span class="math inline">\(ac &gt; bd\)</span>.</li>

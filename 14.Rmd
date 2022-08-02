@@ -15,7 +15,7 @@ We can define the error in estimation to be the vector $\varepsilon$ whose compo
 \begin{align*}
   \varepsilon_i = \lvert y_i - f(x_i) \rvert.
 \end{align*}
-We wish to "minimize" the vector in $\varepsilon$. 
+We wish to "minimize" the vector $\varepsilon$. 
 There are multiple measures one can define on the space of these errors and minimizing each provides us a best estimate in the sense of that particular measure.
 
 The most commonly used measure is the Euclidean distance or the $L^2$-norm. We define 

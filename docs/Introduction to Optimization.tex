@@ -80,7 +80,7 @@
 
 \title{Introduction to Optimization}
 \author{Apurva Nakade}
-\date{2022-07-11}
+\date{2022-08-02}
 
 \usepackage{amsthm}
 \newtheorem{theorem}{Theorem}[chapter]
@@ -121,15 +121,11 @@
 \chapter*{Preface}\label{preface}}
 
 
-These are class notes for a quarter long course on \emph{Introduction to Optimization} (Math 368) at Northwestern University taught during the Winter and Spring of 2022.
-For the most part, these notes talk about linear programming and duality theory, and only towards the very end we discuss non-linear programming.
-The class is aimed at upper-level undergrads who've completed a basic sequence in
-linear algebra and calculus.
-The prerequisites for the linear programming part are Gaussian elimination and basic theorem proving.
-For the non-linear programming part, you'll need to know basic properties of gradients and directional derivatives.
+These are class notes for a quarter long course on \emph{Introduction to Optimization} (Math 368) at Northwestern University taught during the Winter and Spring of 2022. The class is aimed at upper-level undergrads who've completed a basic sequence in linear algebra and calculus. The prerequisites for the linear programming part are Gaussian elimination and basic theorem proving. For the non-linear programming part, you'll need to know basic properties of gradients and directional derivatives.
+
+The textbook used in the class was \emph{Linear Programming, Foundations and Extensions}, by Robert J. Vanderbei. The textbook is freely available to Northwestern students via \href{https://link.springer.com/book/10.1007/978-1-4614-7630-6}{SpringerLink}. The textbook was used mainly as a reference for examples and exercises.
 
 These notes are licensed under a \href{\%5Bhttp://creativecommons.org/licenses/by-sa/4.0/\%5D(http://creativecommons.org/licenses/by-sa/4.0/)}{Creative Commons Attribution-ShareAlike 4.0 International License}.
-Please feel free to fork and modify the Github repo or use these notes as-is.
 Any suggestions and improvements to the notes are welcome and greatly appreciated.
 You can \href{mailto:apurva.nakade@northwestern.edu}{send me an email} or \href{https://github.com/apurvanakade/Introduction-to-Optimization/issues}{open an issue} on Github.
 
@@ -144,26 +140,24 @@ An optimization problem consists of maximizing or minimizing a real function ove
 \mbox{subject to: } & (x_1, \dots, x_n) \in D.
 \end{align*}
 These kinds questions arise in all quantitative disciplines from computer science and engineering to operations research and economics.
-As stated, this question is too broad.
-To make any meaningful analysis, we need to make several simplifying assumptions about \(f\) and \(D\).
 
-To begin with, we'll assume that the function \(f\) is linear and the constraint set \(D\) is described using linear inequalities. The study of this problem is called \emph{Linear Programming}. Despite the simplicity of the linear programming setup, or perhaps because of it, LP is one of the most commonly used models for optimization problems. Let's start with an example before getting into the precise definitions.
+Stated so generally, this question is too broad. To perform any meaningful analysis, we need to make several simplifying assumptions about \(f\) and \(D\). To begin with, we'll assume that the function \(f\) is linear and the constraint set \(D\) is described using linear inequalities. The study of this kind of a problem is called \emph{Linear Programming}. Despite the simplicity of the linear programming setup, or perhaps because of it, LP is one of the most commonly used models for optimization. Let us start with an example before getting into the precise definitions.
 
 \begin{example}
 \protect\hypertarget{exm:bond-portfolio}{}\label{exm:bond-portfolio}
 
 A bond portfolio manager has \$100,000 to allocate to two different bonds; one corporate and one government bond.
-The corporate bond has a yield of 4\%, a maturity of 3 years and an A rating from a rating agency that is translated into a numerical rating of 2 for computational purposes.
-In contrast, the government bond has a yield of 3\%, a maturity of 6 years and rating of Aaa with the corresponding numerical rating of 1 (lower numerical ratings correspond to higher quality bonds). The portfolio manager would like to allocate her funds so that the average rating for the portfolio is no worse than Aa (numerical equivalent 1.5) and average maturity of the portfolio is at most 3.6 years.
+The corporate bond has annual yield of 4\%, a maturity of 3 years and an A rating from a rating agency that is translated into a numerical rating of 2 for computational purposes.
+In contrast, the government bond has annual yield of 3\%, a maturity of 6 years and rating of Aaa with the corresponding numerical rating of 1 (lower numerical ratings correspond to higher quality bonds). The portfolio manager would like to allocate her funds so that the average rating for the portfolio is no worse than Aa (numerical equivalent 1.5) and average maturity of the portfolio is at most 3.6 years.
 Any amount not invested in the two bonds will be kept in a cash account that is assumed to earn no interest for simplicity and does not contribute to the average rating or maturity computations.
-How should the manager allocate her funds between these two bonds to achieve her objective of maximizing the annual yield from this investment? \citep{optimization-methods-in-finance}
+How should the manager allocate her funds between these two bonds to achieve her objective of maximizing the annual yield for the first year from this investment? \citep{optimization-methods-in-finance}
 
 \begin{longtable}[]{@{}llll@{}}
 \toprule()
 & Corporate & Government & Constraints \\
 \midrule()
 \endhead
-Yield & 4\% & 3\% & \\
+Yield & 4\% & 3\% & N/A \\
 Maturity & 3 & 6 & 3.6 \\
 Rating & A = 2 & Aaa = 1 & 1.5 \\
 Allocations & ?? & ?? & 100,000 \\
@@ -184,16 +178,15 @@ We can model the above problem as follows:
   \end{array}
   \label{eq:bond-portfolio-lp-incomplete}
 \end{equation}
-where \(x\), \(y\) are the percentages of funds allocated to corporate and government bonds, respectively, and the objective function when multiplied by \$100,000 gives us the net yield. This is an example of a \emph{linear program}.
-Note that we cannot subtract inequalities the same way that we subtract equations. So to get started, let us assume that both the inequalities are in fact equations. We can solve the resulting system,
+where \(x\), \(y\) are the percentages of funds allocated to corporate and government bonds, respectively, and the objective function when multiplied by \$100,000 gives us the net annual yield. This is an example of a \emph{linear program}.
+Recall that we cannot subtract inequalities the same way as we subtract equalities (Exercise \ref{exr:inequalities}). So, to get started, let us assume that both the inequalities are in fact equalities. We can solve the resulting system,
 \begin{equation*}
   \begin{array}{rrrrrl}
     & 3x & + & 6y & = & 3.6 \\
     & 2x & + & y & = & 1.5,
   \end{array}
 \end{equation*}
-to obtain \(x = 0.6\) and \(y = 0.3\).For this solution \(x + y = 0.9\) which is less that 1, meaning that we're not investing all the available funds.
-This seems less than ideal! Surely, we must invest all the funds to get maximum yield!!
+to obtain \(x = 0.6\) and \(y = 0.3\). For this solution \(x + y = 0.9\) which is less that 1, meaning that we're not investing all the available funds. This seems less than ideal! Surely, we must invest all the funds to get maximum yield?
 
 To complicate things further, notice that the linear program \eqref{eq:bond-portfolio-lp-incomplete} is incomplete and the complete linear program that models the problem is as follows:
 \begin{equation}
@@ -208,7 +201,7 @@ To complicate things further, notice that the linear program \eqref{eq:bond-port
   \end{array}
   \label{eq:bond-portfolio-lp}
 \end{equation}
-The solution \((x, y) = (0.6, 0.3)\) is obtained by changing the first two inequalities to equations. We could have switched some other set of inequalities to equations and solved for a different solution. We would then need to compare the yields for each of these solutions and find the one that maximizes it.
+The solution \((x, y) = (0.6, 0.3)\) is obtained by changing the first two inequalities to equalities. We could have switched some other set of inequalities to equalities and solved for a different solution. We would then need to compare the yields for each of these solutions and find the one that maximizes it.
 
 However, now there is an additional issue that needs to be dealt with carefully. Solving these modified equations might produce a solution that does not satisfy the original constraints. For example, solving the system of equations
 \begin{equation*}
@@ -219,7 +212,7 @@ However, now there is an additional issue that needs to be dealt with carefully.
 \end{equation*}
 gives us \((x, y) = (0, 1.5)\) which breaks the constraints \(3x + 6y \le 3.6\) and \(x + y \le 1\). So, not only do we need to compare the yields at these solutions but we also need to make sure that they satisfy all the original constraints.
 As you can imagine, this naive approach becomes unwieldy for large linear programs.
-It is not even clear that changing inequalities to equations is the right approach to solving such a problem.\footnote{That this is indeed the case is the content of the \emph{Fundamental Theorem of Linear Programming} (Theorem \ref{thm:fundamental-theorem-lp}).}
+It is not even clear that changing inequalities to equalities is the right approach to solving such a problem.\footnote{That this is indeed the case is the content of the \emph{Fundamental Theorem of Linear Programming} (Theorem \ref{thm:fundamental-theorem-lp}).}
 For this particular problem, we can use a graphing calculator to solve the problem as there are only two variables.
 The following figure shows the region described by the various constraints in the first quadrant (\(x \ge 0, y \ge 0\)).
 
@@ -233,6 +226,7 @@ What are some possible ways to relax the constraints in the above problem so tha
 \end{exercise}
 
 \begin{exercise}
+\protect\hypertarget{exr:inequalities}{}\label{exr:inequalities}
 
 The following exercises review some basic facts about inequalities:
 
@@ -324,7 +318,7 @@ In terms of these slack variables, the constraints can be rewritten as \(x, y, w
 At a degenerate BFS, we choose some \(n\) vanishing variables to be non-basic and call the rest of the variables basic.
 \end{definition}
 
-The basic feasible solutions are precisely the solutions obtained by changing \(n\) or more inequalities to equations and solving the resulting simultaneous system of equations. As there are \(n\) variables, we need at least \(n\) linear equations in our system for the solution to be a single point. A degeneracy occurs when more than \(n\) equations have a single solution, for example, when three lines in \(\mathbb{R}^2\) or four planes in \(\mathbb{R}^3\) intersecting at a single point.
+The basic feasible solutions are precisely the solutions obtained by changing \(n\) or more inequalities to equalities and solving the resulting simultaneous system of equations. As there are \(n\) variables, we need at least \(n\) linear equations in our system for the solution to be a single point. A degeneracy occurs when more than \(n\) equations have a single solution, for example, when three lines in \(\mathbb{R}^2\) or four planes in \(\mathbb{R}^3\) intersecting at a single point.
 It is useful to think of the non-degenerate basic feasible solutions as \emph{vertices} of the feasible region.
 The degenerate BFS do not have a nice geometric description.
 
@@ -830,96 +824,131 @@ The final non-basic variables are \(w_1\) and \(w_3\), the basic variables are \
 \includegraphics{Introduction-to-Optimization_files/figure-latex/fig-auxiliary-lp-1.pdf}
 \end{example}
 
-\hypertarget{cycling}{%
-\chapter{Cycling}\label{cycling}}
+\hypertarget{halting-conditions}{%
+\chapter{Halting Conditions}\label{halting-conditions}}
 
-We know how to start the simplex method and how to perform the pivot steps.
-We'll next analyze the halting conditions for the simplex method.
-We will not be able to perform the pivot steps if no entering or leaving variables are found.
+We know how to start the simplex method and how to perform the pivot steps. We'll next analyze the
+halting conditions for the simplex method.
 
-If no entering variable is found, then the geometry tells us that there is no direction in which the objective value can be increased i.e.~we're at a local maxima.
-But because the objective function is a linear function this local maxima is also an absolute maxima and \textbf{provides an optimal solution to our linear program}. Algebraically, this happens when none of the \(\bar{c}_i\) are positive.
+There are three different places a simplex method can fail:
 
-\begin{proposition}
-If none of the objective coefficients \(\bar{c}_i\) are positive in the current dictionary, then the current BFS is optimal.
-\end{proposition}
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \emph{Phase I returns no feasible solution.}
 
-If no leaving variable is found, then the geometry tells us that we can keep increasing the entering variable indefinitely without leaving the feasible region. Such a linear program is called \textbf{unbounded}.
-An unbounded linear program has no optimal solution as the objective value can be made arbitrary large without leaving the feasible region. Algebraically, this happens when none of the \(\bar{a}_{ij}\) are positive.
+  In this case, the linear program is infeasible. This happens precisely when \textbf{the optimal
+  solution to the auxiliary linear program has \(k_0 \neq 0\).}
+\item
+  \emph{We cannot find an entering variable.}
 
-\begin{proposition}
-Suppose \(\bar{x}_j\) is the entering variable. If none of the constants \(\bar{a}_{ij}\) are positive in the current dictionary, then the linear program is unbounded.
-\end{proposition}
+  In this case, there is no ``direction'' in the feasible region along which the objective value
+  increases i.e.~we are at a local maxima. Because the objective function is linear this local
+  maxima is also an absolute maxima (Exercise \ref{exr:local-to-global}) and provides an optimal
+  solution to our linear program. None of the variables enter precisely when \textbf{none of the
+  \(\bar{c}_i\) are positive.}
+\item
+  \emph{We cannot find a leaving variable.}
 
-Another point of failure is in the initialization phase. We've already seen that if the initialization phase fails then there is no feasible solution. We restate the result here for completion.
+  This means that we can keep on increasing the entering variable, and hence the objective value,
+  indefinitely without ever leaving the feasible region. None of the variables can leave precisely
+  when \textbf{none of the \(\bar{a}_{ij}\) are positive} where \(\bar{w}_i\) is entering.
+\end{enumerate}
 
-\begin{proposition}
-If some \(b_i\) is negative, and the initialization phase fails then the linear program is infeasible.
-\end{proposition}
+Note that these three halting conditions correspond to the three types of standard linear programs
+as seen in the Fundamental theorem of linear programming (Theorem
+\ref{thm:fundamental-theorem-lp}).
 
-Unfortunately, the above results are not sufficient to guarantee that the simplex method will always find a solution if one exists. It is possible for the simplex method to get stuck in a loop. This is called \textbf{cycling}.
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2022}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.5843}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2135}}@{}}
+\toprule()
+\begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Halting condition
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Linear program type
+\end{minipage} \\
+\midrule()
+\endhead
+End of Phase I & No feasible solution: \(k_0 \neq 0\) & Infeasible \\
+After a pivot step & No entering variable: \(\forall i, \bar{c}_i \le 0\) & Optimal solution \\
+After a pivot step & No leaving variable: \(\forall j, \bar{a}_{ij} \le 0\) & Unbounded \\
+\bottomrule()
+\end{longtable}
 
 \begin{exercise}
-Give an example showing that the variable that enters in one pivot step can become leave in the next.
+\protect\hypertarget{exr:local-to-global}{}\label{exr:local-to-global}(You should only attempt this exercise if you're comfortable with
+\href{https://en.wikipedia.org/wiki/Convex_set}{convex sets}.) Let \(S\) be a convex set in \(\mathbb{R}^n\)
+and let \(f : \mathbb{R}^n \to \mathbb{R}\) be a linear function. Show that if \(p \in S\) is a local
+maxima of \(f\) over \(S\) then it is also a global maxima. Find a counterexample to this statement if
+\(S\) is non-convex.
+\end{exercise}
+
+\begin{remark}
+The notion of ``unboundedness'' for linear programs is more restrictive than the
+geometric notion of \href{https://en.wikipedia.org/wiki/Bounded_set}{unboundedness}. It is possible to
+have a linear program whose feasible region is unbounded but the linear program itself is not
+unbounded, as seen in the following example.
+
+\begin{align*} \mbox{maximize: } && -x & \\
+  \mbox{subject to:} && x &\ge 0. \end{align*}
+
+It is not too hard to show that the feasible region of an unbounded linear program is always
+unbounded. The above example shows that the converse is not always true.
+\end{remark}
+
+\hypertarget{degeneracy}{%
+\section{Degeneracy}\label{degeneracy}}
+
+Unfortunately, the above results are insufficient to guarantee that the simplex method will always
+find a solution, if one exists. It is possible for the simplex method to get stuck in a loop. This
+is called \textbf{cycling}.
+
+\begin{exercise}
+Give an example showing that the variable that enters in one pivot step can become
+leave in the next.
 \end{exercise}
 
 \begin{exercise}
 Show that the variable that leaves in one pivot step cannot enter in the next.
 \end{exercise}
 
-\hypertarget{degeneracy}{%
-\section{Degeneracy}\label{degeneracy}}
-
-Cycling does not always occur when running the simplex method. We saw in Section \ref{the-simplex-step} that after the pivot step the entering and leaving variable gets updated as follows:
-\begin{align*}
-  \bar{x}_j & \mapsto \bar{b}_i/\bar{a}_{ij} \\
-  \bar{w}_i & \mapsto 0.
-\end{align*}
-This increases the value of the objective function by \(\bar{c}_j \bar{b}_i/\bar{a}_{ij}\).
-Because of the criterion for choosing the entering and leaving variables, the constants \(\bar{c}_i\) and \(\bar{a}_{ij}\) are always positive. We know that \(\bar{b}_i\) this is the value of the basic variable \(\bar{w}_i\) and hence must be greater than or equal to 0.
-If \(\bar{b}_i > 0\) then the objective value will increase in the pivot step and we will never return back to this BFS.
-Hence, the only case when cycling \emph{can} occur is when \(\bar{b}_i = 0\).
-But \(\bar{b}_i\) is the value of the basic variable \(\bar{w}_i\).
-Having more than \(n\) variables vanishing at a BFS is precisely the definition of degeneracy \ref{def:degeneracy}.
+We saw in Section \ref{the-simplex-step} that after a pivot step the entering and leaving variables
+get updated as follows: \begin{align*} \bar{x}_j & \mapsto \bar{b}_i/\bar{a}_{ij} \\
+  \bar{w}_i & \mapsto 0. \end{align*} This increases the value of the objective function by
+\(\bar{c}_j \bar{b}_i/\bar{a}_{ij}\). The way the entering and leaving variables are chosen, the
+constants \(\bar{c}_i\) and \(\bar{a}_{ij}\) are always positive. The constant \(\bar{b}_i\) equals the
+value of the basic variable \(\bar{w}_i\) and hence must be greater than or equal to 0. This ensures
+that the objective value never decreases after a simplex step. If \(\bar{b}_i > 0\), the objective
+value will increase in this pivot step (and never decrease afterwards) and so we will never return
+back to this BFS.
 
 \begin{proposition}
-The simplex method can cycle if there some degenerate BFS.
+Suppose \(\bar{w}_i\) is the leaving variable. If \(\bar{b}_i > 0\), the simplex
+method will never return to this basic feasible solution.
 \end{proposition}
 
-\begin{example}
-The following slight modification of Example \eqref{eq:bond-portfolio-lp} is a degenerate linear program:
-\begin{equation*}
-  \begin{array}{rrrrrl}
-  \mbox{maximize:} & 4x & + & 3y \\
-  \mbox{subject to:}
-    & 3x & + & 6y & \le & 4.5 \\
-    & 2x & + & y & \le & 1.5 \\
-    & x & + & y & \le & 1 \\
-    & x & , & y & \ge & 0.
-  \end{array}
-\end{equation*}
+Hence, the only case when cycling \emph{can} occur is when \(\bar{b}_i = 0\). As mentioned above,
+\(\bar{b}_i\) is the value of the basic variable \(\bar{w}_i\). Having more than \(n\) variables vanishing
+at a BFS is precisely the definition of degeneracy (Definition \ref{def:degeneracy}).
 
-\includegraphics{Introduction-to-Optimization_files/figure-latex/fig-degenerate-lp-1.pdf}
+\begin{proposition}
+The simplex method can cycle only if there some degenerate BFS.
+\end{proposition}
 
-At the optimal solution, \((0.5, 0.5)\) all three constraints are met. At this BFS, one of the rows is
-\begin{align}
-  w_3 &= 0 + 0.33 w_2 + 0.11 w_1.
-\end{align}
-\end{example}
+Note that this is not an ``if and only if'' statement. Even if there is some degeneracy, there is no
+certainty that the simplex method will always visit a degenerate vertex twice.
 
 \begin{example}
-\protect\hypertarget{exm:cycling}{}\label{exm:cycling}Consider the following degenerate linear program:
-\begin{equation*}
-  \begin{array}{rrrrrrrrrl}
-  \mbox{maximize:} & x_1 & - & 2x_2 & & & - & 2x_4 \\
-  \mbox{subject to:}
-    & 0.5 x_1 & - & 3.5x_2 & - & 2x_3 & + & 4 x_4 & \le & 0 \\
+\protect\hypertarget{exm:cycling}{}\label{exm:cycling}Consider the following degenerate linear program: \begin{equation*}
+\begin{array}{rrrrrrrrrl} \mbox{maximize:} & x_1 & - & 2x_2 & & & - & 2x_4 \\
+  \mbox{subject to:} & 0.5 x_1 & - & 3.5x_2 & - & 2x_3 & + & 4 x_4 & \le & 0 \\
     & 0.5 x_1 & - & x_2 & - & 0.5 x_3 & + & 0.5 x_4 & \le & 0 \\
     & x_1 & & & & &  &  & \le & 1 \\
     & x_1 & , & x_2 & , & x_3 & , & x_4 & \ge & 0 \\
-  \end{array}
-\end{equation*}
-The following is a valid sequence of simplex steps:
+  \end{array} \end{equation*} The following is a valid sequence of simplex steps:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -944,45 +973,59 @@ At the end of the \(6^{th}\) simplex step, we end up looping back to the origin.
 \hypertarget{blands-rule}{%
 \section{Bland's Rule}\label{blands-rule}}
 
-There are various ways of dealing with cycling.
-The simplest such way is called Bland's rule.
-\textbf{Bland's rule} says that if there are multiple candidates for the entering/variable then we choose the one with the smallest index. (We assume that the decision variables have a smaller index than the slack variables.)
+Cycling is only possible in the presence of degeneracy. At degenerate vertices, we have some freedom
+with choosing the set of basic and non-basic variables. This choice is precisely what allows us to
+avoid cycling. When we revisit a basic feasible solution that is degenerate, we simply choose a
+different entering and leaving variable. One can show that this is always possible and leads to an
+algorithm that always halts.
+
+There is another very efficient way for preventing cycling called \textbf{Bland's rule}. Bland's rule
+says that if there are multiple candidates for the entering/variable then we choose the one with the
+smallest index. (We assume that the decision variables have a smaller index than the slack
+variables.) One can show that simplex method always terminates if Bland's rule is followed.
 
 \begin{theorem}[Bland's rule]
-The simplex method always terminates provided that both the
-entering and the leaving variable are chosen according to Bland's rule.
+\protect\hypertarget{thm:blands-rule}{}\label{thm:blands-rule}The simplex method always terminates provided that both the entering and the leaving variable are
+chosen according to Bland's rule.
 \end{theorem}
 
-The proof of this theorem is too complicated for this course. With this modification, for both Phase I and Phase II of the simplex method, we now have a complete algorithm for solving linear programs.
-
 \begin{example}
-In Example \ref{exm:cycling}, the \emph{sixth simplex step} violates Bland's rule. Both \(x_1\) and \(x_4\) can be leaving variables and we choose \(x_4\) whereas Bland's rule requires us to choose \(x_1\).
+In Example \ref{exm:cycling}, the \emph{sixth simplex step} violates Bland's rule. Both
+\(x_1\) and \(x_4\) can be leaving variables and we choose \(x_4\) whereas Bland's rule requires us to
+choose \(x_1\).
 \end{example}
+
+The proof of Theorem \ref{thm:blands-rule} is beyond the scope of this class. Using Bland's rule
+for both phases of the simplex method, we now have a complete algorithm for solving
+linear programs. In fact, Theorem \ref{thm:blands-rule} provides an algorithmic proof of the
+Fundamental theorem of linear programming (Theorem \ref{thm:fundamental-theorem-lp}). By Theorem
+\ref{thm:blands-rule}, the simplex method must halt and one of the three halting conditions
+mentioned at the start of this chapter must occur as there are no other halting conditions. But this
+is precisely the statement of the Fundamental theorem.
 
 \hypertarget{standardization}{%
 \chapter{Standardization}\label{standardization}}
 
-We have an algorithm for solving a standard linear program.
-We'll not extend it to more general linear programs, which is simply an optimization problem where the objective function is a linear program and the constraints are linear equalities or inequalities.
+We'll next extend our simplex method to solve more general linear programs.
 
 \begin{definition}
 A \textbf{general linear program} is an optimization problem of the following form:
 \begin{equation}
-  \begin{array}{llllllll}
+  \begin{array}{llllllllllllll}
     \mbox{optimize: } 
-      & c_1 x_1 & + & \dots & + & c_n x_n & \\
+      & c_0 & + & c_1 x_1 & + & \dots & + & c_n x_n & \\
     \mbox{subject to: } 
-      & a_{11} x_1 & + & \dots & + & a_{1n} x_n & \lesseqqgtr & b_1 \\
-      & a_{21} x_1 & + & \dots & + & a_{2n} x_n & \lesseqqgtr & b_2 \\
-      & & & \vdots &  \\
-      & a_{m1} x_1 & + & \dots & + & a_{mn} x_n & \lesseqqgtr b_m,
+      & & & a_{11} x_1 & + & \dots & + & a_{1n} x_n & \lesseqqgtr & b_1 \\
+      & & & a_{21} x_1 & + & \dots & + & a_{2n} x_n & \lesseqqgtr & b_2 \\
+      & & & & & \vdots &  \\
+      & & & a_{m1} x_1 & + & \dots & + & a_{mn} x_n & \lesseqqgtr & b_m,
   \end{array}
   \label{eq:intro-lp}
 \end{equation}
-where the symbol \(\lesseqqgtr\) stands for \(\leq\) or \(=\) or \(\geq\), \(a_{ij}, b_i, c_j\) are real numbers, and \(x_j\) are variables.
+where the symbol \(\lesseqqgtr\) stands for ``\(\leq\) or \(=\) or \(\geq\)'', \(a_{ij}, b_i, c_j\) are real numbers, and \(x_j\) are the decision variables.
 \end{definition}
 
-We do not allow strict inequalities \(<\) or \(>\) in a linear program as linear functions do not always achieve maxima/minima on open sets even when the sets are bounded. Consider the following simple example.
+We do not allow strict inequalities \(<\) or \(>\) in a general linear program as linear functions do not always achieve maxima/minima on open sets even when for bounded sets. Consider the following simple example.
 \begin{align*}
   \mbox{maximize:} && x \\
   \mbox{subject to:} 
@@ -998,17 +1041,30 @@ Changing the inequality \(<\) to \(\leq\) gives us an optimal feasible solution 
 Any linear program can be changed to a \emph{maximization problem} as minimizing a function is the same as maximizing its negation. From now on, we'll assume that the goal of our linear programs is to \emph{maximize} the objective function.
 
 \begin{definition}
-Two (maximizing) linear programs LP and LP' are said to be \textbf{equivalent} if for any feasible solution \((x_1, \dots, x_n)\) to LP, there exists a feasible solution \((x'_1, \dots, x'_{n'})\) to LP' with the same objective value and for any feasible solution \((y'_1, \dots, y'_n)\) to LP', there exists a feasible solution \((y_1, \dots, y_{n})\) to LP with the same objective value . Thus solving LP is equivalent to LP'.
+Two (maximizing) linear programs, \(LP\) and \(LP'\), are said to be \textbf{equivalent} to each other if for any feasible solution \(x = (x_1, \dots, x_n)\) to \(LP\), there exists a feasible solution \(x' = (x'_1, \dots, x'_{n'})\) to \(LP'\) with the same objective value as \(x\), and for any feasible solution \(y' = (y'_1, \dots, y'_n)\) to \(LP'\), there exists a feasible solution \(y = (y_1, \dots, y_{n})\) to \(LP\) with the same objective value as \(y'\).
 \end{definition}
 
 \begin{remark}
+
 ~
-1. LP and LP' can have a different number of decision variables i.e.~we do not require \(n = n'.\)
-2. There need not be a one-to-one correspondence between the feasible sets of LP and LP' i.e.~for a feasible solution to LP there could be multiple feasible solutions with the same objective value. Similarly, in the other direction.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \(LP\) and \(LP'\) can have a different number of decision variables i.e.~we do not require \(n = n'.\)
+\item
+  There need not be a one-to-one correspondence between the feasible sets of \(LP\) and \(LP'\) i.e.~for a feasible solution to \(LP\) there could be multiple feasible solutions of \(LP'\) with the same objective value. Similarly, in the other direction.
+\end{enumerate}
+
 \end{remark}
 
+\begin{exercise}
+Show that the equivalence of linear programs is an equivalence relation.
+\end{exercise}
+
 \begin{remark}
-Even though equivalence of linear programs only requires the existence of an abstract correspondence between the feasible sets of LP and LP', in practice, one constructs linear transformations \(T: \mathbb{R}^n \to \mathbb{R}^{n'}\) and \(S: \mathbb{R}^{n'} \to \mathbb{R}^{n}\) which map the feasible set of LP to LP' and the feasible set of LP' to LP, respectively. These linear transformations need not be inverses of each other, or even isomorphisms. They only need to preserve the objective values.
+Even though equivalence of linear programs only requires the existence of an abstract correspondence between the feasible sets of \(LP\) and \(LP'\), in practice, one constructs ``objective value preserving'' linear transformations \(T: \mathbb{R}^n \to \mathbb{R}^{n'}\) and \(S: \mathbb{R}^{n'} \to \mathbb{R}^{n}\) which map the feasible set of \(LP\) to \(LP'\) and the feasible set of \(LP'\) to \(LP\), respectively. These linear transformations need not be inverses of each other, or even isomorphisms. They only need to preserve the objective values.
 \end{remark}
 
 \begin{example}
@@ -1022,19 +1078,25 @@ The following two linear programs are equivalent to each other
 &&
 \begin{aligned}
   \mbox{maximize: } && z & \\
-  \mbox{subject to: } && 0 \le z &\le 1
+  \mbox{subject to: } && 0 \le z &\le 2
 \end{aligned}
 \end{align*}
 via the transformations \(T(x, y) = x + y\) and \(S(z) = (z/2, z/2)\).
 \end{example}
 
+\begin{exercise}
+Suppose \(LP\) and \(LP'\) are equivalent linear programs. Show that if \(LP\) is infeasible/ unbounded/
+has an optimal solution then so does the \(LP'\). Furthermore, show that if \(LP\) has an optimal
+solution with optimal objective value \(c\) then so does \(LP'\).
+\end{exercise}
+
 \begin{theorem}
-\protect\hypertarget{thm:lp-to-standard-form}{}\label{thm:lp-to-standard-form}Every linear program is equivalent to a linear program in the standard form.
+\protect\hypertarget{thm:lp-to-standard-form}{}\label{thm:lp-to-standard-form}Every (maximizing) linear program is equivalent to a linear program in the standard form.
 \end{theorem}
 
 \begin{proof}
 
-The proof is by providing an explicit \emph{standardization} algorithm. Consider the linear program in \eqref{eq:intro-lp}, where we're assuming that the goal is to maximize the objective function. If it is in the standard form, then we're done. If not, then there must be a finite number of \emph{errors} of the following types:
+The proof is by providing an explicit standardization algorithm. Consider the linear program in \eqref{eq:intro-lp}, where we're assuming that the goal is to maximize the objective function. If it is in the standard form, then we're done. If not, then there must be a finite number of \emph{errors} of the following types:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -1049,7 +1111,7 @@ The proof is by providing an explicit \emph{standardization} algorithm. Consider
   A variable \(x_j\) is \textbf{free} i.e.~it is missing a \emph{sign constraint}.
 \end{enumerate}
 
-We fix these errors one at a time, while making sure that no new errors are introduced, thereby guaranteeing termination of the algorithm.
+We fix these errors one at a time while making sure that no new errors are introduced, thereby guaranteeing termination of the algorithm.
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -1071,20 +1133,26 @@ We fix these errors one at a time, while making sure that no new errors are intr
 \end{proof}
 
 \begin{exercise}
-\protect\hypertarget{exr:lp-to-standard-form}{}\label{exr:lp-to-standard-form}Prove that the algorithm in the proof of Theorem \ref{thm:lp-to-standard-form} produces a linear program that is equivalent to the original linear program.
+\protect\hypertarget{exr:lp-to-standard-form}{}\label{exr:lp-to-standard-form}Prove that the algorithm in the proof of Theorem \ref{thm:lp-to-standard-form} terminates and produces a linear program that is equivalent to the original linear program.
 \end{exercise}
 
 \hypertarget{part-duality-theory}{%
 \part{Duality Theory}\label{part-duality-theory}}
 
-\hypertarget{dual-linear-program}{%
-\chapter{Dual Linear Program}\label{dual-linear-program}}
+\hypertarget{dual-linear-programs}{%
+\chapter{Dual Linear Programs}\label{dual-linear-programs}}
 
-So far we've constructed a method for solving linear programs.
-Our next goal is to understand the dependence of the solution on the various constants in the program.
-We will do this using duality theory.
+We'll now transition from solving linear programs to studying their solution space using duality
+theory. We'll show that for every linear program there exists a dual linear program whose optimal
+objective value is closely related to the optimal objective value of the original linear program.
+Duality theory is hard to motivate and only makes sense in retrospect. The main theorems - weak duality,
+strong duality, and complementary slackness - generalize to non-linear programs to various degrees
+and provide means of analyzing complicated optimization problems for which no algorithms exist. Even
+for the case of linear programing, where we have a complete algorithm for finding an optimal solution,
+duality theory is useful for analyzing the sensitivity of the optimal solution to various
+perturbations of the linear program.
 
-We start by introducing the matrix notation. We'll let \(x\) denote the vector of decision variables, \(b\) the vector of upper bounds, \(c\) the vector of objective coefficients, and \(A\) the matrix of constraints in the standard linear program \eqref{eq:standard-lp}.
+We start by introducing some matrix notation. We'll let \(x\) denote the vector of decision variables, \(b\) the vector of upper bounds, \(c\) the vector of objective coefficients, and \(A\) the matrix of constraints in the standard linear program \eqref{eq:standard-lp}.
 \begin{align*}
   x = \begin{bmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{bmatrix}, \quad
   b = \begin{bmatrix} b_1 \\ b_2 \\ \vdots \\ b_m \end{bmatrix}, \quad
@@ -1115,22 +1183,25 @@ The \textbf{dual} of this linear program is defined as the following linear prog
   \end{array}
   \label{eq:standard-dual-lp}
 \end{equation}
-where \(y = \begin{bmatrix} y_1 \\ y_2 \\ \vdots \\ y_m \end{bmatrix}\) is the vector of \textbf{dual decision variables}.
+where \(y = \begin{bmatrix} y_1 \\ y_2 \\ \vdots \\ y_m \end{bmatrix}\) is the vector of \textbf{dual
+decision variables}. The original linear program is called the \textbf{primal}.
 \end{definition}
-
-The original linear program is called the \textbf{primal}. The dual decision variables correspond to the constraints of the original linear program. By explicitly computation, we can easily prove that the following theorem.
 
 \begin{theorem}
 The the dual of the (standardized) dual is equivalent to the primal.
 \end{theorem}
 
-Hence, we think of linear programs as occurring in \textbf{primal-dual pairs}.
-Every linear program has a dual and it is itself the dual of the dual.
-The dual decision variables correspond to the constraints of the original linear program and the primal decision variables correspond to the constraints of the dual.
-The meaning of the dual decision variables will become clear when we study shadow prices.
+\begin{proof}
+Left as an exercise.
+\end{proof}
+
+Hence, we think of linear programs as occurring in \textbf{primal-dual pairs}. Every linear program has a
+dual and it is itself the dual of its dual. The dual decision variables correspond to the
+constraints of the primal and the primal decision variables correspond to the constraints of the
+dual. This interpretation will be made precise by the concept of \protect\hyperlink{shadow-prices}{shadow prices}.
 
 \begin{example}
-The dual of \eqref{eq:bond-portfolio-lp} is:
+\protect\hypertarget{exm:bond-portfolio-dual}{}\label{exm:bond-portfolio-dual}The dual of \eqref{eq:bond-portfolio-lp} is:
 \begin{equation}
 \begin{array}{lrrrrrrrrrr}
   \mbox{minimize: } 
@@ -1142,32 +1213,47 @@ The dual of \eqref{eq:bond-portfolio-lp} is:
 \end{array}
 \label{eq:bond-portfolio-dual}
 \end{equation}
-The variable \(y_1\) corresponds to ``maturity'', the variable \(y_2\) corresponds to ``risk'', and the variable \(y_3\) corresponds to ``percentage''.
+The variable \(y_1\) corresponds to \emph{maturity}, the variable \(y_2\) corresponds to \emph{risk}, and the variable \(y_3\) corresponds to \emph{percentage}.
 \end{example}
 
-\hypertarget{general-linear-program}{%
-\section{General Linear Program}\label{general-linear-program}}
+\hypertarget{general-linear-programs}{%
+\section{General Linear Programs}\label{general-linear-programs}}
 
-We saw how to standardized general linear programs in Chapter \ref{standardization}. We need to ``fix'' the objective function, constraints, and signs of decision variables. To find the dual of a general linear program, we can first standardize it and then form the dual. However, doing so changes the constants. It is possible to ``revert the standardization'' in the resulting dual to get the same constants as the primal.
+It is interesting to see how to dualize general linear programs. We do not \emph{need} to do this
+explicitly as we can always \protect\hyperlink{standardization}{standardize} general linear programs first. But we'llt
+see that dualizing general linear program establishes an interesting relationship between the
+various kinds of \emph{errors}.
 
-Suppose one of the linear constraint is a lower bound and has the form \[a_{i1} x_1 + \dots + a_{in} x_n \geq b_i.\]
-To \emph{fix} this, we multiply the constraint by \(-1\) to get \[-a_{i1} x_1 + \dots + - a_{in} x_n \leq -b_i.\]
-If we then form the dual, the coefficients of the dual variable \(y_i\) will be \(-a_{ij}\) instead of \(a_{ij}\).
-We can replace \(y_i\) with a variable \(y_i' = -y_i\) and then the resulting linear program will have the same constants as the primal but now we have \(y_i' \le 0\).
-Notice that this is the third type of error in a general linear program.
+To standardize a general linear program we need to \emph{fix} the objective function, constraints, and
+signs of decision variables. However, doing so changes the various constants. It is possible to
+standardize, dualize, and then \emph{revert the standardization} in the resulting dual to get the same
+constants as the primal.
 
-Suppose one of the linear constraint is a lower bound and has the form \[a_{i1} x_1 + \dots + a_{in} x_n = b_i.\]
-To \emph{fix} this, we replace the constraint with the two constraints
-\begin{align*}
-  a_{i1} x_1 + \dots + a_{in} x_n &\leq b_i, \\
-  -a_{i1} x_1 - \dots - a_{in} x_n &\leq -b_i.
-\end{align*}
-If we then form the dual, we will have two dual variables \(y_i'\) and \(y_i''\) with coefficients \(a_{ij}\) and \(-a_{ij}\) respectively.
-We can introduce a new variable, \(y_i = y_i' - y_i''\) and then the resulting linear program will have the same constants as the primal but now we have \(y_i\) is free.
-Notice that this is the fourth type of error in a general linear program.
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Suppose one of the linear constraint is a lower bound and has the form
+  \begin{align*}
+   a_{i1} x_1 + \dots + a_{in} x_n \geq b_i.
+    \end{align*}
+  To \emph{fix} this, we multiply the constraint by \(-1\) to get \[-a_{i1} x_1 + \dots + - a_{in} x_n \leq -b_i.\]
+  If we then form the dual, the coefficients of the dual variable \(y_i\) will be \(-a_{ij}\) instead of \(a_{ij}\).
+  We can replace \(y_i\) with a variable \(y_i' = -y_i\) and then the resulting linear program will have the same constants as the primal but now we have \(y_i' \le 0\).
+  Notice that this is the third type of error in a general linear program.
+\item
+  Suppose one of the linear constraint is a lower bound and has the form \[a_{i1} x_1 + \dots + a_{in} x_n = b_i.\]
+  To \emph{fix} this, we replace the constraint with the two constraints
+  \begin{align*}
+   a_{i1} x_1 + \dots + a_{in} x_n &\leq b_i, \\
+   -a_{i1} x_1 - \dots - a_{in} x_n &\leq -b_i.
+    \end{align*}
+  If we then form the dual, we will have two dual variables \(y_i'\) and \(y_i''\) with coefficients \(a_{ij}\) and \(-a_{ij}\) respectively.
+  We can introduce a new variable, \(y_i = y_i' - y_i''\) and then the resulting linear program will have the same constants as the primal but now we have \(y_i\) is free.
+  Notice that this is the fourth type of error in a general linear program.
+\end{enumerate}
 
 Because the dual of the dual is the primal, we do not need to analyze the third and fourth type of error separately.
-The follow table describes the modifications needed for forming the dual of a general linear program.
+The follow table describes the rules for forming the dual of a general linear program.
 
 \begin{longtable}[]{@{}cc@{}}
 \toprule()
@@ -1183,22 +1269,57 @@ Primal & Dual \\
 \bottomrule()
 \end{longtable}
 
+\begin{example}
+Consider the following general linear program which is a modification of \eqref{eq:bond-portfolio-lp}:
+\begin{equation*}
+  \begin{array}{rrrrrl}
+  \mbox{maximize:} & 4x_1 & + & 3x_2 \\
+  \mbox{subject to:}
+    & 3x_1 & + & 6x_2 & \le & 3.6 \\
+    & 2x_1 & + & x_2 & \ge & 1.5 \\
+    & x_1 & + & x_2 & = & 1 \\
+    & x_1 &  &  & \le & 0.
+  \end{array}
+\end{equation*}
+The dual of this linear program is
+\begin{equation*}
+  \begin{array}{lrrrrrrrrrr}
+    \mbox{minimize: } 
+      & 3.6 y_1 & + & 1.5 y_2 & + & y_3 \\
+    \mbox{subject to: }
+      & 3y_1 & + & 2 y_2 & + & y_3 & \leq & 4 \\
+      & 6y_1 & + & y_2 & + & y_3 & = & 3 \\
+      & y_1 &  & &  & & \geq & 0 \\
+      & & & y_2 & & & \leq & 0.
+  \end{array}
+\end{equation*}
+Compare this to the dual of \eqref{eq:bond-portfolio-lp} found in Example
+\ref{exm:bond-portfolio-dual}. Notice that the constants appearing in the dual are the same as the
+one in the primal.
+\end{example}
+
 \hypertarget{weak-and-strong-duality}{%
 \chapter{Weak and Strong Duality}\label{weak-and-strong-duality}}
 
 We'll now prove several theorems relating the optimal objective values of the primal-dual pairs.
-Consider the standard linear program (primal) \eqref{eq:standard-lp} and its dual \eqref{eq:standard-dual-lp}.
-We say that a vector \(x = \begin{bmatrix} x_1 \\ \vdots \\ x_n \end{bmatrix}\) is \textbf{primal feasible} if it is in the feasible region of the primal and a vector \(y = \begin{bmatrix} y_1 \\ \vdots \\ y_m \end{bmatrix}\) is \textbf{dual feasible} if it is in the feasible region of the dual.
+As mentioned previously, these theorems generalize to non-linear programming and are important for
+analyzing the solution spaces for both linear and non-linear programs.
 
 \hypertarget{weak-duality}{%
 \section{Weak Duality}\label{weak-duality}}
 
-\begin{theorem}[Weak duality]
-\protect\hypertarget{thm:weak-duality}{}\label{thm:weak-duality}Suppose \(x\) is primal feasible and \(y\) is dual feasible. Then the primal objective value at \(x\) is less than or equal to the dual objective value at \(y\).
+Consider a standard linear program (primal) \eqref{eq:standard-lp} and its dual
+\eqref{eq:standard-dual-lp}. We say that a vector \(x\) is \textbf{primal feasible} if it is in the feasible
+region of the primal and a vector \(y\) is \textbf{dual feasible} if it is in the feasible region of the
+dual.
+
+\begin{theorem}[Weak Duality]
+\protect\hypertarget{thm:weak-duality}{}\label{thm:weak-duality}Suppose \(x\) is primal feasible and \(y\) is dual feasible. Then the primal objective value at \(x\) is
+less than or equal to the dual objective value at \(y\).
 \end{theorem}
 
 \begin{proof}
-The proof relies on analyzing the term \(y^T A x\) and follows by looking at the following sequence of inequalities:
+The proof relies on analyzing the term \(y^T A x\) and follows from the following sequence of inequalities:
 \begin{align*} 
 b^T y 
   & = y^T b \\
@@ -1221,13 +1342,46 @@ If the dual is unbounded, then the primal is infeasible.
 \end{corollary}
 
 \begin{corollary}
-If both the primal and dual have optimal solutions, then the optimal value of the primal is less than or equal to the optimal value of the dual.
+\protect\hypertarget{cor:duality-gap}{}\label{cor:duality-gap}If both the primal and dual have optimal solutions, then the optimal value of the primal is less
+than or equal to the optimal value of the dual.\footnote{When optimal solutions exist for both the primal
+  and the dual, the difference between them is called the \textbf{duality gap}.}
 \end{corollary}
 
-We cannot say anything about the dual in the case when the primal is infeasible. Similarly, we cannot conclude anything about the existence of an optimal value of the dual in the case when the primal has an optimal solution.
+Note that all of these results are one-sided implications. We cannot say anything about the dual in
+the case when the primal is infeasible. Similarly, we cannot conclude anything about the existence
+of an optimal value of the dual in the case when the primal has an optimal solution.
+
+\begin{exercise}
+Using Weak Duality, what can you say about the dual if the primal is infeasible?
+\end{exercise}
+
+\begin{exercise}
+Find primal-dual pairs of linear programs such that
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  both the primal and dual are infeasible,
+\item
+  the primal is infeasible and the dual is unbounded,
+\item
+  the primal is unbounded and the dual is infeasible.
+\end{enumerate}
+
+Can you have primal-dual pairs such that both the primal and the dual are unbounded?
+\end{exercise}
 
 \hypertarget{strong-duality}{%
 \section{Strong Duality}\label{strong-duality}}
+
+Weak duality asserts that the optimal objective value of the primal is always less that on equal to
+the optimal objective of the dual (if both exist). The proof of this statement was a simple
+manipulation of algebraic expressions. Strong duality further says that there is no duality gap i.e.
+if both the optimal objective values exist then they must be equal! The proof of this result is far
+more involved. Weak duality is easy to generalize to non-linear programs but the generalization of
+strong duality requires stronger proof techniques from convex analysis. For the case of linear
+programs, strong duality follows from an analysis of the simplex method!
 
 The tableau of the primal problem \eqref{eq:standard-lp} is as follows:
 \begin{equation} 
@@ -1246,30 +1400,56 @@ We can standardize the dual problem \eqref{eq:standard-dual-lp} and form its tab
   \label{eq:tableau-dual}
 \end{equation}
 
-We will call such tableaux \textbf{duals} of each other. More generally, we'll say that two tableaux (of appropriate dimensions) are \textbf{duals} of each other if after rearranging the pivot columns, if necessary, they're of the above forms.
-
-One can show the following theorem by explicit computation:
+We will call such tableaux \textbf{duals} of each other. More generally, we'll say that two tableaux (of
+appropriate dimensions) are \textbf{duals} of each other if after rearranging the pivot columns (if
+necessary) they're of the above forms. The following theorem follows from explicit computations.
 
 \begin{lemma}
 \protect\hypertarget{lem:pivot}{}\label{lem:pivot}Consider the two dual tableaux \eqref{eq:tableau-primal} and \eqref{eq:tableau-dual} .
 If we pivot the first tableau about the \(i^{th}\) row and \(j^{th}\) column of \(A\) and the second tableau about the \(i^{th}\) column and \(j^{th}\) row of \(-A^T\), then the resulting tableaux remain duals of each other.
 \end{lemma}
 
+\begin{exercise}
+This exercise proves Lemma \ref{lem:pivot} in the case when \(n = 3\) and \(m = 2\). Consider the
+linear program:
+\begin{align*}
+  \begin{array}{rrrrrrrrrrr}
+    \mbox{maximize: } & c_1 x_1 & + & c_2 x_2 & + & c_3 x_3 \\
+    \mbox{subject to: } 
+    & a_{11} x_1 & + & a_{12} x_2 & + & a_{13} x_3 & \le & b_1 \\
+    & a_{21} x_1 & + & a_{22} x_2 & + & a_{23} x_3 & \le & b_2 \\
+    & x_1 & , & x_2 & , & x_3 & \ge & 0
+  \end{array}
+\end{align*}
+
+\begin{itemize}
+\tightlist
+\item
+  Form the primal and dual tableaux.
+\item
+  Perform a pivot about the entry \(a_{12}\) in the primal tableau (assume that \(a_{12} \neq 0\)) and
+  the corresponding entry in the dual tableau.
+\end{itemize}
+
+In the end, you should see that the two resulting tableaux are still dual to each other. The same
+calculation works in full generality for an arbitrary linear program as we never used the fact that
+\(n = 3\) and \(m = 2\).
+\end{exercise}
+
 \begin{lemma}
 \protect\hypertarget{lem:optimality}{}\label{lem:optimality}If the tableau \eqref{eq:tableau-primal} corresponds to an optimal solution of the primal then the tableau \eqref{eq:tableau-dual} corresponds to an optimal solution of the dual.
 \end{lemma}
 
 \begin{proof}
-
 The tableau \eqref{eq:tableau-primal} corresponds to an optimal solution of the primal precisely when
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  (primal optimality) \(c^T \le 0\) as in this case no entering variable can be found for the primal, and
+  (primal-optimality) \(c^T \le 0\) as in this case no entering variable can be found for the primal, and
 \item
-  (primal feasibility) \(b \ge 0\).
+  (primal-feasibility) \(b \ge 0\).
 \end{enumerate}
 
 These conditions translate to
@@ -1278,54 +1458,91 @@ These conditions translate to
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  (dual optimality) \(-b^T \le 0\) as in this case no entering variable can be found for the dual, and
+  (dual-optimality) \(-b^T \le 0\) as in this case no entering variable can be found for the dual, and
 \item
-  (dual feasibility) \(-c \ge 0\).
+  (dual-feasibility) \(-c \ge 0\).
 \end{enumerate}
 
+Note the interesting fact that the condition for primal-optimality translates to dual-feasibility
+and the condition for primal-feasibility translates to dual-optimality.
 \end{proof}
 
-Using the above two lemmas, and by explicitly running the simplex method we get the following result:
-
 \begin{theorem}[Strong duality]
-\protect\hypertarget{thm:strong-duality}{}\label{thm:strong-duality}If the primal has an optimal solution then so does the dual. Moreover, they have the same optimal values.
+\protect\hypertarget{thm:strong-duality}{}\label{thm:strong-duality}If the primal has an optimal solution then so does the dual. Moreover, they have the same optimal
+values.\footnote{Strong duality implies that there is no duality gap.}
 \end{theorem}
 
 \begin{proof}
-At the optimal solution for the primal, we have a set of basic and non-basic variables. We can perform a sequence of pivot operations to get this tableau from the initial tableau. We then perform the corresponding pivots on the dual tableau. By Lemma \ref{lem:pivot} the resulting tableau will be dual to the primal tableau at the optimal solution. By Lemma \ref{lem:optimality} the dual is also optimal and has the same objective value.
+By weak duality, it suffices to show that there is some dual-feasible solution which has the same
+objective value as a optimal objective value of the primal. This dual-feasible solution will be
+dual-optimal by Corollary \ref{cor:duality-gap}.
+
+At the optimal solution for the primal, we have a set of basic and non-basic variables. We can
+perform a sequence of pivot operations to get this tableau from the initial tableau. We then perform
+the corresponding pivots on the dual tableau. By Lemma \ref{lem:pivot} the resulting tableau will
+be dual to the primal tableau at the optimal solution. By Lemma \ref{lem:optimality} the dual is
+also optimal and has the same objective value.
 \end{proof}
+
+\begin{remark}
+Strong duality establishes as one-to-one correspondence between the primal optimal BFS and dual
+optimal BFS. At every primal-optimal BFS there is a unique corresponding dual-optimal BFS obtained
+by dualizing the tableau. This is by no means the only dual-optimal solution, but rather the
+dual-optimal solution dual to a particular primal-optimal BFS.
+\end{remark}
+
+\hypertarget{certificate-of-optimality}{%
+\section{Certificate of Optimality}\label{certificate-of-optimality}}
 
 We can use the two duality theorems to come up with a fast way to verify optimality.
 
 \begin{theorem}[Certificate of optimality]
-\protect\hypertarget{thm:certificate-of-optimality}{}\label{thm:certificate-of-optimality}\(x\) is an optimal solution for the primal and \(y\) is an optimal solution for the dual if and only if
-1. \(x\) is primal-feasible,
-2. \(y\) is dual-feasible,
-3. \(c^T x = b^T y\) i.e.~the primal objective value at \(x\) is equal to the dual objective value at \(y\).
+\protect\hypertarget{thm:certificate-of-optimality}{}\label{thm:certificate-of-optimality}
+
+\(x\) is an optimal solution for the primal and \(y\) is an optimal solution for the dual if and
+only if
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \(x\) is primal-feasible,
+\item
+  \(y\) is dual-feasible,
+\item
+  \(c^T x = b^T y\) i.e.~the primal objective value at \(x\) is equal to the dual objective value
+  at \(y\).
+\end{enumerate}
+
 \end{theorem}
 
 \begin{proof}
 \textbf{( \(\Rightarrow\) )}
 
-If \(x\) and \(y\) are optimal solutions, then they are feasible by definition. By strong duality (Theorem \ref{thm:strong-duality}) they must the same objective value.
+If \(x\) and \(y\) are optimal solutions, then they are feasible by definition. By strong duality
+(Theorem \ref{thm:strong-duality}) they must the same objective value.
 
 \textbf{( \(\Leftarrow\) )}
 
-If \(x\) and \(y\) are feasible solutions then by weak duality (Theorem \ref{thm:weak-duality}) the dual objective values provide an upper bound on the primal objective value. Because this upper bound is attained at \(x\), \(x\) must be an optimal solution of the primal. Similarly, for \(y\).
+If \(x\) and \(y\) are feasible solutions then by weak duality (Theorem \ref{thm:weak-duality}) the
+dual objective values provide an upper bound on the primal objective value. Because this upper bound
+is attained at \(x\), it must be an optimal solution of the primal. Similarly, for \(y\).
 \end{proof}
 
 \hypertarget{complimentary-slackness}{%
-\section{Complimentary slackness}\label{complimentary-slackness}}
+\subsection{Complimentary slackness}\label{complimentary-slackness}}
 
-There is another closely related method for verifying the correctness of solution using primal and dual slack variables.
+There is another closely related method for verifying the correctness of solution that uses primal
+and dual slack variables instead of primal and dual objective values.
 
-Denote by \(w = \begin{bmatrix} w_1 \\ \vdots \\ w_m \end{bmatrix}\) the primal slack variables and by \(z = \begin{bmatrix} v_1 \\ \vdots \\ v_n \end{bmatrix}\) the dual slack variables.
-More explicitly,
+Denote by \(w = \begin{bmatrix} w_1 \\ \vdots \\ w_m \end{bmatrix}\) the primal slack variables and by
+\(z = \begin{bmatrix} v_1 \\ \vdots \\ v_n \end{bmatrix}\) the dual slack variables.
+More explicitly, let
 \begin{align*}
   w &= b - A x \\ 
   z &= -c + A^T y.  
 \end{align*}
-We use this convention for \(z\) as then at a dual feasible solution \(z \ge 0\).
+We use this convention for \(z\) to ensure that at a dual feasible solution \(z \ge 0\).
 
 \begin{theorem}[Complementary slackness]
 \protect\hypertarget{thm:complementary-slackness}{}\label{thm:complementary-slackness}
@@ -1346,9 +1563,9 @@ Suppose \(x\) is primal feasible and \(y\) is dual feasible. Then \(x\) and \(y\
 \begin{proof}
 The proof is in two steps. We first show a weaker statement about the vanishing of two scalars and then show that the vanishing of these scalars implies complementary slackness.
 
-\textbf{Claim:} \(x\) and \(y\) are optimal solutions if and only if \(x^T z = 0\) and \(y^T w = 0\).
+\textbf{Claim 1:} \(x\) and \(y\) are optimal solutions if and only if \(x^T z = 0\) and \(y^T w = 0\).
 
-We start by rewriting the slack variable:
+We start by expanding out the slack variables:
 \begin{align*}
     && x^T z = 0 && \mbox{ and } && y^T w = 0 \\ 
   \Leftrightarrow 
@@ -1358,19 +1575,20 @@ We start by rewriting the slack variable:
   \Leftrightarrow 
   && c^T x = y^T A x && \mbox{ and } && b^T y = y^T A x
 \end{align*}
-Thus we are reduced to showing that \(x\) and \(y\) are optimal solutions if and only if \(c^T x = y^T A x\) and \(b^T y = y^T A x\).
+We have reduced the problem to showing that \(x\) and \(y\) are optimal solutions if and only if \(c^T x = y^T A x\) and \(b^T y = y^T A x\).
 
 \textbf{( \(\Leftarrow\) )}
 As \(c^T x = y^T A x = b^T y\), and \(x\) and \(y\) are given to be feasible, \(x\) and \(y\) are optimal by Theorem \ref{thm:certificate-of-optimality}.
 
 \textbf{( \(\Rightarrow\) )}
-By the proof of weak duality \ref{thm:weak-duality}, we know that as \(x\) and \(y\) are feasible,
+By the \emph{proof} of weak duality \ref{thm:weak-duality}, we know that,
 \[c^T x \le y^T A x \le b^T y.\]
 By strong duality, as \(x\) and \(y\) are optimal
 \[c^T x = b^T y.\]
-The only way the two can be simultaneously true is if \(c^T x = y^T A x\) and \(b^T y = y^T A x\).
+The only way the two can be simultaneously true is if \(c^T x = y^T A x\) and \(b^T y = y^T A x\). This
+completes the proof of Claim 1.
 
-\textbf{Claim:} \(x^T z = 0\) and \(y^T w = 0\) if and only if
+\textbf{Claim 2:} \(x^T z = 0\) and \(y^T w = 0\) if and only if
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -1385,29 +1603,33 @@ This follows from the fact that at a feasible solution \(x, y, w, z \ge 0\).
 \end{proof}
 
 \begin{remark}
-Complementary slackness even holds for dual of general linear programs. The definition of slack variables as above
+Complementary slackness as stated in Theorem \ref{thm:complementary-slackness} holds true even for
+general linear programs. The definition of slack variables,
 \begin{align*}
   w &= b - A x \\ 
   z &= -c + A^T y.
 \end{align*}
-still ensures that we will have \(x_j w_j \ge 0\) for all \(1 \le j \le n\) and \(y_i z_i \ge 0\) for all \(1 \le i \le m\) and hence the above proof will go through.
+ensures that we will have \(x_j w_j \ge 0\) for all \(1 \le j \le n\) and \(y_i z_i \ge 0\) for all \(1 \le i \le m\) and hence the above proof is still valid.
 \end{remark}
 
-If the optimal solution of the primal is at a non-degenerate BFS, then complementary slackness can be used to find the optimal solution to the dual without having to run the simplex method on it.
-At a non-degenerate BFS, the basic variables are non-zero.
-By complementary slackness, the corresponding dual variables must be 0.
-This gives us a system of \(m\) variables in \(m\) equations which can be solved to find the dual optimal solution.
+If the optimal solution of the primal is at a non-degenerate BFS, then complementary slackness can
+be used to find the optimal solution to the dual without having to run the simplex method on it. At
+a non-degenerate BFS, the basic variables are non-zero. By complementary slackness, the
+corresponding dual variables must be 0. This gives us a system of \(m\) variables in \(m\) equations
+which can be solved to find the dual optimal solution.
 
 \begin{example}
-Consider the linear program \eqref{eq:bond-portfolio-lp} whose dual is \eqref{eq:bond-portfolio-dual}. At the optimal solution \(x_1 = 0.6\), \(x_2 = 0.3\), \(w_1 = 0\), \(w_2 = 0\), and \(w_3 = 0.1\).
-By complementary slackness, we must have \(z_1 = 0\), \(z_2 = 0\), and \(y_3 = 0\) at the dual optimal solution.
-Plugging these in \eqref{eq:bond-portfolio-lp}, we get a system of equations
+Consider the linear program \eqref{eq:bond-portfolio-lp} whose dual is \eqref{eq:bond-portfolio-dual}.
+At the optimal solution \(x_1 = 0.6\), \(x_2 = 0.3\), \(w_1 = 0\), \(w_2 = 0\), and \(w_3 = 0.1\). By
+complementary slackness, we must have \(z_1 = 0\), \(z_2 = 0\), and \(y_3 = 0\) at the dual optimal
+solution. Plugging these in \eqref{eq:bond-portfolio-dual}, we get a system of equations
 \begin{align*}
   3y_1 + 2y_2 &= 4 \\
   6y_1 + y_2 &= 3 
 \end{align*}
 whose solutions are \(y_1 = 2/9\) and \(y_2 = 5/3\).
-One can check that this is indeed dual optimal by comparing the dual objective at this point to the primal objective:
+One can check that this is indeed dual optimal by comparing the dual objective at this point to the
+primal objective value:
 \begin{align*}
   3.6 (2/9) + 1.5 (5/3) + 0 (1) = 3.3 = 4 (0.6) + 3 (0.3).
 \end{align*}
@@ -1418,8 +1640,9 @@ One can check that this is indeed dual optimal by comparing the dual objective a
 We can use complementary slackness and certificate of optimality to show that the optimal solution of a standard linear program can never be attained in the interior of the feasible region.
 
 Consider the standard linear program \eqref{eq:standard-lp} and assume that \(b \ge 0\) and \(c \neq \vec{0}\).
-Let \(x^*\) be a point in the \textit{interior of the feasible region}.
-Suppose \(x^*\) is an optimal solution to the primal. By strong duality, we know that a dual-optimal solution \(y^*\) exists. We'll show that this leads to a contradiction.
+Let \(x^*\) be a point in the interior of the feasible region. Suppose \(x^*\) is an optimal solution to
+the primal. By strong duality, we know that a dual-optimal solution \(y^*\) exists. We'll show that
+this leads to a contradiction.
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -1455,21 +1678,43 @@ We now consider two cases, depending on the sign of \(c\), and in each case show
 \hypertarget{sensitivity-analysis}{%
 \chapter{Sensitivity Analysis}\label{sensitivity-analysis}}
 
-Linear programs are used to model real world problems. Such models are at best approximate and at worst inaccurate. As such, it is important to understand the \emph{sensitivity} of our solution to changes in the model. This is broadly called \emph{sensitivity analysis}. We will focus on understanding the dependence of the optimal objective value of the standard linear program \eqref{eq:standard-lp} on the constants \(b_i\) and \(c_j\).
+Linear programs are used to model real world problems. Such models are at best approximate and at
+worst inaccurate. Even when the models are accurate, the parameters in the model often change with
+time. As such, it is important to understand the \emph{sensitivity} of our solution to changes in the
+model. This is called \emph{sensitivity analysis}. We will focus on understanding the dependence of the
+optimal objective value of the standard linear program \eqref{eq:standard-lp} on the constants \(b_i\)
+and \(c_j\).\footnote{This is not to say that the sensitivity of the optimal objective value to the constants
+  \(a_{ij}\) is less important. Rather, such an analysis is beyond the scope of this class.}
 
-\emph{Throughout this chapter, we'll assume that our linear programs have an optimal solution.}
+\emph{Throughout this chapter, we'll assume that our linear programs have an optimal solution and fix an
+optimal solution for the primal and the corresponding dual solution for the dual.}
 
 \hypertarget{dictionaries-revisited}{%
 \section{Dictionaries Revisited}\label{dictionaries-revisited}}
 
-We will start by finding a succinct way to describe the dictionary at the optimal solution. Recall that the decision and slack variables are related to each other by the Equation \eqref{eq:standard-tableau} which can be written as:
+We will start by finding a succinct way to describe the dictionary at the optimal solution. Recall
+that the decision and slack variables are related to each other by the Equation
+\eqref{eq:standard-tableau} which can be written as:
 \begin{equation}
   \begin{bmatrix} A & I_m \end{bmatrix}
     \begin{bmatrix} x \\ w \end{bmatrix}
       = b.
   \label{eq:dictionary-matrix}
 \end{equation}
-Let \(\widehat{A} := \begin{bmatrix} A & I_m \end{bmatrix}\). We'll decompose \(\widehat{A}\) using the basic and non-basic variables. Then let \(\mathcal{B}\) be the matrix formed by combining the columns of \(\widehat{A}\) corresponding to the basic variables at the optimal BFS and let \(\mathcal{N}\) be the matrix formed by combining the columns of \(\widehat{A}\) corresponding to the non-basic variables at the optimal BFS. Let \(x_{\mathcal{B}}\) be the vector of basic variables and \(x_{\mathcal{N}}\) be the vector of non-basic variables.
+Let \(\widehat{A} := \begin{bmatrix} A & I_m \end{bmatrix}\). We'll decompose \(\widehat{A}\) using the
+basic and non-basic variables.
+
+Suppose we are at an optimal basic feasible solution. Let \(\mathcal{B}\) be the matrix formed by
+combining the columns of \(\widehat{A}\) corresponding to the basic variables at the optimal BFS and
+let \(\mathcal{N}\) be the matrix formed by combining the columns of \(\widehat{A}\) corresponding to
+the non-basic variables. Let \(x_{\mathcal{B}}\) be the vector of basic variables and
+\(x_{\mathcal{N}}\) be the vector of non-basic variables.
+
+\begin{remark}
+The matrices \(\mathcal{B}\) and \(\mathcal{N}\) are sub-matrices of the ``initial'' matrix \(\widehat{A}\)
+and not the tableau at the basic feasible solution. We're using the basic feasible solution to
+decide which columns are basic and which are non-basic for the ``inital'' matrix \(\widehat{A}\).
+\end{remark}
 
 By rearranging the columns of \(\widehat{A}\) if necessary, we can rewrite \eqref{eq:dictionary-matrix} as
 \begin{align*}
@@ -1484,12 +1729,23 @@ By rearranging the columns of \(\widehat{A}\) if necessary, we can rewrite \eqre
   &&
     \mathcal{B} x_{\mathcal{B}} &= b -  \mathcal{N} x_{\mathcal{N}}.
 \end{align*}
-When we execute the simplex method, the matrix \(\mathcal{B}\) gets reduced to an \(n \times n\) matrix with \(n\) pivots. Hence, it is invertible.
+When we execute the simplex method, the matrix \(\mathcal{B}\) gets reduced to an \(n \times n\) matrix
+with \(n\) pivots. Hence, it must be invertible allowing us to further simplify as follows.
 \begin{equation}
   \implies x_{\mathcal{B}} = \mathcal{B}^{-1} b - \mathcal{B}^{-1} \mathcal{N} x_{\mathcal{N}}.
   \label{eq:basic-non-basic-matrix}
 \end{equation}
-This is nothing but the dictionary at the optimal BFS.
+This is nothing but the dictionary at the optimal BFS!
+
+\begin{lemma}
+\protect\hypertarget{lem:basic-values}{}\label{lem:basic-values}Using the above notation, \(\mathcal{B}^{-1}b\) is the value of the basic variables at the optimal solution.
+\end{lemma}
+
+\begin{proof}
+At a basic feasible solution, the non-basic variables \(x_{\mathcal{N}}\) equal 0. Plugging in
+\(x_{\mathcal{N}} = \vec{0}\) in Equation \eqref{eq:basic-non-basic-matrix} gives us the desired
+result.
+\end{proof}
 
 \begin{example}
 \protect\hypertarget{exm:basic-non-basic-matrix}{}\label{exm:basic-non-basic-matrix}Consider Example \eqref{eq:bond-portfolio-lp} again. At the optimal solution \(w_1\) and \(w_2\) are non-basic and have the value 0, and \(x\), \(y\), and \(w_3\) are basic with values \(0.3\), \(0.6\), and \(0.9\), respectively. Using the above notation, we have
@@ -1564,26 +1820,26 @@ Using Equation \eqref{eq:basic-non-basic-matrix} the dictionary at the optimal s
 This is precisely the dictionary \eqref{eq:example-dictionary-3} at the optimal solution.
 \end{example}
 
-Because we set the non-basic variables \(x_{\mathcal{N}}\) to 0 at any vertex, and in particular, at the the optimal solution, using the Equation \eqref{eq:basic-non-basic-matrix} we get the following useful result:
-
-\begin{lemma}
-\protect\hypertarget{lem:basic-values}{}\label{lem:basic-values}Using the above notation, \(\mathcal{B}^{-1}b\) is the value of the basic variables \(x^*_{\mathcal{B}}\) at the optimal solution.
-\end{lemma}
-
 \hypertarget{range-of-optimality---constraints}{%
 \section{Range of Optimality - Constraints}\label{range-of-optimality---constraints}}
 
 We want to analyze the change in the optimal solution as we change the constraint upper bounds \(b_i\).
-It is likely that by changing \(b_i\) we change the optimal solution.
-However, in a good model, this change should not be abrupt.
-This can be achieved by requiring the set of basic and non-basic variables to remain unchanged.
-In this case, the equation \eqref{eq:basic-non-basic-matrix} will still be the equation describing the dictionary at the optimal solution and the change in \(b_i\) will result in a differentiable (in fact, linear) change in \(x_{\mathcal{B}}\).
+It is likely that by changing \(b_i\) we change the optimal solution. However, in a good model, this
+change should not be abrupt. This can be achieved by requiring \textbf{the set of basic and non-basic
+variables to remain unchanged}. In this case, the equation \eqref{eq:basic-non-basic-matrix} will
+still be the equation describing the dictionary at the optimal solution and the change in \(b_i\) will
+result in a differentiable (in fact, linear) change in \(x_{\mathcal{B}}\).
 
 \begin{example}
-Suppose we vary \(b_3 = 1\) in Example \eqref{eq:bond-portfolio-lp}. One can check that at the optimal solution \(w_1\) and \(w_2\) are non-basic as long as \(b_3 > 0.9\). Thus we can say that out model is a good model as long as the error in \(b_3\) is less than \(0.1\).
+Suppose we vary \(b_3 = 1\) in Example \eqref{eq:bond-portfolio-lp}. One can check that at the optimal
+solution \(w_1\) and \(w_2\) are non-basic as long as \(b_3 > 0.9\). Thus we can say that out model is a
+good model as long as the error in \(b_3\) is less than \(0.1\).
 \end{example}
 
-Suppose we change \(b_i\) to \(b_i + \delta\), where \(\delta\) is a real number, and leave all the other constants unchanged. This is equivalent to changing \(b\) to \(b + \delta e_i\) where \(e_i\) is the \(i^{th}\) standard basis vector of \(\mathbb{R}^m\). This changes equation \eqref{eq:basic-non-basic-matrix} to
+Suppose we change \(b_i\) to \(b_i + \delta\), where \(\delta\) is a real number, and leave all the other
+constants unchanged. This is equivalent to changing \(b\) to \(b + \delta e_i\) where \(e_i\) is the
+\(i^{th}\) standard basis vector of \(\mathbb{R}^m\). This changes equation
+\eqref{eq:basic-non-basic-matrix} to\\
 \begin{align*}
   x_{\mathcal{B}} 
     &= \mathcal{B}^{-1} b + \delta \mathcal{B}^{-1} e_i - \mathcal{B}^{-1} \mathcal{N} x_{\mathcal{N}} \\
@@ -1591,22 +1847,30 @@ Suppose we change \(b_i\) to \(b_i + \delta\), where \(\delta\) is a real number
 \end{align*}
 where \((\mathcal{B}^{-1})_{\_i}\) denotes the \(i^{th}\) column of \(\mathcal{B}^{-1}\).
 
-Note that the coefficients of \(x_{\mathcal{N}}\) remain unchanged. So, for this dictionary to stay optimal we only need the constants to remain non-negative i.e.
+Note that the coefficients of \(x_{\mathcal{N}}\) remain unchanged. So, for this dictionary to stay
+optimal we only need the constants to remain non-negative i.e.
 \begin{equation}
   \mathcal{B}^{-1} b + \delta (\mathcal{B}^{-1})_{\_i} \ge 0.
   \label{eq:range-of-optimality}
 \end{equation}
 
 \begin{proposition}
-The \textbf{range of optimality} for \(b_i\) is the interval \([b_i + \delta_-, b_i + \delta_+]\) such that \(\mathcal{B}^{-1} b + \delta (\mathcal{B}^{-1})_{\_i} \ge 0\) for all \(\delta \in [\delta_-, \delta_+]\).
+The \textbf{range of optimality} for \(b_i\) is the interval \([b_i + \delta_-, b_i + \delta_+]\) such that
+\(\mathcal{B}^{-1} b + \delta (\mathcal{B}^{-1})_{\_i} \ge 0\) for all \(\delta \in [\delta_-, \delta_+]\).
 \end{proposition}
 
-In practice, Equation \eqref{eq:range-of-optimality} gives us \(m\) inequalities which need to be simultaneously satisfied. These give us candidate values for \(\delta\) some of which are positive and some of which are negative. We then choose \(\delta_+\) to be the smallest positive value and \(\delta_-\) to be the largest negative value. If \(\delta_+\) does not exist the upper bound is \(\infty\) and if \(\delta_-\) does not exist the lower bound is \(-\infty\). If either \(\delta_+\) or \(\delta_-\) is 0 then the linear program is degenerate. In this case, our program is very sensitive to perturbations in \(b_i\).
+In practice, Equation \eqref{eq:range-of-optimality} gives us \(m\) inequalities which need to be
+simultaneously satisfied. These give us candidate values for \(\delta\) some of which are positive and
+some of which are negative. We then choose \(\delta_+\) to be \textbf{the smallest positive value} and
+\(\delta_-\) to be the \textbf{largest negative value}. If \(\delta_+\) does not exist then the upper bound
+is \(\infty\) and if \(\delta_-\) does not exist then the lower bound is \(-\infty\). If either \(\delta_+\)
+or \(\delta_-\) is 0 then the linear program is degenerate. In this case, our program is very
+sensitive to perturbations in \(b_i\).
 
 \begin{example}
-Let us find the range of optimality for \(b_1 = 3.6\), \(b_2=1.5\), and \(b_3 = 1\) in \eqref{eq:bond-portfolio-lp} using our calculations in Example \ref{exm:basic-non-basic-matrix}.
-
-We know that
+Let us find the range of optimality for \(b_1 = 3.6\), \(b_2=1.5\), and \(b_3 = 1\) in
+\eqref{eq:bond-portfolio-lp} using our calculations in Example \ref{exm:basic-non-basic-matrix}. We
+know that
 \begin{align*}
   \mathcal{B}^{-1} = 
     \begin{bmatrix}
@@ -1615,7 +1879,6 @@ We know that
     -1/9 & -1/3 & 1
     \end{bmatrix}.
 \end{align*}
-
 Using \(i = 1\) and Lemma \ref{lem:basic-values} in Equation \eqref{eq:range-of-optimality} we get
 \begin{align*}
   \begin{bmatrix} 0.6 \\ 0.3 \\ 0.1 \end{bmatrix} 
@@ -1624,7 +1887,7 @@ Using \(i = 1\) and Lemma \ref{lem:basic-values} in Equation \eqref{eq:range-of-
     -1/9 \\ 
     2/9 \\
     -1/9
-  \end{bmatrix} > 0
+  \end{bmatrix} \ge 0
 \end{align*}
 which gives us the inequalities
 \begin{align*}
@@ -1644,7 +1907,7 @@ Using \(i = 2\) and Lemma \ref{lem:basic-values} in Equation \eqref{eq:range-of-
     2/3 \\ 
     -1/3 \\
     -1/3
-  \end{bmatrix} > 0
+  \end{bmatrix} \ge 0
 \end{align*}
 which gives us the inequalities
 \begin{align*}
@@ -1664,7 +1927,7 @@ Using \(i = 3\) and Lemma \ref{lem:basic-values} in Equation \eqref{eq:range-of-
     0 \\ 
     0 \\
     1
-  \end{bmatrix} > 0
+  \end{bmatrix} \ge 0
 \end{align*}
 which gives us \(\delta \ge -0.1\) and so the range of optimality for \(b_3\) is \([1 - 0.1, \infty) = [0.9, \infty)\).
 
@@ -1676,19 +1939,24 @@ The following figures show the optimal solutions at the extreme ends of the rang
 \hypertarget{shadow-prices}{%
 \section{Shadow Prices}\label{shadow-prices}}
 
-Assume now that neither of \(\delta_+\) or \(\delta_-\) is zero. We can use Lemma \ref{lem:basic-values} to find the rate of change of the optimal solution with respect to \(b_i\). Call the objective function \(\mathbb{O} = c^{T} x\). We think of \(\mathbb{O}\) as being a function of \(b_i\), \(c_j\), and \(a_{ij}.\) Using Lemma \ref{lem:basic-values} we get
+For this section, assume that neither of \(\delta_+\) or \(\delta_-\) is zero. We can use Lemma
+\ref{lem:basic-values} to find the rate of change of the optimal solution with respect to \(b_i\).
+Call the objective function \(\mathbb{O} = c^{T} x\). We think of \(\mathbb{O}\) as being a function of
+\(b_i\), \(c_j\), and \(a_{ij}.\) Using Lemma \ref{lem:basic-values} we get
+\begin{align*}
+  \dfrac{\partial x_{\mathcal{N}}}{\partial b_i} 
+    &= 0
+\end{align*}
+as the non-basic variables remain 0 when we perturb \(b_i\) within the range of optimality, and
 \begin{align*}
   \dfrac{\partial x_{\mathcal{B}_j}}{\partial b_i} 
     &= j^{th} \mbox{ row of } \dfrac{\partial \mathcal{B}^{-1}b}{\partial b_i} \\
     &= (\mathcal{B}^{-1})_{ji} \\
 \end{align*}
-where \(x_{\mathcal{B}_j}\) denotes the \(j^{th}\) basic variable at the optimal solution. And
-\begin{align*}
-  \dfrac{\partial x_{\mathcal{N}}}{\partial b_i} 
-    &= 0
-\end{align*}
-as the non-basic variables remain 0 when we perturb \(b_i\) within the range of optimality.
-Using these we can find the rate of change of the optimal solution \(\mathbb{O}\) with respect to \(b_i\). We first start by re-indexing the variables and objective coefficients using the basic and non-basic variables.
+where \(x_{\mathcal{B}_j}\) denotes the \(j^{th}\) basic variable at the optimal solution. Using these
+equations we can find the rate of change of the optimal solution \(\mathbb{O}\) with respect to \(b_i\).
+We start by re-indexing the variables and objective coefficients using the basic and non-basic
+variables.
 \begin{align*}
   \mathbb{O} 
     &= c^T x \\
@@ -1702,15 +1970,19 @@ By strong duality, we know that the primal objective value equals the dual objec
 \begin{align*}
  \mathbb{O} &= b_1 y_1 + \cdots + b_m y_m 
 \end{align*}
-So, \(\partial \mathbb{O}/\partial b_i = y_i\). Because of this result, \(y_i\) is also called the \textbf{shadow price} or the \textbf{marginal cost} of the \(i^{th}\) constraint.
-Using the rate of change calculation above, we get \begin{align*}
-  y_i = c^T_{\mathcal{B}} (\mathcal{B}^{-1})_{\_i}.
-\end{align*}
-We can combine all the above coordinates into a single vector to get the following result.
+So, \(\partial \mathbb{O}/\partial b_i = y_i\). Because of this result, \(y_i\) is also called the
+\textbf{shadow price} or the \textbf{marginal cost} of the \(i^{th}\) constraint. This is an extremely important
+interpretation of (non-degenerate) dual optimal solutions. This is why duality theory naturally
+arises in the study of linear programs.
 
 \begin{theorem}
 \protect\hypertarget{thm:dual-solution}{}\label{thm:dual-solution}For a non-degenerate linear program, the dual optimal solution is given by \((\mathcal{B}^{-1})^Tc_{\mathcal{B}}\).
 \end{theorem}
+
+\begin{proof}
+Using the rate of change calculation above, we get \(y_i = c^T_{\mathcal{B}} (\mathcal{B}^{-1})_{\_i}\). We then combine all the coordinates into a vector to get the desired
+result.
+\end{proof}
 
 This theorem provides yet another method of finding the dual optimal solution without having to solve the dual linear program.
 
@@ -1747,59 +2019,75 @@ To check that this is indeed dual-optimal, we calculate the dual-objective value
 which equals the optimal objective value of the primal. One can check that this solution is also dual-feasible and hence is the dual-optimal solution by Certificate of Optimality (Theorem \ref{thm:certificate-of-optimality}).
 \end{example}
 
-\hypertarget{sensitivity-analysis---objective}{%
-\section{Sensitivity analysis - Objective}\label{sensitivity-analysis---objective}}
+\hypertarget{range-of-optimality---objective}{%
+\section{Range of Optimality - Objective}\label{range-of-optimality---objective}}
 
-We can ask the same questions about the change in the objective coefficients - how far can we change the objective coefficient \(c_j\) without changing the set of basic and non-basic variables at the optimal solution. Note that in this case we are not changing the constraints and therefore the feasible region. So, this is the same as asking - how far can we change the objective coefficient \(c_j\) without changing the optimal solution.
+We repeat the same analysis for the objective coefficients - how far can we change the objective
+coefficient \(c_j\) without changing the set of basic and non-basic variables at the optimal solution?
+In this case, we are not changing the constraints and therefore the feasible region remains
+unchanged and not changing the set of basic and non-basic variables implies that the optimal solution (and
+not just the optimal objective value) also remains unchanged. So, this question is the same as
+asking - how far can we change the objective coefficient \(c_j\) without changing the optimal
+solution?
 
-We can redo the entire analysis for the objective coefficients from scratch. However, we can also notice that performing sensitivity analysis on the objective coefficients of the primal is the same as performing sensitivity analysis on the constraints of the dual.
+We can redo the entire analysis for the objective coefficients from scratch. However, duality theory
+provides a faster way to do this as performing sensitivity analysis on the objective coefficients of
+the primal is the same as performing sensitivity analysis on the constraints of the dual.
 Consider the standardized dual
 \begin{equation*}
   \begin{array}{lrll}
     \mbox{maximize: } & -c_0 -b^T y \\
     \mbox{subject to: } 
       & -A^T y & \leq & -c \\
-      & y & \geq & 0,
+      & y & \geq & 0.
   \end{array}
 \end{equation*}
 Using Equation \eqref{eq:range-of-optimality} for this dictionary we get the range of optimality for \(-c_j\) to be
 \begin{equation}
   (-\mathcal{B}_d)^{-1} (-c) + \delta (-\mathcal{B}_d^{-1})_{\_j} \ge 0.
 \end{equation}
-where \(-\mathcal{B}_d\) is formed by combining the dual-basic columns of \(\begin{bmatrix} -A^T & I_n\end{bmatrix}\) and so \(\mathcal{B}_d\) is formed by combining the dual-basic columns of \(\begin{bmatrix} A^T & -I_n\end{bmatrix}\). This simplifies to
+where \(-\mathcal{B}_d\) is formed by combining the dual-basic columns of \(\begin{bmatrix} -A^T & I_n\end{bmatrix}\) and so \(\mathcal{B}_d\) is formed by combining the dual-basic columns of
+\(\begin{bmatrix} A^T & -I_n\end{bmatrix}\). This simplifies to
 \begin{equation}
   \mathcal{B}_d^{-1} c - \delta (\mathcal{B}_d^{-1})_{\_j} \ge 0.
 \end{equation}
-Note that this is the range of optimality for \(-c_j\). To get the range of optimality for \(c_j\) we need to replace \(\delta\) by \(-\delta\) to get
+Note that this is the range of optimality for \(-c_j\). To get the range of optimality for \(c_j\) we
+need to replace \(\delta\) with \(-\delta\) to get
 \begin{equation}
   \mathcal{B}_d^{-1} c + \delta (\mathcal{B}_d^{-1})_{\_j} \ge 0.
 \end{equation}
 
-Finally, by Lemma \ref{lem:basic-values}, \(\mathcal{B}_d^{-1} c\) is the vector of values of the dual basic variables. Hence we get,
+Finally, by Lemma \ref{lem:basic-values}, \(\mathcal{B}_d^{-1} c\) is the vector of values of the
+dual basic variables. Hence we get,
 
 \begin{proposition}
-The \textbf{range of optimality} for \(c_j\) is the interval \([c_j + \delta_-, c_j + \delta_+]\) such that \(y_{\mathcal{B}}^* + \delta (\mathcal{B}_d^{-1})_{\_j} \ge 0\) for all \(\delta \in [\delta_-, \delta_+]\).
+The \textbf{range of optimality} for \(c_j\) is the interval \([c_j + \delta_-, c_j + \delta_+]\) such that \(y_{\mathcal{B}} + \delta (\mathcal{B}_d^{-1})_{\_j} \ge 0\) for all \(\delta \in [\delta_-, \delta_+]\).
 \end{proposition}
 
-By a happy accident all the negative signs have cancelled out and the equation for finding the range of optimality for the objective coefficients is exactly the same as the one for finding the range of optimality for the constraints.
+By a happy accident all the negative signs have cancelled out and the equation for finding the range
+of optimality for the objective coefficients has the same form as the one for finding the range of
+optimality for the constraints!
 
 \begin{theorem}
-\protect\hypertarget{thm:range-of-optimality}{}\label{thm:range-of-optimality}The range of optimality for the constraints and the objective functions can be computed using the following formulae:
+\protect\hypertarget{thm:range-of-optimality}{}\label{thm:range-of-optimality}At an optimal BFS, the range of optimality for the constraints and the objective functions can be
+computed using the following formulae:
 
 \textbf{Range of optimality for \(b_i\):}
 \begin{equation}
-  x_{\mathcal{B}}^* + \delta (\mathcal{B}^{-1})_{\_i} \ge 0.
+  x_{\mathcal{B}} + \delta (\mathcal{B}^{-1})_{\_i} \ge 0,
 \end{equation}
-where \(\mathcal{B}\) is formed by combining the primal-basic columns of \(\begin{bmatrix} A & I_m \end{bmatrix}\), and
 
 \textbf{Range of optimality for \(c_j\):}
 \begin{equation}
-  y_{\mathcal{B}}^* + \delta (\mathcal{B}_d^{-1})_{\_j} \ge 0.
+  y_{\mathcal{B}} + \delta (\mathcal{B}_d^{-1})_{\_j} \ge 0,
 \end{equation}
-where \(\mathcal{B}_d\) is formed by combining the dual-basic columns of \(\begin{bmatrix} A^T & -I_n \end{bmatrix}\).
+
+where \(\mathcal{B}\) is formed by combining the primal-basic columns of \(\begin{bmatrix} A & I_m \end{bmatrix}\), \(x_{\mathcal{B}}\) is the value of the primal basic variables, \(\mathcal{B}_d\) is
+formed by combining the dual-basic columns of \(\begin{bmatrix} A^T & -I_n \end{bmatrix}\), and
+\(y_{\mathcal{B}}\) is the value of the dual basic variables.
 \end{theorem}
 
-Finally, to find \(\mathcal{B}_d\) we note that by Complementary Slackness (Theorem \ref{thm:complementary-slackness}), if the linear program is non-degenerate then the dual basic variables correspond to the primal non-basic variables (as the dual basic variables must be non-zero). This statement is true even for degenerate linear programs but in this case the proof is more subtle and requires the use of Strong duality (Theorem \ref{thm:strong-duality}).
+Finally, to find \(\mathcal{B}_d\) we note that by complementary slackness (Theorem \ref{thm:complementary-slackness}), if the linear program is non-degenerate then the dual basic variables correspond to the primal non-basic variables (as the dual basic variables must be non-zero).\footnote{This statement is true even for degenerate linear programs but in this case the proof is more subtle and requires the use of strong duality (Theorem \ref{thm:strong-duality}).}
 
 \begin{example}
 Consider the linear program \eqref{eq:bond-portfolio-lp} again. At the optimal solution, as \(w_1\) and \(w_2\) are non-basic, the corresponding dual variables (\(y_1\) and \(y_2\)) will be basic for the dual linear program \eqref{eq:bond-portfolio-dual}. This gives us
@@ -1809,7 +2097,8 @@ Consider the linear program \eqref{eq:bond-portfolio-lp} again. At the optimal s
   \mathcal{B}_d^{-1} &= \begin{bmatrix} -1/9 & 2/9 \\ 2/3 & -1/3 \end{bmatrix}.
 \end{align*}
 
-From Example \ref{exm:dual-solution} we know that \(y_1 = 2/9\) and \(y_2 = 5/3\) at the dual optimal solution. Using these, we can now find the range of optimality for the objective coefficients.
+From Example \ref{exm:dual-solution}, we know that \(y_1 = 2/9\) and \(y_2 = 5/3\) at the dual optimal
+solution. Using these, we can now find the range of optimality for the objective coefficients.
 
 To find the range of optimality for \(c_1 = 4\) we solve
 \begin{align*}
@@ -2435,13 +2724,14 @@ Suppose that the data set consists of the points \((x_i, y_i)\) with \(i = 1, 2,
 We want to find a function \(f : \mathbb{R}^m \to \mathbb{R}\) such that \(f(x_{i}) \approx y_{i}\).
 In linear regression, we suppose that the function \(f\) is of the form \[f(x) = \beta^T x + \beta_0,\] where \(\beta\) is a vector in \(\mathbb{R}^m\) and \(\beta_0\) is a constant.
 Our goal is to estimate \(\beta\) and \(\beta_0\).
-There is of course, no reason that there is a linear relation between the inputs \(x_i\) and the outputs \(y_i\).
-So our is simply to find the \emph{best} estimate.
+There is of course, no reason that there is a linear relation between the inputs \(x_i\) and the
+outputs \(y_i\).
+So our goal is to find the \emph{best} such linear approximation.
 We can define the error in estimation to be the vector \(\varepsilon\) whose components are
 \begin{align*}
   \varepsilon_i = \lvert y_i - f(x_i) \rvert.
 \end{align*}
-We wish to ``minimize'' the vector in \(\varepsilon\).
+We wish to ``minimize'' the vector \(\varepsilon\).
 There are multiple measures one can define on the space of these errors and minimizing each provides us a best estimate in the sense of that particular measure.
 
 The most commonly used measure is the Euclidean distance or the \(L^2\)-norm. We define
@@ -2473,7 +2763,8 @@ However, it is equivalent to the following linear program:
       & y_i - (\beta^T x_i + \beta_0) & > & -\varepsilon_i.
   \end{array}
 \end{equation*}
-Here the decision variables are \(\beta\) (which is a vector in \(\mathbb{R}^m\)), \(\beta_0\), and \(\varepsilon_i\) for \(1 \le i \le N\).
+Here the decision variables are \(\beta\) (which is a vector in \(\mathbb{R}^m\)), \(\beta_0\), and
+\(\varepsilon_i\) for \(1 \le i \le N\).
 
 \hypertarget{network-flow}{%
 \chapter{Network Flow}\label{network-flow}}

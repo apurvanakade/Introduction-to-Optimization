@@ -24,22 +24,15 @@ knitr::opts_chunk$set(
   cache=TRUE
 )
 
-
-library(ggplot2)
-
 ```
 
 # Preface {.unnumbered}
 
-These are class notes for a quarter long course on *Introduction to Optimization* (Math 368) at Northwestern University taught during the Winter and Spring of 2022. 
-For the most part, these notes talk about linear programming and duality theory, and only towards the very end we discuss non-linear programming.
-The class is aimed at upper-level undergrads who've completed a basic sequence in
-linear algebra and calculus.
-The prerequisites for the linear programming part are Gaussian elimination and basic theorem proving.
-For the non-linear programming part, you'll need to know basic properties of gradients and directional derivatives.
+These are class notes for a quarter long course on *Introduction to Optimization* (Math 368) at Northwestern University taught during the Winter and Spring of 2022. The class is aimed at upper-level undergrads who've completed a basic sequence in linear algebra and calculus. The prerequisites for the linear programming part are Gaussian elimination and basic theorem proving. For the non-linear programming part, you'll need to know basic properties of gradients and directional derivatives.
+
+The textbook used in the class was *Linear Programming, Foundations and Extensions*, by Robert J. Vanderbei. The textbook is freely available to Northwestern students via [SpringerLink](https://link.springer.com/book/10.1007/978-1-4614-7630-6). The textbook was used mainly as a reference for examples and exercises.
 
 These notes are licensed under a [Creative Commons Attribution-ShareAlike 4.0 International License]([http://creativecommons.org/licenses/by-sa/4.0/](http://creativecommons.org/licenses/by-sa/4.0/)).
-Please feel free to fork and modify the Github repo or use these notes as-is.
 Any suggestions and improvements to the notes are welcome and greatly appreciated. 
 You can [send me an email](mailto:apurva.nakade@northwestern.edu) or [open an issue](https://github.com/apurvanakade/Introduction-to-Optimization/issues) on Github. 
 

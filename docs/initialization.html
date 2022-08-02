@@ -23,7 +23,7 @@
 <meta name="author" content="Apurva Nakade" />
 
 
-<meta name="date" content="2022-07-20" />
+<meta name="date" content="2022-08-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -188,7 +188,7 @@ To have a complete algorithm for solving standard linear programs, we still need
 If we’re lucky, the origin is a basic feasible solution and we can start our simplex method here.
 However, this is not always the case. The following proposition follows easily from definitions.</p>
 <div class="proposition">
-<p><span id="prp:unlabeled-div-15" class="proposition"><strong>Proposition 4.1  </strong></span>The origin is a basic feasible solution of the standard linear program <a href="standard-linear-program.html#eq:standard-lp">(2.1)</a> if and only if <span class="math inline">\(b_i \ge 0\)</span> for all <span class="math inline">\(1 \le i \le m.\)</span></p>
+<p><span id="prp:unlabeled-div-14" class="proposition"><strong>Proposition 4.1  </strong></span>The origin is a basic feasible solution of the standard linear program <a href="standard-linear-program.html#eq:standard-lp">(2.1)</a> if and only if <span class="math inline">\(b_i \ge 0\)</span> for all <span class="math inline">\(1 \le i \le m.\)</span></p>
 </div>
 <p>When the origin is not a BFS, we need a process to find one.
 This is called the <strong>Initialization Phase</strong> or <strong>Phase I</strong>.
@@ -196,11 +196,11 @@ We will do this by creating an auxiliary linear program.</p>
 <div id="auxiliary-linear-program" class="section level2 hasAnchor" number="4.1">
 <h2><span class="header-section-number">4.1</span> Auxiliary Linear Program<a href="initialization.html#auxiliary-linear-program" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="definition">
-<p><span id="def:unlabeled-div-16" class="definition"><strong>Definition 4.1  </strong></span>We say that a linear program is <strong>feasible</strong> if its feasible region is non-empty.</p>
+<p><span id="def:unlabeled-div-15" class="definition"><strong>Definition 4.1  </strong></span>We say that a linear program is <strong>feasible</strong> if its feasible region is non-empty.</p>
 </div>
 <p>The initialization phase determines if a standard linear program is feasible and if it is then it finds a BFS by solving the following auxiliary linear program.</p>
 <div class="definition">
-<p><span id="def:unlabeled-div-17" class="definition"><strong>Definition 4.2  </strong></span>The <strong>auxiliary linear program</strong> of the standard linear program <a href="standard-linear-program.html#eq:standard-lp">(2.1)</a> is defined as follows:
+<p><span id="def:unlabeled-div-16" class="definition"><strong>Definition 4.2  </strong></span>The <strong>auxiliary linear program</strong> of the standard linear program <a href="standard-linear-program.html#eq:standard-lp">(2.1)</a> is defined as follows:
 <span class="math display" id="eq:auxiliary-lp">\[\begin{equation}
   \begin{array}{lrrrrrrrrrrr}
     \mbox{maximize: } &amp;  &amp;  &amp;   &amp;  &amp; &amp;  &amp; &amp; - &amp; x_0 &amp; \\
@@ -229,10 +229,10 @@ To understand the auxiliary linear program, we rewrite it in the following non-s
 \end{equation*}\]</span>
 We can interpret <span class="math inline">\(x_0\)</span> as a relaxation of the constraints. Solving the auxiliary linear program is equivalent to asking - “what is the smallest constraint relaxation necessary to make the primary linear program feasible?”. The primary linear program is feasible if and only if no relaxation is necessary. The following exercises make this more precise.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-18" class="exercise"><strong>Exercise 4.1  </strong></span>Show that the auxiliary linear program <a href="initialization.html#eq:auxiliary-lp">(4.1)</a> is always feasible by explicitly constructing a feasible solution.</p>
+<p><span id="exr:unlabeled-div-17" class="exercise"><strong>Exercise 4.1  </strong></span>Show that the auxiliary linear program <a href="initialization.html#eq:auxiliary-lp">(4.1)</a> is always feasible by explicitly constructing a feasible solution.</p>
 </div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-19" class="exercise"><strong>Exercise 4.2  </strong></span>Show that the objective values of the auxiliary linear program <a href="initialization.html#eq:auxiliary-lp">(4.1)</a> are bounded from above by 0. Using the <a href="https://en.wikipedia.org/wiki/Extreme_value_theorem">extreme value theorem</a>, conclude that <a href="initialization.html#eq:auxiliary-lp">(4.1)</a> always has an optimal solution.</p>
+<p><span id="exr:unlabeled-div-18" class="exercise"><strong>Exercise 4.2  </strong></span>Show that the objective values of the auxiliary linear program <a href="initialization.html#eq:auxiliary-lp">(4.1)</a> are bounded from above by 0. Using the <a href="https://en.wikipedia.org/wiki/Extreme_value_theorem">extreme value theorem</a>, conclude that <a href="initialization.html#eq:auxiliary-lp">(4.1)</a> always has an optimal solution.</p>
 </div>
 <p>Finally, the following theorem (proof left as an exercise) establishes an explicit connection between optimal solutions of the auxiliary linear program and feasible solutions of the standard linear program.</p>
 <div class="theorem">
@@ -242,7 +242,7 @@ We can interpret <span class="math inline">\(x_0\)</span> as a relaxation of the
 However, even for the auxiliary linear program the origin is not necessarily in the feasible region so we cannot use the simplex steps to find an optimal solution.
 But, in this case, there is a trick to make all the <span class="math inline">\(b_i \ge 0\)</span> by performing a single elementary row operation as described in the following exercises.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-20" class="exercise"><strong>Exercise 4.3  </strong></span>Suppose some <span class="math inline">\(b_i\)</span> is negative.
+<p><span id="exr:unlabeled-div-19" class="exercise"><strong>Exercise 4.3  </strong></span>Suppose some <span class="math inline">\(b_i\)</span> is negative.
 Without any loss of generality, assume that <span class="math inline">\(b_1\)</span> is the smallest among all the <span class="math inline">\(b_i\)</span> (i.e. the most negative).
 Show that after the pivot step in tableau for the auxiliary linear program <a href="initialization.html#eq:auxiliary-lp">(4.1)</a> about the column corresponding to <span class="math inline">\(x_0\)</span> and the row corresponding to <span class="math inline">\(w_1\)</span>, all the <span class="math inline">\(b_i\)</span>’s become positive.</p>
 </div>
@@ -258,7 +258,7 @@ Suppose <span class="math inline">\(x_i = k_i\)</span> for <span class="math inl
 </ol></li>
 </ol>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-21" class="exercise"><strong>Exercise 4.4  </strong></span>This exercise provides a geometric intuition behind the auxiliary linear program.
+<p><span id="exr:unlabeled-div-20" class="exercise"><strong>Exercise 4.4  </strong></span>This exercise provides a geometric intuition behind the auxiliary linear program.
 For each of the following standard linear programs,</p>
 <p><span class="math display">\[\begin{equation*}
   \begin{array}{lrllll}
@@ -287,7 +287,7 @@ For each of the following standard linear programs,</p>
 <h2><span class="header-section-number">4.2</span> Combined tableau<a href="initialization.html#combined-tableau" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>At the end of Phase I, we need to calculate the dictionary at the basic feasible solution <span class="math inline">\(x_i = k_i\)</span> for <span class="math inline">\(1 \le i \le n\)</span>. We can avoid this recalculation by manipulating a <em>combined tableau</em> which contains information about both the auxiliary and the primary linear programs.</p>
 <div class="definition">
-<p><span id="def:unlabeled-div-22" class="definition"><strong>Definition 4.3  </strong></span>The combined tableau is defined as follows:
+<p><span id="def:unlabeled-div-21" class="definition"><strong>Definition 4.3  </strong></span>The combined tableau is defined as follows:
 <span class="math display">\[\begin{equation*}
   \begin{array}{rrrrrrrrrrrr|l}
       a_{11}  &amp; &amp; \dots &amp; &amp; a_{1n}  &amp; 1 &amp; &amp; &amp; &amp; &amp; &amp; -1 &amp;b_1\\
@@ -302,7 +302,7 @@ For each of the following standard linear programs,</p>
 <p>The second to last row of the tableau corresponds to the objective function of the primary linear program and the last row corresponds to the objective of the auxiliary linear program. The second to last column corresponds to the variable <span class="math inline">\(x_0\)</span>.</p>
 <p>We use the combined tableau to first perform Phase I and then delete the auxiliary objective and the variable <span class="math inline">\(x_0\)</span> and proceed on to Phase II using the rest of the tableau.</p>
 <div class="example">
-<p><span id="exm:unlabeled-div-23" class="example"><strong>Example 4.1  </strong></span>Consider the following linear program:
+<p><span id="exm:unlabeled-div-22" class="example"><strong>Example 4.1  </strong></span>Consider the following linear program:
 <span class="math display">\[\begin{equation*}
   \begin{array}{rrrrrl}
   \mbox{maximize:} &amp; x &amp; + &amp; y \\

@@ -23,7 +23,7 @@
 <meta name="author" content="Apurva Nakade" />
 
 
-<meta name="date" content="2022-07-20" />
+<meta name="date" content="2022-08-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -243,7 +243,7 @@ maxima of <span class="math inline">\(f\)</span> over <span class="math inline">
 <span class="math inline">\(S\)</span> is non-convex.</p>
 </div>
 <div class="remark">
-<p><span id="unlabeled-div-24" class="remark"><em>Remark</em>. </span>The notion of “unboundedness” for linear programs is more restrictive than the
+<p><span id="unlabeled-div-23" class="remark"><em>Remark</em>. </span>The notion of “unboundedness” for linear programs is more restrictive than the
 geometric notion of <a href="https://en.wikipedia.org/wiki/Bounded_set">unboundedness</a>. It is possible to
 have a linear program whose feasible region is unbounded but the linear program itself is not
 unbounded, as seen in the following example.</p>
@@ -258,11 +258,11 @@ unbounded. The above example shows that the converse is not always true.</p>
 find a solution, if one exists. It is possible for the simplex method to get stuck in a loop. This
 is called <strong>cycling</strong>.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-25" class="exercise"><strong>Exercise 5.2  </strong></span>Give an example showing that the variable that enters in one pivot step can become
+<p><span id="exr:unlabeled-div-24" class="exercise"><strong>Exercise 5.2  </strong></span>Give an example showing that the variable that enters in one pivot step can become
 leave in the next.</p>
 </div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-26" class="exercise"><strong>Exercise 5.3  </strong></span>Show that the variable that leaves in one pivot step cannot enter in the next.</p>
+<p><span id="exr:unlabeled-div-25" class="exercise"><strong>Exercise 5.3  </strong></span>Show that the variable that leaves in one pivot step cannot enter in the next.</p>
 </div>
 <p>We saw in Section <a href="the-simplex-method.html#the-simplex-step">3.1</a> that after a pivot step the entering and leaving variables
 get updated as follows: <span class="math display">\[\begin{align*} \bar{x}_j &amp; \mapsto \bar{b}_i/\bar{a}_{ij} \\
@@ -274,14 +274,14 @@ that the objective value never decreases after a simplex step. If <span class="m
 value will increase in this pivot step (and never decrease afterwards) and so we will never return
 back to this BFS.</p>
 <div class="proposition">
-<p><span id="prp:unlabeled-div-27" class="proposition"><strong>Proposition 5.1  </strong></span>Suppose <span class="math inline">\(\bar{w}_i\)</span> is the leaving variable. If <span class="math inline">\(\bar{b}_i &gt; 0\)</span>, the simplex
+<p><span id="prp:unlabeled-div-26" class="proposition"><strong>Proposition 5.1  </strong></span>Suppose <span class="math inline">\(\bar{w}_i\)</span> is the leaving variable. If <span class="math inline">\(\bar{b}_i &gt; 0\)</span>, the simplex
 method will never return to this basic feasible solution.</p>
 </div>
 <p>Hence, the only case when cycling <em>can</em> occur is when <span class="math inline">\(\bar{b}_i = 0\)</span>. As mentioned above,
 <span class="math inline">\(\bar{b}_i\)</span> is the value of the basic variable <span class="math inline">\(\bar{w}_i\)</span>. Having more than <span class="math inline">\(n\)</span> variables vanishing
 at a BFS is precisely the definition of degeneracy (Definition <a href="standard-linear-program.html#def:degeneracy">2.3</a>).</p>
 <div class="proposition">
-<p><span id="prp:unlabeled-div-28" class="proposition"><strong>Proposition 5.2  </strong></span>The simplex method can cycle only if there some degenerate BFS.</p>
+<p><span id="prp:unlabeled-div-27" class="proposition"><strong>Proposition 5.2  </strong></span>The simplex method can cycle only if there some degenerate BFS.</p>
 </div>
 <p>Note that this is not an “if and only if” statement. Even if there is some degeneracy, there is no
 certainty that the simplex method will always visit a degenerate vertex twice.</p>
@@ -320,7 +320,7 @@ variables.) One can show that simplex method always terminates if Bland’s rule
 chosen according to Bland’s rule.</p>
 </div>
 <div class="example">
-<p><span id="exm:unlabeled-div-29" class="example"><strong>Example 5.2  </strong></span>In Example <a href="halting-conditions.html#exm:cycling">5.1</a>, the <em>sixth simplex step</em> violates Bland’s rule. Both
+<p><span id="exm:unlabeled-div-28" class="example"><strong>Example 5.2  </strong></span>In Example <a href="halting-conditions.html#exm:cycling">5.1</a>, the <em>sixth simplex step</em> violates Bland’s rule. Both
 <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_4\)</span> can be leaving variables and we choose <span class="math inline">\(x_4\)</span> whereas Bland’s rule requires us to
 choose <span class="math inline">\(x_1\)</span>.</p>
 </div>
