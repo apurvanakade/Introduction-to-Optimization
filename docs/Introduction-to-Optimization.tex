@@ -61,8 +61,6 @@
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 \setcounter{secnumdepth}{5}
 \usepackage{mathpazo}
-\usepackage{makeidx}
-\makeindex
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
@@ -102,16 +100,7 @@
 \begin{document}
 \maketitle
 
-%\cleardoublepage\newpage\thispagestyle{empty}\null
-%\cleardoublepage\newpage\thispagestyle{empty}\null
-%\cleardoublepage\newpage
 \thispagestyle{empty}
-%\begin{center}
-%\includegraphics{images/dedication.pdf}
-%\end{center}
-
-% \setlength{\abovedisplayskip}{-5pt}
-% \setlength{\abovedisplayshortskip}{-5pt}
 
 {
 \setcounter{tocdepth}{2}
@@ -2925,7 +2914,6 @@ Thus we have two possible candidates for optimal solutions to the integer progra
 
   \bibliography{references.bib}
 
-\printindex
 \nocite{*}
 
 \end{document}
